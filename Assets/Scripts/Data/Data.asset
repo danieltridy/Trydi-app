@@ -15,9 +15,37 @@ MonoBehaviour:
   LocationController:
   - LocationName: Item1
     LatitudeLongitude:
-    - 4.6263183
-    - -74.1474582
+    - 12.4572
+    - 76.563071
   - LocationName: Item2
     LatitudeLongitude:
-    - 4.6260873
-    - -74.1476702
+    - 12.4065
+    - 76562615
+  - LocationName: Item3
+    LatitudeLongitude:
+    - 12.4667
+    - 76.563211
+  - LocationName: Item4
+    LatitudeLongitude:
+    - 12.75304
+    - 76.585942
+  - LocationName: Item5
+    LatitudeLongitude:
+    - 12.75014
+    - 76.585502
+  - LocationName: Item6
+    LatitudeLongitude:
+    - 12.75166
+    - 76.585001
+  - LocationName: Item7
+    LatitudeLongitude:
+    - 12.75155
+    - 76.585448
+  - LocationName: Item8
+    LatitudeLongitude:
+    - 12.7582
+    - 76.59408
+  - LocationName: Item9
+    LatitudeLongitude:
+    - 12.8097
+    - 76.59834
