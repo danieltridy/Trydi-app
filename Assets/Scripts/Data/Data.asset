@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Data
   m_EditorClassIdentifier: 
   LocationController:
-  - LocationName: 
-    LatitudeLongitude: []
-  - LocationName: 
-    LatitudeLongitude: []
+  - LocationName: Item1
+    LatitudeLongitude:
+    - 4.6263183
+    - -74.1474582
+  - LocationName: Item2
+    LatitudeLongitude:
+    - 4.6260873
+    - -74.1476702

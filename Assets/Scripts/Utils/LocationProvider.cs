@@ -26,6 +26,14 @@ public class LocationProvider : MonoBehaviour
     {
         return locationProvider.CurrentLocation.DeviceOrientation;
     }
+    public float GetUserHeading()
+    {
+        return locationProvider.CurrentLocation.UserHeading;
+    }
+ public float GetAccuracy()
+    {
+        return locationProvider.CurrentLocation.Accuracy;
+    }
     private void Device_OnLocationUpdated(Location obj)
     {
 

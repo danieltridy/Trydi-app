@@ -7,11 +7,12 @@ using UnityEngine.Events;
 
 public class UserLocationController : MonoBehaviour
 {
-   
+
 
     private LocationProvider locationProvider;
     [SerializeField]
     private Transform cameraContent;
+
     [SerializeField]
     private AbstractMap _map;
     [SerializeField]
