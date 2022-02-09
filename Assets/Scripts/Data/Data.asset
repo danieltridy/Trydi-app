@@ -21,3 +21,11 @@ MonoBehaviour:
     LatitudeLongitude:
     - 4.6260873
     - -74.1476702
+  - LocationName: Item3
+    LatitudeLongitude:
+    - 4.68054
+    - -74.0889351
+  - LocationName: Item3
+    LatitudeLongitude:
+    - -12.0683113
+    - -76.9420602
