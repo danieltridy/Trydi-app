@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c102908b6cbb03747b8ba9bf7482d5f3, type: 3}
   m_Name: JonnyData
   m_EditorClassIdentifier: 
-  LocationController: []
+  LocationController:
+  - LocationName: Item
+    LatitudeLongitude:
+    - 4.6261873
+    - -74.1476002
+  - LocationName: Item2
+    LatitudeLongitude:
+    - 4.6260883
+    - -74.1479762

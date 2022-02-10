@@ -11,8 +11,9 @@ public class UserLocationController : MonoBehaviour
 
     private LocationProvider locationProvider;
     [SerializeField]
-    private Transform cameraContent;
-
+    private Transform userLocationContent;
+    [SerializeField]
+    private float speedRot;
     [SerializeField]
     private AbstractMap _map;
     [SerializeField]
@@ -37,7 +38,10 @@ public class UserLocationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cameraContent.position = currentPos;
-        cameraContent.localRotation = Quaternion.Lerp(cameraContent.localRotation, Quaternion.AngleAxis(locationProvider.GetOrientation(), Vector3.up), Time.deltaTime * 3);
+        if (userLocationContent)
+        {
+            userLocationContent.position = currentPos;
+            userLocationContent.localRotation = Quaternion.Lerp(userLocationContent.localRotation, Quaternion.AngleAxis(locationProvider.GetOrientation(), Vector3.up), Time.deltaTime * speedRot);
+        }
     }
 }

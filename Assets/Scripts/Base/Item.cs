@@ -16,18 +16,9 @@ public class Item : MonoBehaviour
     {
         locationProvider = LocationProvider.Instance;
         abstractMap = FindObjectOfType<AbstractMap>();
-        //if (locationProvider)
-        //    locationProvider.OnLocationUpdated += LocationProvider_OnLocationUpdated;
+      
     }
 
-    //private void LocationProvider_OnLocationUpdated(Mapbox.Unity.Location.Location obj)
-    //{
-    //    Vector2d Pos = abstractMap.WorldToGeoPosition(transform.position);
-    //    double[] target = new double[2];
-    //    target[0] = Pos.x;
-    //    target[1] = Pos.y;
-    //    currentDistance = locationProvider.Distance(target);
-    //}
     public double GetCurrentDistance()
     {
         Vector2d Pos = abstractMap.WorldToGeoPosition(transform.position);

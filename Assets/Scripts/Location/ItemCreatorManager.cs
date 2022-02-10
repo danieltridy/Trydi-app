@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// Create all Sites With Data
+/// Create Items With Data
 /// </summary>
 public class ItemCreatorManager : MonoBehaviour
 {
@@ -26,14 +26,19 @@ public class ItemCreatorManager : MonoBehaviour
     [SerializeField]
     private GameObject itemPrefab;
     [SerializeField]
-    private float altitudeTreshold; 
+    private float altitudeTreshold;
     [SerializeField]
-    private AbstractMap abstractMap; 
+    private double DistanceUpdate=50;
 
-
-    public UnityEvent OnSpawnItems;
+    private double[] NextUpdate= new double[2];
+    [SerializeField]
+    private AbstractMap abstractMap;
+    private LocationProvider locationProvider;
+    private bool firstGpsData = true;
+    public UnityEvent OnSpawnItems,OnDistanceUpdated;
     public LocationData LocationData { get => locationData; set => locationData = value; }
     public GameObject ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
+    public LocationProvider LocationProvider { get => locationProvider; set => locationProvider = value; }
 
     private void Awake()
     {
@@ -42,6 +47,28 @@ public class ItemCreatorManager : MonoBehaviour
         if (Instance == null) // create Instance
             Instance = this;
 
+    }
+
+    private void Start()
+    {
+        locationProvider = LocationProvider.Instance;
+        LocationProvider.OnLocationUpdated += LocationProvider_OnLocationUpdated;
+    }
+
+    private void LocationProvider_OnLocationUpdated(Location obj)
+    {
+        if(firstGpsData)
+        {
+            NextUpdate[0] = locationProvider.GetCurrentLocation().x ;
+            NextUpdate[1] = locationProvider.GetCurrentLocation().y ;
+            firstGpsData = false;
+        }
+        else if(locationProvider.Distance(NextUpdate) >= DistanceUpdate)
+        {
+            OnDistanceUpdated.Invoke();
+            print("New Update");
+            firstGpsData = true;
+        }
     }
 
     private void AbstractMap_OnInitialized() // When Map is loaded
@@ -70,12 +97,12 @@ public class ItemCreatorManager : MonoBehaviour
     }
 
   
-    private GameObject SpawnItem(GameObject Prefab, Vector2d pos, float altitude = 0)
+    private GameObject SpawnItem(GameObject Prefab, Vector2d pos)
     {
         GameObject hostpot;
         hostpot = Instantiate(Prefab);
         Vector3 worldCordenate = abstractMap.GeoToWorldPosition(pos, true);
-        hostpot.transform.position = new Vector3(worldCordenate.x, worldCordenate.y - altitude, worldCordenate.z);
+        hostpot.transform.position = new Vector3(worldCordenate.x, worldCordenate.y + altitudeTreshold, worldCordenate.z);
         return hostpot;
     }
 
