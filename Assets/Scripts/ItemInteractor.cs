@@ -26,10 +26,6 @@ public class ItemInteractor : MonoBehaviour
             Instance = this;
     }
 
-    private void Delay()
-    {
-       
-    }
     // Update is called once per frame
     void Update()
     {
@@ -43,7 +39,7 @@ public class ItemInteractor : MonoBehaviour
                 {
                     Item itmeHit = hit.collider.GetComponent<Item>();
                     if (distanceViewer == null) return;
-                    distanceViewer.ShowDistance(itmeHit.GetCurrentDistance());
+                    distanceViewer.ShowDistance(itmeHit.GetCurrentDistance());//TODO Revisar esto
                     OnItemInteract.Invoke();
                     print("Item Name: " + hit.collider.name);
                 }

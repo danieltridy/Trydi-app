@@ -5,22 +5,20 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UserLocationController : MonoBehaviour
+public class PlayerUpdateTransform : MonoBehaviour
 {
 
 
-    private LocationProvider locationProvider;
+   
     [SerializeField]
     private Transform userLocationContent;
     [SerializeField]
     private float speedRot;
     [SerializeField]
     private AbstractMap _map;
-    [SerializeField]
-    private bool updateRotation;
-    Vector3 currentPos;
 
-    public bool UpdateRotation { get => updateRotation; set => updateRotation = value; }
+    private Vector3 currentPos;
+    private LocationProvider locationProvider;
 
     // Start is called before the first frame update
     void Start()

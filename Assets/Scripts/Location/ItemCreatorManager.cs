@@ -18,7 +18,7 @@ public class ItemCreatorManager : MonoBehaviour
 
     [Header("Item Data")]
     [SerializeField]
-    private bool createPointWhenMapIsLoaded = false; 
+    private bool SpawnItemWhenMapLoaded = false; 
     [SerializeField]
     private LocationData locationData;
     [SerializeField]
@@ -28,17 +28,11 @@ public class ItemCreatorManager : MonoBehaviour
     [SerializeField]
     private float altitudeTreshold;
     [SerializeField]
-    private double DistanceUpdate=50;
-
-    private double[] NextUpdate= new double[2];
-    [SerializeField]
     private AbstractMap abstractMap;
-    private LocationProvider locationProvider;
-    private bool firstGpsData = true;
-    public UnityEvent OnSpawnItems,OnDistanceUpdated;
+    public UnityEvent OnSpawnItems;
     public LocationData LocationData { get => locationData; set => locationData = value; }
     public GameObject ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
-    public LocationProvider LocationProvider { get => locationProvider; set => locationProvider = value; }
+    
 
     private void Awake()
     {
@@ -46,38 +40,14 @@ public class ItemCreatorManager : MonoBehaviour
 
         if (Instance == null) // create Instance
             Instance = this;
-
     }
 
-    private void Start()
-    {
-        locationProvider = LocationProvider.Instance;
-        LocationProvider.OnLocationUpdated += LocationProvider_OnLocationUpdated;
-    }
-
-    private void LocationProvider_OnLocationUpdated(Location obj)
-    {
-        if(firstGpsData)
-        {
-            NextUpdate[0] = locationProvider.GetCurrentLocation().x ;
-            NextUpdate[1] = locationProvider.GetCurrentLocation().y ;
-            firstGpsData = false;
-        }
-        else if(locationProvider.Distance(NextUpdate) >= DistanceUpdate)
-        {
-            OnDistanceUpdated.Invoke();
-            print("New Update");
-            firstGpsData = true;
-        }
-    }
 
     private void AbstractMap_OnInitialized() // When Map is loaded
     {
-        if (createPointWhenMapIsLoaded)
+        if (SpawnItemWhenMapLoaded)
             CreateItems();
-
         print("Map Init");
-
     }
 
     [EasyButtons.Button]
@@ -90,10 +60,7 @@ public class ItemCreatorManager : MonoBehaviour
             items.Add(newItem);
             newItem.transform.parent = abstractMap.transform;
         }
-
         OnSpawnItems.Invoke();
-        print("Set POI in the Map");
-
     }
 
   
