@@ -32,7 +32,8 @@ public class ItemCreatorManager : MonoBehaviour
     public UnityEvent OnSpawnItems;
     public LocationData LocationData { get => locationData; set => locationData = value; }
     public GameObject ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
-    
+
+
 
     private void Awake()
     {
@@ -51,7 +52,7 @@ public class ItemCreatorManager : MonoBehaviour
     }
 
     [EasyButtons.Button]
-    private void CreateItems() // Create All Sites
+    public void CreateItems() // Create All Sites
     {
         for (int i = 0; i < locationData.LocationController.Count; i++)
         {
@@ -61,6 +62,7 @@ public class ItemCreatorManager : MonoBehaviour
             newItem.transform.parent = abstractMap.transform;
         }
         OnSpawnItems.Invoke();
+        
     }
 
   

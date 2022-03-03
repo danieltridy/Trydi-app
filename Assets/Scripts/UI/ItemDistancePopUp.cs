@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class ItemDistancePopUp : MonoBehaviour,IDistanceViewer
 {
     public UnityEvent OnEnableAR, OnDisableAR;
     [SerializeField]
-    private Text distanceTex;
+    private TMP_Text distanceTex;
     [SerializeField]
     private double distanceToAREnable;
 

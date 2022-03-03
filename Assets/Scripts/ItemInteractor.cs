@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class ItemInteractor : MonoBehaviour
 {
@@ -35,14 +36,18 @@ public class ItemInteractor : MonoBehaviour
             ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ItemLayer) && cam.isActiveAndEnabled)
             {
-                if (hit.collider != null)
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    Item itmeHit = hit.collider.GetComponent<Item>();
-                    if (distanceViewer == null) return;
-                    distanceViewer.ShowDistance(itmeHit.GetCurrentDistance());//TODO Revisar esto
-                    OnItemInteract.Invoke();
-                    print("Item Name: " + hit.collider.name);
+                    if (hit.collider != null)
+                    {
+                        Item itmeHit = hit.collider.GetComponent<Item>();
+                        if (distanceViewer == null) return;
+                        distanceViewer.ShowDistance(itmeHit.GetCurrentDistance());//TODO Revisar esto
+                        OnItemInteract.Invoke();
+                        print("Item Name: " + hit.collider.name);
+                    }
                 }
+                
             }
         }
     }
