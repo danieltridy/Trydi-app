@@ -23,12 +23,16 @@ public class RegisterConsumer : MonoBehaviour
 
     IEnumerator RegisterPetition()
     {
+        ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
+        InAppNotification.Instance.ShowNotication(notification);
         var service = new RegisterServiceData(Nick.text,Email.text, pass.text);
         yield return service.SendAsync(response);
     }
 
     private void response(string response)
     {
+        InAppNotification.Instance.HideNotication();
+
         try
         {
             UserData.Instance.PlayerData = JsonConvert.DeserializeObject<PlayerData>(response);
@@ -36,6 +40,8 @@ public class RegisterConsumer : MonoBehaviour
             if (UserData.Instance.PlayerData.success)
             {
                 RegisterCompleted();
+                PlayerPrefs.SetString("mail", Email.text);
+                PlayerPrefs.SetString("pass", pass.text);
             }
             
         }
@@ -56,7 +62,7 @@ public class RegisterConsumer : MonoBehaviour
 
     public void RegisterCompleted()
     {
-        ClassnNotification notification = new ClassnNotification(EnumNotification.Buttonx, $"Hola {UserData.Instance.PlayerData.data.name}es hora de crear TRIDY antes de empezar te queremos contar un poco acerca de nosotros...");
+        ClassnNotification notification = new ClassnNotification(EnumNotification.Buttonx, $"Hola {UserData.Instance.PlayerData.data.name} Bienvenido a Tridy");
         InAppNotification.Instance.ShowNotication(notification);
         OnRegisterCompleted.Invoke();
     }

@@ -26,6 +26,8 @@ MonoBehaviour:
       - LoginAccounts
       - Notification
       - OrientationDetected
+      - PanelColor
+      - Principal
       - Register
       isExpanded:
         m_Target: 1

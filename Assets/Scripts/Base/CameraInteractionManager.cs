@@ -35,7 +35,7 @@ public class CameraInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (!ButtonColor.Instance.color) { 
             if (Input.GetMouseButtonDown(0))
             {
                 //print("Click");
@@ -57,6 +57,7 @@ public class CameraInteractionManager : MonoBehaviour
                 MoveCamera();
 
             }
+        }
     }
 
 

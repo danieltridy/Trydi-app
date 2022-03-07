@@ -19,8 +19,7 @@ public class ItemCreatorManager : MonoBehaviour
     [Header("Item Data")]
     [SerializeField]
     private bool SpawnItemWhenMapLoaded = false; 
-    [SerializeField]
-    private LocationData locationData;
+    public List<Location> LocationController= new List<Location>();
     [SerializeField]
     private List<GameObject> items; 
     [SerializeField]
@@ -30,14 +29,23 @@ public class ItemCreatorManager : MonoBehaviour
     [SerializeField]
     private AbstractMap abstractMap;
     public UnityEvent OnSpawnItems;
-    public LocationData LocationData { get => locationData; set => locationData = value; }
+  
     public GameObject ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
 
+    public void GetTridys(TridysData data) {
+        Location latitude = new Location();
 
+        for (int i=0; i<data.data.Count;i++) {
+            latitude.LatitudeLongitude.x = data.data[i].latitude;
+            latitude.LatitudeLongitude.y = data.data[i].longitude;
+            LocationController.Add(latitude);
+        }
+        Debug.Log($"es este weon{LocationController.Count}");
+    }
 
     private void Awake()
     {
-        abstractMap.OnInitialized += AbstractMap_OnInitialized; // When MapBox Is loaded
+        //abstractMap.OnInitialized += AbstractMap_OnInitialized; // When MapBox Is loaded
 
         if (Instance == null) // create Instance
             Instance = this;
@@ -54,9 +62,9 @@ public class ItemCreatorManager : MonoBehaviour
     [EasyButtons.Button]
     public void CreateItems() // Create All Sites
     {
-        for (int i = 0; i < locationData.LocationController.Count; i++)
+        for (int i = 0; i < LocationController.Count; i++)
         {
-            Vector2d pos = new Vector2d((float)locationData.LocationController[i].LatitudeLongitude[0], (float)locationData.LocationController[i].LatitudeLongitude[1]);
+            Vector2d pos = new Vector2d((float)LocationController[i].LatitudeLongitude[0], (float)LocationController[i].LatitudeLongitude[1]);
             GameObject newItem = SpawnItem(itemPrefab, pos);
             items.Add(newItem);
             newItem.transform.parent = abstractMap.transform;

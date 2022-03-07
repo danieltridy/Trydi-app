@@ -7,15 +7,16 @@ using UnityEngine;
 public class LocationData : ScriptableObject
 {
    
-    public List<Location> LocationController;
+    public List<LocationInfo> LocationController;
    
 
-    [Serializable]
-    public class Location
-    {
-        public string LocationName;
-        public double[] LatitudeLongitude;
-    }
+    
    
 
+}
+[Serializable]
+public class LocationInfo
+{
+    public string LocationName;
+    public double[] LatitudeLongitude;
 }

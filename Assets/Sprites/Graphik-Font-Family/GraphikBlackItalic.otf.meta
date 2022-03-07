@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: f4e387f7c124da243b898bc4d8c8c269
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Graphik
+  fontNames:
+  - Graphik
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9290d36327c929a42a0ada0511ce9550, type: 3}
+  - {fileID: 12800000, guid: 716d18a7412ff6244b0a485da8e156e4, type: 3}
+  - {fileID: 12800000, guid: f0b2eea7608f7594291968941d3fa981, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
