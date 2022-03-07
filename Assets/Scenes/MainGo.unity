@@ -40791,6 +40791,8 @@ GameObject:
   - component: {fileID: 2977703568271125709}
   - component: {fileID: 2939412665529216581}
   - component: {fileID: 2980981433706509214}
+  - component: {fileID: 2980981433706509216}
+  - component: {fileID: 2980981433706509215}
   m_Layer: 0
   m_Name: LocationProvider
   m_TagString: Untagged
@@ -40808,6 +40810,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dd24718fdc51c74b806599213fd5758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2980981433706509215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980981433706509213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2b4ba59527134408502b3f777a8033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnLocationServicesLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  loadForIOS: 0
+--- !u!114 &2980981433706509216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980981433706509213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41fc7d0ad0b8eec408a7f105048979e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3229187424440407410
