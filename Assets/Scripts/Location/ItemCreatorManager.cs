@@ -40,7 +40,8 @@ public class ItemCreatorManager : MonoBehaviour
             latitude.LatitudeLongitude.y = data.data[i].longitude;
             LocationController.Add(latitude);
         }
-        Debug.Log($"es este weon{LocationController.Count}");
+
+        CreateItems();
     }
 
     private void Awake()

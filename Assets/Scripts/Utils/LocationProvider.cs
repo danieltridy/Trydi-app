@@ -18,7 +18,7 @@ public class LocationProvider : MonoBehaviour
         locationProvider.OnLocationUpdated += Device_OnLocationUpdated;
     }
 
-    public Vector2d GetCurrentLocation()
+    public Vector2d GetCurrentLocation()//mi ubicacion exacta 
     {
         return locationProvider.CurrentLocation.LatitudeLongitude;
     }
@@ -26,7 +26,7 @@ public class LocationProvider : MonoBehaviour
     {
         return locationProvider.CurrentLocation.DeviceOrientation;
     }
-    public float GetUserHeading()
+    public float GetUserHeading()//norte!
     {
         return locationProvider.CurrentLocation.UserHeading;
     }

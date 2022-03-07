@@ -21,6 +21,7 @@ public class ItemDistancePopUp : MonoBehaviour,IDistanceViewer
 
     public void ShowDistance(double Distance)
     {
+        distanceTex.gameObject.SetActive(true);
         distanceTex.text = "Distancia Actual: " + Distance.ToString("F2") +" Metros";
         if (Distance <= distanceToAREnable)
             OnEnableAR.Invoke();
@@ -29,5 +30,9 @@ public class ItemDistancePopUp : MonoBehaviour,IDistanceViewer
 
     }
 
-  
+    private void ExitDistance() {
+        distanceTex.gameObject.SetActive(false);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class SpawnARItem : MonoBehaviour
@@ -13,6 +14,8 @@ public class SpawnARItem : MonoBehaviour
     private float frontDistance;
     [SerializeField]
     private float heightOffset;
+    [SerializeField]
+    private UnityEvent hide;
 
     private GameObject currentItem;
     public void CreateItem()
@@ -20,6 +23,7 @@ public class SpawnARItem : MonoBehaviour
         Vector3 cameraPoint = cam.transform.position + cam.transform.forward * frontDistance;
         cameraPoint.y = cameraPoint.y + heightOffset;
         currentItem = Instantiate(prefab, cameraPoint, Quaternion.identity);
+        hide.Invoke();
     }
 
     public void DestroyItem()

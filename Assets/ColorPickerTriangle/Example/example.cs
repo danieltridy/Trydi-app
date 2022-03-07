@@ -3,7 +3,6 @@ using System.Collections;
 
 public class example : MonoBehaviour {
 
-    public GameObject ColorPickedPrefab;
     private bool isPaint = false;
     private GameObject go;
     private Material mat;
