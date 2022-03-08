@@ -17,6 +17,8 @@ public class LoginConsumer : MonoBehaviour
     [SerializeField]
     private UnityEvent OnLoginCompleted;
     private string mail, pass1;
+    [SerializeField]
+    private TridyConsumer tridyConsumer;
     [EasyButtons.Button]
     public void StartLogin()
     {
@@ -78,7 +80,11 @@ public class LoginConsumer : MonoBehaviour
         OnLoginCompleted.Invoke();
         ClassAlert alertMessage = new ClassAlert(EnumAlert.message, $"Hola un gusto verte de nuevo {UserData.Instance.PlayerData.data.name}");
         AlertMessage.Instance.ShowNotication(alertMessage);
+        Invoke("TridyWait",1f);
 
     }
 
+    private void TridyWait() {
+        tridyConsumer.TridyStart();
+    }
 }

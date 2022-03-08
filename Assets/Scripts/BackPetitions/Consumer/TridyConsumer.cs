@@ -13,28 +13,29 @@ public class TridyConsumer : MonoBehaviour
     private ItemCreatorManager item;
     [SerializeField]
     private double lat, lon;
+    [SerializeField]
+    private Text text;
 
-    public void Start()
+    private void Update()
     {
-        Invoke("Wait",2);
-    }
+        text.text = $" player lat : {LocationProvider.Instance.GetCurrentLocation().x} y lon: {LocationProvider.Instance.GetCurrentLocation().y}";
 
-    private void Wait() {
+    }
+    public void TridyStart() {
+        lat =LocationProvider.Instance.GetCurrentLocation().x;
+        lon = LocationProvider.Instance.GetCurrentLocation().y;
         StartCoroutine(TridyPeti());
 
     }
     IEnumerator TridyPeti()
     {
-        ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
-        InAppNotification.Instance.ShowNotication(notification);
+   
         var service = new TridyServiceData(lat, lon);
         yield return service.SendAsync(response);
 
     }
     private void response(string response)
     {
-        InAppNotification.Instance.HideNotication();
-
         try
         {
             TridyData.Instance.TridysData = JsonConvert.DeserializeObject<TridysData>(response);

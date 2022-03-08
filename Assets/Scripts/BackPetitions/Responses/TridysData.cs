@@ -16,8 +16,8 @@ public class Tridys
 {
         public int id;
         public string name;
-        public object description;
-        public object estructura;
+        public string description;
+        public string estructura;
         public double latitude;
         public double longitude;
         public int likes;
