@@ -15,11 +15,15 @@ public class DetectOrientation : MonoBehaviour
     }
     private void OnEnable()
     {
+        Invoke("Wait",1f);
+    }
+
+    private void Wait() {
         StartCoroutine(WaitForDetectOrientation());
     }
     private void OnDisable()
     {
-      //  StopAllCoroutines();
+      StopAllCoroutines();
     }
     private IEnumerator WaitForDetectOrientation()
     {

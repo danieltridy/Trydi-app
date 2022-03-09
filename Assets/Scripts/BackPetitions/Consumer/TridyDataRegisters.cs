@@ -7,7 +7,6 @@ public class TridyDataRegisters : MonoBehaviour
     public static TridyDataRegisters Instance;
     [SerializeField]
     private TridyDataRegister tridysData;
-
     public TridyDataRegister TridysData { get => tridysData; set => tridysData = value; }
 
 

@@ -14,18 +14,19 @@ public class TridysData
 
 public class Tridys
 {
-        public int id;
-        public string name;
-        public string description;
-        public string estructura;
-        public double latitude;
-        public double longitude;
-        public int likes;
-        public int user_id;
-        public DateTime created_at;
-        public DateTime updated_at;
-        public string distance;
-    }
+    public int id;
+    public string name;
+    public string name_user;
+    public string description;
+    public string estructura;
+    public double latitude;
+    public double longitude;
+    public int likes;
+    public int user_id;
+    public DateTime created_at;
+    public DateTime updated_at;
+    public string distance;
+}
 
   
 

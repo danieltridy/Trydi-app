@@ -13,14 +13,7 @@ public class TridyConsumer : MonoBehaviour
     private ItemCreatorManager item;
     [SerializeField]
     private double lat, lon;
-    [SerializeField]
-    private Text text;
 
-    private void Update()
-    {
-        text.text = $" player lat : {LocationProvider.Instance.GetCurrentLocation().x} y lon: {LocationProvider.Instance.GetCurrentLocation().y}";
-
-    }
     public void TridyStart() {
         lat =LocationProvider.Instance.GetCurrentLocation().x;
         lon = LocationProvider.Instance.GetCurrentLocation().y;
@@ -38,6 +31,7 @@ public class TridyConsumer : MonoBehaviour
     {
         try
         {
+            TridyData.Instance.TridysData.data.Clear();
             TridyData.Instance.TridysData = JsonConvert.DeserializeObject<TridysData>(response);
             if (TridyData.Instance.TridysData.success)
             {                Debug.Log($"si enbtro {TridyData.Instance.TridysData.data[0].name}");

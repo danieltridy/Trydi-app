@@ -19,14 +19,9 @@ public class RegisterCreationConsumer : MonoBehaviour
     private TridyConsumer tridyConsumer;
     [SerializeField]
     private UnityEvent registerTridy;
-    [SerializeField]
-    private Text text;
 
-    private void Update1()
-    {
-        text.text = $" player lat : {TridyDataRegisters.Instance.TridysData.data.latitude} y lon: {TridyDataRegisters.Instance.TridysData.data.longitude}";
 
-    }
+ 
     public void TridyStart()
     {
         name = name1.text;
@@ -53,12 +48,10 @@ public class RegisterCreationConsumer : MonoBehaviour
             TridyDataRegisters.Instance.TridysData = JsonConvert.DeserializeObject<TridyDataRegister>(response);
             if (TridyData.Instance.TridysData.success)
             {
-                tridyConsumer.TridyStart();
                 registerTridy.Invoke();
-                Update1();
-             
+                tridyConsumer.TridyStart();
             }
-          
+
         }
         catch (Exception E)
         {

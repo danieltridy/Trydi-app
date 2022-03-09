@@ -9,8 +9,14 @@ public class PlayerData
     public bool success;
     public string message;
     public Data data ;
+    public List<Like> likes;
+
 }
 
+public class Like
+{
+    public int tridy_id;
+}
 [System.Serializable]
 public class Data
 {

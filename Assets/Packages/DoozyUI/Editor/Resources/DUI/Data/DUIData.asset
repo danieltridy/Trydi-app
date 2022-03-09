@@ -28,6 +28,7 @@ MonoBehaviour:
       - Notification
       - OrientationDetected
       - PanelColor
+      - PanelTridy
       - Principal
       - Register
       isExpanded:

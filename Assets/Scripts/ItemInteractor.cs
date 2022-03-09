@@ -43,6 +43,7 @@ public class ItemInteractor : MonoBehaviour
                         Item itmeHit = hit.collider.GetComponent<Item>();
                         if (distanceViewer == null) return;
                         distanceViewer.ShowDistance(itmeHit.GetCurrentDistance());//TODO Revisar esto
+                        itmeHit.GetComponent<TridyDataOnly>().OnClick();
                         OnItemInteract.Invoke();
                         print("Item Name: " + hit.collider.name);
                     }
@@ -52,4 +53,5 @@ public class ItemInteractor : MonoBehaviour
         }
     }
 
+ 
 }

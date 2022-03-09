@@ -15,7 +15,8 @@ public class RegisterConsumer : MonoBehaviour
 
     [SerializeField]
     private UnityEvent OnRegisterCompleted;
-
+    [SerializeField]
+    private TridyConsumer tridyConsumer;
     public void StartRegister()
     {
         StartCoroutine(RegisterPetition());
@@ -65,6 +66,10 @@ public class RegisterConsumer : MonoBehaviour
         ClassnNotification notification = new ClassnNotification(EnumNotification.Buttonx, $"Hola {UserData.Instance.PlayerData.data.name} Bienvenido a Tridy");
         InAppNotification.Instance.ShowNotication(notification);
         OnRegisterCompleted.Invoke();
+        Invoke("TridyWait", 1f);
     }
-
+    private void TridyWait()
+    {
+        tridyConsumer.TridyStart();
+    }
 }

@@ -9,15 +9,25 @@ public class TridyDataRegister
     public bool success;
     public string message;
     public  Tridy data;
+    public string name;
 }
+
+
+[System.Serializable]
+public class Likes
+{
+    public bool success;
+}
+
 
 [System.Serializable]
 public class Tridy
 {
     public int id;
     public string name;
-    public object description;
-    public object estructura;
+    public string name_user;
+    public string description;
+    public string estructura;
     public double latitude;
     public double longitude;
     public int likes;

@@ -21,18 +21,20 @@ public class ItemCreatorManager : MonoBehaviour
     private bool SpawnItemWhenMapLoaded = false; 
     public List<Location> LocationController= new List<Location>();
     [SerializeField]
-    private List<GameObject> items; 
+    private List<TridyDataOnly> items; 
     [SerializeField]
-    private GameObject itemPrefab;
+    private TridyDataOnly itemPrefab;
     [SerializeField]
     private float altitudeTreshold;
     [SerializeField]
     private AbstractMap abstractMap;
     public UnityEvent OnSpawnItems;
   
-    public GameObject ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
+    public TridyDataOnly ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
 
     public void GetTridys(TridysData data) {
+
+        LocationController.Clear();
         Location latitude = new Location();
 
         for (int i=0; i<data.data.Count;i++) {
@@ -41,7 +43,7 @@ public class ItemCreatorManager : MonoBehaviour
             LocationController.Add(latitude);
         }
 
-        CreateItems();
+        CreateItems(data);
     }
 
     private void Awake()
@@ -56,17 +58,29 @@ public class ItemCreatorManager : MonoBehaviour
     private void AbstractMap_OnInitialized() // When Map is loaded
     {
         if (SpawnItemWhenMapLoaded)
-            CreateItems();
+            //CreateItems();
         print("Map Init");
     }
 
     [EasyButtons.Button]
-    public void CreateItems() // Create All Sites
+    public void CreateItems(TridysData data) // Create All Sites
     {
+        foreach (var s in items) {
+            DestroyImmediate(s.gameObject);
+                }
+        items.Clear();
         for (int i = 0; i < LocationController.Count; i++)
         {
             Vector2d pos = new Vector2d((float)LocationController[i].LatitudeLongitude[0], (float)LocationController[i].LatitudeLongitude[1]);
-            GameObject newItem = SpawnItem(itemPrefab, pos);
+            TridyDataOnly newItem = SpawnItem(itemPrefab, pos);
+            newItem.Tridy.id = data.data[i].id;
+            newItem.Tridy.name = data.data[i].name;
+            newItem.Tridy.likes = data.data[i].likes;
+            newItem.Tridy.description = data.data[i].description;
+            newItem.Tridy.estructura = data.data[i].estructura;
+            newItem.Tridy.user_id = data.data[i].user_id;
+            newItem.Tridy.name_user = data.data[i].name_user;
+
             items.Add(newItem);
             newItem.transform.parent = abstractMap.transform;
         }
@@ -75,9 +89,9 @@ public class ItemCreatorManager : MonoBehaviour
     }
 
   
-    private GameObject SpawnItem(GameObject Prefab, Vector2d pos)
+    private TridyDataOnly SpawnItem(TridyDataOnly Prefab, Vector2d pos)
     {
-        GameObject hostpot;
+        TridyDataOnly hostpot;
         hostpot = Instantiate(Prefab);
         Vector3 worldCordenate = abstractMap.GeoToWorldPosition(pos, true);
         hostpot.transform.position = new Vector3(worldCordenate.x, worldCordenate.y + altitudeTreshold, worldCordenate.z);
