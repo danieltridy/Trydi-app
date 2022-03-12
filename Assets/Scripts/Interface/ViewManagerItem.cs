@@ -9,6 +9,8 @@ public class ViewManagerItem : MonoBehaviour
     [SerializeField]
     private TMP_Text name;
     [SerializeField]
+    private TMP_Text looks;
+    [SerializeField]
     private TMP_Text autor;
     [SerializeField]
     private TMP_Text likes;
@@ -29,6 +31,8 @@ public class ViewManagerItem : MonoBehaviour
         like = item.likes;
         likes.text = item.likes.ToString();
         description.text = item.description;
+        item.looks++;
+        looks.text = item.looks.ToString();
         id = item.id;
         if (!herat) { 
         foreach (var s in UserData.Instance.PlayerData.likes) {
@@ -43,14 +47,27 @@ public class ViewManagerItem : MonoBehaviour
                 }
                 herat = true;
             }
-       
-        this.item = item;
     }
+        else
+        {
+            if (item.like) {
+                heart.SetActive(false);
+                heartlike.SetActive(true);
+            }
+            else if (!item.like) {
+                heart.SetActive(true);
+                heartlike.SetActive(false);
+            }
+        }
+        this.item = item;
+
+
     }
 
     public void Like() {
         like = (like + 1);
         item.likes++;
+        item.like = true;
         likes.text = like.ToString();
         heart.SetActive(false);
         heartlike.SetActive(true);
@@ -60,6 +77,7 @@ public class ViewManagerItem : MonoBehaviour
         item.likes--;
         like = (like - 1);
         likes.text = like.ToString();
+        item.like = false;
         heart.SetActive(true);
         heartlike.SetActive(false);
     }

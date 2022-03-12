@@ -17,6 +17,7 @@ public class ItemInteractor : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     IDistanceViewer distanceViewer;
+
     private void Start()
     {
         distanceViewer = displayDistance.GetComponent<IDistanceViewer>();

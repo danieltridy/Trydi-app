@@ -31,10 +31,12 @@ public class Tridy
     public double latitude;
     public double longitude;
     public int likes;
+    public int looks;
     public int user_id;
     public DateTime created_at;
     public DateTime updated_at;
     public string distance;
+    public bool like;
 }
 
 

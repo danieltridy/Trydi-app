@@ -49,7 +49,7 @@ public class RegisterCreationConsumer : MonoBehaviour
             if (TridyData.Instance.TridysData.success)
             {
                 registerTridy.Invoke();
-                tridyConsumer.TridyStart();
+                tridyConsumer.TridyStart();                
             }
 
         }

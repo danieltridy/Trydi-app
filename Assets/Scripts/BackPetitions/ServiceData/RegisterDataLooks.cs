@@ -1,21 +1,12 @@
 using SnowKore.Services;
 using System.Collections.Generic;
 
-public class RegisterTridyData : newServiceData
+public class RegisterDataLooks : newServiceData
 {
-    private string name;
-    private double latitude, longitude;
-    private int user_id, likes;
-    private string name_user = " " ;
-    public RegisterTridyData(string name, double latitude, double longitude,int user_id, int likes)
+    private int tridy_id;
+    public RegisterDataLooks(int tridy_id)
     {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.user_id = user_id;
-        this.likes = likes;
-
-
+        this.tridy_id = tridy_id;
     }
 
     protected override Dictionary<string, object> Body
@@ -23,17 +14,13 @@ public class RegisterTridyData : newServiceData
         get
         {
             Dictionary<string, object> body = new Dictionary<string, object>();
-            body.Add("name", name);
-            body.Add("latitude", latitude);
-            body.Add("longitude", longitude);
-            body.Add("user_id", user_id);
-            body.Add("likes", likes);
+            body.Add("tridy_id", tridy_id);
 
             return body;
         }
     }
 
-    protected override string ServiceURL => "api/RegisterCreation";
+    protected override string ServiceURL => "api/Looks";
 
     protected override Dictionary<string, object> Params => new Dictionary<string, object>();
     protected override Dictionary<string, string> Headers

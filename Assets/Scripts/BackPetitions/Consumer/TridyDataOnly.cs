@@ -14,7 +14,6 @@ public class TridyDataOnly : MonoBehaviour
     private Likes likes;
 
 
-
     public Tridy Tridy { get => tridy; set => tridy = value; }
     public Likes Likes { get => likes; set => likes = value; }
 
@@ -26,6 +25,7 @@ public class TridyDataOnly : MonoBehaviour
 
     public void OnClick()
     {
+        SceneViewManagers.Instance.LikesConsumer.Looks(tridy);
         SceneViewManagers.Instance.ViewManagerItem.ViewSpecificItem(tridy);
     }
 }

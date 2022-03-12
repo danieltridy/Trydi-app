@@ -21,6 +21,20 @@ public class LikesConsumer : MonoBehaviour
 
     }
 
+    public void Looks(Tridy tridy)
+    {
+        tridy_id = tridy.id;
+        StartCoroutine(TridyPeti1());
+    }
+
+    IEnumerator TridyPeti1()
+    {
+
+        var service = new RegisterDataLooks(tridy_id);
+        yield return service.SendAsync(response);
+
+    }
+
     IEnumerator TridyPeti()
     {
 
@@ -42,17 +56,7 @@ public class LikesConsumer : MonoBehaviour
         }
         catch (Exception E)
         {
-            if (!TridyDataOnly.Instance.Likes.success)
-            {
-                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, $"No tiene nombre o ya esta en uso");
-                InAppNotification.Instance.ShowNotication(notification1);
-
-            }
-            else
-            {
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
-                InAppNotification.Instance.ShowNotication(notification);
-            }
+            Debug.Log("ignorar");
 
         }
     }
