@@ -28,7 +28,6 @@ public class TridyDataOnly : MonoBehaviour
     {
         SceneViewManagers.Instance.ViewManagerItem.ViewSpecificItem(tridy);
     }
-
 }
 
 

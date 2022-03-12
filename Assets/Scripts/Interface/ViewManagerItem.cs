@@ -20,6 +20,8 @@ public class ViewManagerItem : MonoBehaviour
     private GameObject heartlike;
     public int id;
     private float like;
+    private Tridy item;
+    private bool herat;
     public void ViewSpecificItem(Tridy item)
     {
         name.text = item.name;
@@ -27,25 +29,35 @@ public class ViewManagerItem : MonoBehaviour
         like = item.likes;
         likes.text = item.likes.ToString();
         description.text = item.description;
-        heart.SetActive(true);
-        heartlike.SetActive(false);
         id = item.id;
+        if (!herat) { 
         foreach (var s in UserData.Instance.PlayerData.likes) {
             if (this.id == s.tridy_id) {
                 heart.SetActive(false);
                 heartlike.SetActive(true);
             }
-        } 
+                else
+                {
+                    heart.SetActive(true);
+                    heartlike.SetActive(false);
+                }
+                herat = true;
+            }
+       
+        this.item = item;
+    }
     }
 
     public void Like() {
         like = (like + 1);
+        item.likes++;
         likes.text = like.ToString();
         heart.SetActive(false);
         heartlike.SetActive(true);
     }
 
     public void Dislike() {
+        item.likes--;
         like = (like - 1);
         likes.text = like.ToString();
         heart.SetActive(true);
