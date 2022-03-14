@@ -10,18 +10,19 @@ using UnityEngine.UI;
 public class RegisterCreationConsumer : MonoBehaviour
 {
 
-    private string name;
+    private string name, description;
     private double latitude, longitude;
     private int user_id, likes;
     [SerializeField]
-    private TMP_InputField name1;
+    private TMP_InputField name1, description1;
     [SerializeField]
     private TridyConsumer tridyConsumer;
     [SerializeField]
     private UnityEvent registerTridy;
+    [SerializeField]
+    private ElementIdentifier Show;
 
 
- 
     public void TridyStart()
     {
         name = name1.text;
@@ -29,6 +30,7 @@ public class RegisterCreationConsumer : MonoBehaviour
         longitude = LocationProvider.Instance.GetCurrentLocation().y;
         user_id = UserData.Instance.PlayerData.data.id;
         likes = 0;
+        description = description1.text;
         StartCoroutine(TridyPeti());
 
     }
@@ -36,7 +38,7 @@ public class RegisterCreationConsumer : MonoBehaviour
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new RegisterTridyData(name, latitude, longitude, user_id, likes);
+        var service = new RegisterTridyData(name, latitude, longitude, user_id, likes, description);
         yield return service.SendAsync(response);
 
     }
@@ -49,15 +51,18 @@ public class RegisterCreationConsumer : MonoBehaviour
             if (TridyData.Instance.TridysData.success)
             {
                 registerTridy.Invoke();
-                tridyConsumer.TridyStart();                
+                InterfaceManager.Instance.HideScreen(Show);
+                Invoke("ResetItems", 2f);
             }
 
         }
         catch (Exception E)
         {
-            if (!TridyData.Instance.TridysData.success)
+            TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
+
+            if (!TridyErrors.Instance.Errors.success)
             {
-                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, $"No tiene nombre o ya esta en uso");
+                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]}");
                 InAppNotification.Instance.ShowNotication(notification1);
 
             }
@@ -67,5 +72,9 @@ public class RegisterCreationConsumer : MonoBehaviour
             }
         
         }
+    }
+
+    private void ResetItems() {
+        tridyConsumer.TridyStart();
     }
 }

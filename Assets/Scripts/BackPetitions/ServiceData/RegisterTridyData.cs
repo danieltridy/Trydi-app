@@ -3,17 +3,18 @@ using System.Collections.Generic;
 
 public class RegisterTridyData : newServiceData
 {
-    private string name;
+    private string name, description;
     private double latitude, longitude;
     private int user_id, likes;
     private string name_user = " " ;
-    public RegisterTridyData(string name, double latitude, double longitude,int user_id, int likes)
+    public RegisterTridyData(string name, double latitude, double longitude,int user_id, int likes, string description)
     {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.user_id = user_id;
         this.likes = likes;
+        this.description = description;
 
 
     }
@@ -28,6 +29,7 @@ public class RegisterTridyData : newServiceData
             body.Add("longitude", longitude);
             body.Add("user_id", user_id);
             body.Add("likes", likes);
+            body.Add("description", description);
 
             return body;
         }

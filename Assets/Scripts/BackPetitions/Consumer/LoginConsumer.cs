@@ -62,16 +62,25 @@ public class LoginConsumer : MonoBehaviour
             }
             else
             {
-
-                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Datos Incorrectos");
+                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Contraseña Incorrecta");
                 InAppNotification.Instance.ShowNotication(notification1);
             }
             }
         catch (Exception E)
         {
-           
+
+            TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
+            VerifyNull();
+            if (!TridyErrors.Instance.Errors.success) {
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
+                InAppNotification.Instance.ShowNotication(notification);
+            }
+
+            else {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
                 InAppNotification.Instance.ShowNotication(notification);
+            }
+            
         }
     }
 
@@ -82,6 +91,19 @@ public class LoginConsumer : MonoBehaviour
         AlertMessage.Instance.ShowNotication(alertMessage);
         Invoke("TridyWait",1f);
 
+    }
+
+    private void VerifyNull()
+    {
+
+        if (TridyErrors.Instance.Errors.data.email.Count == 0)
+        {
+            TridyErrors.Instance.Errors.data.email.Add("");
+        }
+        if (TridyErrors.Instance.Errors.data.password.Count == 0)
+        {
+            TridyErrors.Instance.Errors.data.password.Add("");
+        }
     }
 
     private void TridyWait() {

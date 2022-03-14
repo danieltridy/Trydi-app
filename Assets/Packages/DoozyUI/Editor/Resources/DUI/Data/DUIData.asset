@@ -31,6 +31,7 @@ MonoBehaviour:
       - PanelTridy
       - Principal
       - Register
+      - SaveTridy
       isExpanded:
         m_Target: 1
         speed: 2

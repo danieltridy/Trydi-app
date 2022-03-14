@@ -17,6 +17,7 @@ public class RegisterConsumer : MonoBehaviour
     private UnityEvent OnRegisterCompleted;
     [SerializeField]
     private TridyConsumer tridyConsumer;
+
     public void StartRegister()
     {
         StartCoroutine(RegisterPetition());
@@ -44,14 +45,16 @@ public class RegisterConsumer : MonoBehaviour
                 PlayerPrefs.SetString("mail", Email.text);
                 PlayerPrefs.SetString("pass", pass.text);
             }
-            
+
         }
         catch (Exception E)
         {
-            if (!UserData.Instance.PlayerData.success)
+            TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
+            VerifyNull();
+            if (!TridyErrors.Instance.Errors.success)
             {
-                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Ingresar Datos o Email ya esta en uso");
-                InAppNotification.Instance.ShowNotication(notification1);
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]} \n {TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
+                InAppNotification.Instance.ShowNotication(notification);
             }
             else {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
@@ -67,6 +70,22 @@ public class RegisterConsumer : MonoBehaviour
         InAppNotification.Instance.ShowNotication(notification);
         OnRegisterCompleted.Invoke();
         Invoke("TridyWait", 1f);
+    }
+
+    private void VerifyNull() {
+
+        if (TridyErrors.Instance.Errors.data.name.Count == 0)
+        {
+            TridyErrors.Instance.Errors.data.name.Add("");
+        }
+        if (TridyErrors.Instance.Errors.data.email.Count == 0)
+        {
+            TridyErrors.Instance.Errors.data.email.Add("");
+        }
+        if (TridyErrors.Instance.Errors.data.password.Count==0 )
+        {
+            TridyErrors.Instance.Errors.data.password.Add("");
+        }
     }
     private void TridyWait()
     {

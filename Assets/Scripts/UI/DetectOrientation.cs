@@ -15,7 +15,7 @@ public class DetectOrientation : MonoBehaviour
     }
     private void OnEnable()
     {
-        Invoke("Wait",2f);
+        Invoke("Wait",5f);
     }
 
     private void Wait() {
