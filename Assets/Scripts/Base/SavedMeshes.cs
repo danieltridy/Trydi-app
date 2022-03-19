@@ -10,4 +10,13 @@ public class SavedMeshes
     public SerilizedVector Position;
     public SerilizedVector Rotation;
     public SerilizedVector Scale;
+
+    public SavedMeshes(int id, ObjectType objectType, SerilizedVector pos, SerilizedVector rot, SerilizedVector scale)
+    {
+        Id = id;
+        ObjectType = objectType;
+        Position = pos;
+        Rotation = rot;
+        Scale = scale;
+    }
 }

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour,IFocusable
 {
     private LocationProvider locationProvider;
     private AbstractMap abstractMap;
@@ -30,5 +30,8 @@ public class Item : MonoBehaviour
         return locationProvider.Distance(target);
     }
 
-   
+    public Transform GetCurrentFocusedTransform()
+    {
+       return transform;
+    }
 }
