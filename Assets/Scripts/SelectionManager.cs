@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SelectionManager : MonoBehaviour
 {
+    public static SelectionManager Instance;
+    public event Action<IFocusable> OnFocusableSet;
     [SerializeField]
     private Camera cam;
     [SerializeField]
@@ -12,8 +16,12 @@ public class SelectionManager : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private IFocusable currentFocusable;
-  
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
 
     private void Start()
     {
@@ -30,15 +38,17 @@ public class SelectionManager : MonoBehaviour
             if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, interactLayer))
             {
                 currentFocusable = hit.transform.parent.GetComponent<IFocusable>();
+                OnFocusableSet?.Invoke(currentFocusable);
                 print("CurrentFocusable Set");
             }
         }
 
-        if (currentFocusable != null)
-        {
-            transformInteract.OnScale(currentFocusable);
-            transformInteract.OnMove(currentFocusable, cam);
-            transformInteract.OnRotate(currentFocusable, cam);
-        }
+        if (currentFocusable == null)
+            return;
+           // throw new Exception("currentFocusable Is Null");
+
+        transformInteract.OnScale(currentFocusable);
+        transformInteract.OnMove(currentFocusable, cam);
+        transformInteract.OnRotate(currentFocusable, cam);
     }
 }
