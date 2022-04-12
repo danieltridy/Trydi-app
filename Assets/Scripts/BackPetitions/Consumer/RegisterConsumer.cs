@@ -11,7 +11,7 @@ public class RegisterConsumer : MonoBehaviour
 {
 
     [SerializeField]
-    private TMP_InputField Nick,Email, pass;
+    private TMP_InputField Nick, Email, pass;
 
     [SerializeField]
     private UnityEvent OnRegisterCompleted;
@@ -20,14 +20,22 @@ public class RegisterConsumer : MonoBehaviour
 
     public void StartRegister()
     {
-        StartCoroutine(RegisterPetition());
+        if (Nick.text == "" || Email.text == "" || pass.text == "")
+        {
+
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
+            NewNotification.Instance.ShowNotication(notification);
+        }
+        else {
+            StartCoroutine(RegisterPetition());
+        }
     }
 
     IEnumerator RegisterPetition()
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new RegisterServiceData(Nick.text,Email.text, pass.text);
+        var service = new RegisterServiceData(Nick.text, Email.text, pass.text);
         yield return service.SendAsync(response);
     }
 
@@ -53,14 +61,15 @@ public class RegisterConsumer : MonoBehaviour
             VerifyNull();
             if (!TridyErrors.Instance.Errors.success)
             {
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]} \n {TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
-                InAppNotification.Instance.ShowNotication(notification);
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]} {TridyErrors.Instance.Errors.data.email[0]} {TridyErrors.Instance.Errors.data.password[0]}");
+                NewNotification.Instance.ShowNotication(notification);
             }
-            else {
+            else
+            {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
                 InAppNotification.Instance.ShowNotication(notification);
             }
-           
+
         }
     }
 
@@ -72,7 +81,8 @@ public class RegisterConsumer : MonoBehaviour
         Invoke("TridyWait", 1f);
     }
 
-    private void VerifyNull() {
+    private void VerifyNull()
+    {
 
         if (TridyErrors.Instance.Errors.data.name.Count == 0)
         {
@@ -82,7 +92,7 @@ public class RegisterConsumer : MonoBehaviour
         {
             TridyErrors.Instance.Errors.data.email.Add("");
         }
-        if (TridyErrors.Instance.Errors.data.password.Count==0 )
+        if (TridyErrors.Instance.Errors.data.password.Count == 0)
         {
             TridyErrors.Instance.Errors.data.password.Add("");
         }

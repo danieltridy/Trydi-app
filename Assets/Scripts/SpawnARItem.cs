@@ -18,12 +18,17 @@ public class SpawnARItem : MonoBehaviour
     private UnityEvent hide;
 
     private GameObject currentItem;
+    [SerializeField]
+    private Transform parent;
     public void CreateItem()
     {
         Vector3 cameraPoint = cam.transform.position + cam.transform.forward * frontDistance;
         cameraPoint.y = cameraPoint.y + heightOffset;
         currentItem = Instantiate(prefab, cameraPoint, Quaternion.identity);
+        currentItem.transform.SetParent(parent);
         hide.Invoke();
+        parent.gameObject.SetActive(true);
+
     }
 
     public void DestroyItem()

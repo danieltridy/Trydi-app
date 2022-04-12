@@ -25,6 +25,7 @@ MonoBehaviour:
       - Login
       - LoginAccounts
       - NameTridy
+      - NewNotification
       - Notification
       - OrientationDetected
       - PanelColor

@@ -27,6 +27,7 @@ public class TridyDataOnly : MonoBehaviour
     {
         SceneViewManagers.Instance.LikesConsumer.Looks(tridy);
         SceneViewManagers.Instance.ViewManagerItem.ViewSpecificItem(tridy);
+        CreateARObject.Instance.AddInformation(Tridy.estructura);
     }
 }
 

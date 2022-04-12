@@ -26,17 +26,21 @@ public class MeshEditor : MonoBehaviour
     Vector3 delta;
     GameObject current;
 
+
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        foreach (Transform child in transform)
+        {
+            initCube = child.gameObject;
+        }
         SerilizedVector pos = new SerilizedVector(initCube.transform.localPosition.x, initCube.transform.localPosition.y, initCube.transform.localPosition.z);
         SerilizedVector rot = new SerilizedVector(initCube.transform.localEulerAngles.x, initCube.transform.localEulerAngles.y, initCube.transform.localEulerAngles.z);
         SerilizedVector scale = new SerilizedVector(initCube.transform.localScale.x, initCube.transform.localScale.y, initCube.transform.localScale.z);
 
-
         SavedMeshes newMesh = new SavedMeshes(0, ObjectType.Cube, pos, rot, scale);
         savedMeshes.Add(newMesh);
-    }
+}
 
     // Update is called once per frame
     void Update()
@@ -74,12 +78,10 @@ public class MeshEditor : MonoBehaviour
                 go.transform.SetParent(transform);
                 generatedCubes.Add(go);
             }
-
-
         }
     }
     [EasyButtons.Button]
-    private void CreateMeshFromJson()
+    public void CreateMeshFromJson()
     {
         savedMeshes.Clear();
         generatedCubes.Clear();
@@ -99,8 +101,10 @@ public class MeshEditor : MonoBehaviour
 
     string temp;
 
+    public string Temp { get => temp; set => temp = value; }
+
     [EasyButtons.Button]
-    private void SaveJson()
+    public void SaveJson()
     {
         idCount = 1;
         for (int i = 0; i < generatedCubes.Count; i++)

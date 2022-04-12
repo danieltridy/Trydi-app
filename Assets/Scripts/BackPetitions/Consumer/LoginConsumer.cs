@@ -24,7 +24,16 @@ public class LoginConsumer : MonoBehaviour
     {
         mail = Email.text;
         pass1 = pass.text;
-        StartCoroutine(LoginPetition());
+
+        if (Email.text == "" || pass.text == "")
+        {
+
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
+            NewNotification.Instance.ShowNotication(notification);
+        }
+        else {
+            StartCoroutine(LoginPetition());
+        }
     }
 
     private void Start()
@@ -63,7 +72,7 @@ public class LoginConsumer : MonoBehaviour
             else
             {
                 ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Contraseña Incorrecta");
-                InAppNotification.Instance.ShowNotication(notification1);
+                NewNotification.Instance.ShowNotication(notification1);
             }
             }
         catch (Exception E)
@@ -72,8 +81,8 @@ public class LoginConsumer : MonoBehaviour
             TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
             VerifyNull();
             if (!TridyErrors.Instance.Errors.success) {
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
-                InAppNotification.Instance.ShowNotication(notification);
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]} {TridyErrors.Instance.Errors.data.password[0]}");
+                NewNotification.Instance.ShowNotication(notification);
             }
 
             else {
