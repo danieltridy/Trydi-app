@@ -490,7 +490,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 843153090}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -547,6 +547,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1549602669}
     m_Modifications:
+    - target: {fileID: 447196431, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
+      propertyPath: colorParametter
+      value: _Color
+      objectReference: {fileID: 0}
+    - target: {fileID: 447196431, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
+      propertyPath: textureParametter
+      value: Albedo
+      objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1193,7 +1201,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 843153090}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -1565,11 +1573,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843153086}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4def0205872a1ba418353d741e854fb2, type: 3}
+  m_Script: {fileID: 11500000, guid: d2f2f9ab0f77d384084ba54b9d17087e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1549602669}
+  targetOffset: {x: 0, y: 0, z: 0}
+  distance: 5
+  maxDistance: 20
+  minDistance: 0.6
+  xSpeed: 5
+  ySpeed: 5
+  yMinLimit: -80
+  yMaxLimit: 80
+  zoomRate: 10
+  zoomDampening: 5
 --- !u!1 &912544667
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,6 +3248,7 @@ GameObject:
   - component: {fileID: 1949002436}
   - component: {fileID: 1949002435}
   - component: {fileID: 1949002434}
+  - component: {fileID: 1949002437}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Untagged
@@ -3287,6 +3307,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949002437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949002433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6012fbd0a3ea834d913f7a04a691009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorDebug: {r: 0.9150943, g: 0.09927912, b: 0.09927912, a: 1}
+  textureDebug: {fileID: 2800000, guid: 05147d2351c910d408e5073176e96f6d, type: 3}
 --- !u!1 &1995769814
 GameObject:
   m_ObjectHideFlags: 0

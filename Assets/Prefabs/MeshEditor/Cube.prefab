@@ -330,7 +330,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 249bada0f5070d945945aa1d57a5bde6, type: 2}
+  - {fileID: 2100000, guid: 15dc5fb41d227bf4aa8bba282710ab36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -361,6 +361,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7442730086628435415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0783e84e6ed94d4ca66168dcfd3f5d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ea4d7c8671db9247987aa6e6ee0c30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorParametter: _Color
+  textureParametter: Albedo
