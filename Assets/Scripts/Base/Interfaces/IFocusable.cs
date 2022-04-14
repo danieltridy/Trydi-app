@@ -7,5 +7,10 @@ public interface IFocusable
   
     public Transform GetCurrentFocusedTransform();
 
-    public Item GetCurrentFocusableReference();
+    public GameObject GetCurrentFocusableObject();
+
+    public Vector3 GetCurrentRGBFocusable();
+
+    public string GetfocusableTextureName();
+
 }

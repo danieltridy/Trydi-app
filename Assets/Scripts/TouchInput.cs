@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchInput : GestureSettings, ITransformInteract
+public class TouchInput : TridyEditor, ITransformInteract
 {
 
     private Vector3 offset;
@@ -22,7 +22,7 @@ public class TouchInput : GestureSettings, ITransformInteract
         MovementTolerance = 3;
     }
 
-    public void OnMove(IFocusable focusable, Camera camera)
+    public void OnMove(IFocusable focusable)
     {
         if (!EnableMovement)
             return;
@@ -32,18 +32,18 @@ public class TouchInput : GestureSettings, ITransformInteract
 
             if (touch.phase == TouchPhase.Began)
             {
-                mZCoord = camera.WorldToScreenPoint(focusable.GetCurrentFocusedTransform().position).z;
-                offset = focusable.GetCurrentFocusedTransform().position - GetInputWorldPos(camera);
+                mZCoord = Camera.WorldToScreenPoint(focusable.GetCurrentFocusedTransform().position).z;
+                offset = focusable.GetCurrentFocusedTransform().position - GetInputWorldPos();
             }
             else if (touch.phase == TouchPhase.Moved)
             {
                 if (touch.deltaPosition.magnitude > MovementTolerance)
-                    focusable.GetCurrentFocusedTransform().position = GetInputWorldPos(camera) + offset;
+                    focusable.GetCurrentFocusedTransform().position = GetInputWorldPos() + offset;
             }
         }
     }
 
-    public void OnRotate(IFocusable focusable, Camera camera)
+    public void OnRotate(IFocusable focusable)
     {
         if (!EnableRotation)
             return;
@@ -52,8 +52,8 @@ public class TouchInput : GestureSettings, ITransformInteract
         {
             if (touch.phase == TouchPhase.Moved)
             {
-                focusable.GetCurrentFocusedTransform().Rotate(camera.transform.up * -touch.deltaPosition.x * RotationSpeed, Space.World);
-                focusable.GetCurrentFocusedTransform().Rotate(camera.transform.right * touch.deltaPosition.y * RotationSpeed, Space.World);
+                focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.up * -touch.deltaPosition.x * RotationSpeed, Space.World);
+                focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.right * touch.deltaPosition.y * RotationSpeed, Space.World);
             }
         }
     }
@@ -81,11 +81,32 @@ public class TouchInput : GestureSettings, ITransformInteract
 
         }
     }
-    public override Vector3 GetInputWorldPos(Camera camera)
+    public override Vector3 GetInputWorldPos()
     {
         Vector3 mousePoint = touch.position;
         mousePoint.z = mZCoord;
-        return camera.ScreenToWorldPoint(mousePoint);
+        return Camera.ScreenToWorldPoint(mousePoint);
     }
 
+    public override void Start()
+    {
+        SelectionManager.Instance.OnFocusableSet += OnFocusableSet;
+    }
+
+    private void OnFocusableSet(IFocusable obj)
+    {
+        Focusable = obj;
+        CurrentGameObject = Focusable.GetCurrentFocusableObject();
+    }
+
+    public override void Update()
+    {
+        if (!Camera || Focusable == null)
+            return;
+
+
+        OnMove(Focusable);
+        OnRotate(Focusable);
+        OnScale(Focusable);
+    }
 }

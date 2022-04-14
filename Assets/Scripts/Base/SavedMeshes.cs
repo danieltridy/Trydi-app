@@ -10,13 +10,17 @@ public class SavedMeshes
     public SerilizedVector Position;
     public SerilizedVector Rotation;
     public SerilizedVector Scale;
+    public SerilizedVector Color;
+    public string TextureName;
 
-    public SavedMeshes(int id, ObjectType objectType, SerilizedVector pos, SerilizedVector rot, SerilizedVector scale)
+    public SavedMeshes(int id, ObjectType objectType, SerilizedVector pos, SerilizedVector rot, SerilizedVector scale,SerilizedVector color,string textureName)
     {
         Id = id;
         ObjectType = objectType;
         Position = pos;
         Rotation = rot;
         Scale = scale;
+        Color = color;
+        TextureName = textureName;
     }
 }

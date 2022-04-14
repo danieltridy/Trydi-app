@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ public class MeshEditor : MonoBehaviour
     [SerializeField]
     private GameObject faceSelector;
     [SerializeField]
-    private List<GameObject> itemSToSpawn;
+    private List<Item> itemsToSpawn;
     [SerializeField]
     private List<GameObject> generatedCubes = new List<GameObject>();
     [SerializeField]
@@ -19,23 +20,19 @@ public class MeshEditor : MonoBehaviour
     private LayerMask layerMask;
     [SerializeField]
     private List<SavedMeshes> savedMeshes = new List<SavedMeshes>();
+    private Dictionary<ObjectType, Item> Items = new Dictionary<ObjectType, Item>();
+    private ObjectType itemToSpawn;
     private Ray ray;
     private RaycastHit hit;
-    private Dictionary<Vector3, Quaternion> rotations;
     private int idCount;
-    Vector3 delta;
-    GameObject current;
+    private string jsonString;
 
     // Start is called before the first frame update
     void Start()
     {
-        SerilizedVector pos = new SerilizedVector(initCube.transform.localPosition.x, initCube.transform.localPosition.y, initCube.transform.localPosition.z);
-        SerilizedVector rot = new SerilizedVector(initCube.transform.localEulerAngles.x, initCube.transform.localEulerAngles.y, initCube.transform.localEulerAngles.z);
-        SerilizedVector scale = new SerilizedVector(initCube.transform.localScale.x, initCube.transform.localScale.y, initCube.transform.localScale.z);
-
-
-        SavedMeshes newMesh = new SavedMeshes(0, ObjectType.Cube, pos, rot, scale);
-        savedMeshes.Add(newMesh);
+        savedMeshes.Add(GetSavedMesh(initCube));
+        generatedCubes.Add(initCube);
+        Init();
     }
 
     // Update is called once per frame
@@ -43,13 +40,24 @@ public class MeshEditor : MonoBehaviour
     {
         CreateMeshFromEditor();
     }
+    private void Init()
+    {
+        //Fill Dictionary
+        foreach (Item go in itemsToSpawn)
+            Items.Add(go.ObjectType, go);
+
+        itemToSpawn = ObjectType.Cube;
+    }
 
     public void CreateMeshFromEditor()
     {
+
+        //TODO: Refactorizar esto
         ray = editorCam.ScreenPointToRay(Input.mousePosition);
         faceSelector.SetActive(false);
         faceSelector.transform.parent = null;
-        current = null;
+        GameObject current = null;
+        //
         if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
         {
             if (!current)
@@ -62,20 +70,18 @@ public class MeshEditor : MonoBehaviour
             }
             faceSelector.SetActive(true);
         }
-
+        //Spawn item
         if (Input.GetMouseButtonUp(0))
         {
             if (current)
             {
                 Vector3 direction = current.transform.position - current.transform.parent.position;
                 Vector3 newPos = hit.transform.position + direction;
-                var go = Instantiate(GetSelectGameObjectToSpawn(ObjectType.Cube), newPos, hit.transform.rotation);
+                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, hit.transform.rotation);
                 go.transform.localScale = hit.transform.parent.localScale;
                 go.transform.SetParent(transform);
                 generatedCubes.Add(go);
             }
-
-
         }
     }
     [EasyButtons.Button]
@@ -83,59 +89,68 @@ public class MeshEditor : MonoBehaviour
     {
         savedMeshes.Clear();
         generatedCubes.Clear();
-        //savedMeshes = (List<SavedMeshes>)JsonUtil.DeserializeJson(temp);
-        savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(temp);
+        savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(jsonString);
         foreach (SavedMeshes mesh in savedMeshes)
         {
-            GameObject go = Instantiate(GetSelectGameObjectToSpawn(mesh.ObjectType));
+            GameObject go = Instantiate(GetItemToSpawn(mesh.ObjectType));
             go.transform.SetParent(transform);
             go.transform.localPosition = new Vector3(mesh.Position.X, mesh.Position.Y, mesh.Position.Z);
             go.transform.localEulerAngles = new Vector3(mesh.Rotation.X, mesh.Rotation.Y, mesh.Rotation.Z);
             go.transform.localScale = new Vector3(mesh.Scale.X, mesh.Scale.Y, mesh.Scale.Z);
+            if (mesh.TextureName != "")
+            {
+                IMaterialFocusable materialFocusable = go.GetComponent<IMaterialFocusable>();
+                if (materialFocusable == null)
+                    throw new Exception("IMaterial Focusable Not Found");
+                materialFocusable.OnTextureChanged(Resources.Load<Texture>("Textures/" + mesh.TextureName));
+            }
+
+            IColorFocusable colorFocusable = go.GetComponent<IColorFocusable>();
+            if (colorFocusable == null)
+                throw new Exception("IColorFocusable  Not Found");
+            Color newcolor = new Color(mesh.Color.X, mesh.Color.Y, mesh.Color.Z);
+            colorFocusable.OnColorChanged(newcolor);
         }
 
 
     }
 
-    string temp;
 
     [EasyButtons.Button]
     private void SaveJson()
     {
         idCount = 1;
+        savedMeshes.Clear();
         for (int i = 0; i < generatedCubes.Count; i++)
         {
-            SerilizedVector pos = new SerilizedVector(generatedCubes[i].transform.localPosition.x, generatedCubes[i].transform.localPosition.y, generatedCubes[i].transform.localPosition.z);
-            SerilizedVector rot = new SerilizedVector(generatedCubes[i].transform.localEulerAngles.x, generatedCubes[i].transform.localEulerAngles.y, generatedCubes[i].transform.localEulerAngles.z);
-            SerilizedVector scale = new SerilizedVector(generatedCubes[i].transform.localScale.x, generatedCubes[i].transform.localScale.y, generatedCubes[i].transform.localScale.z);
-            SavedMeshes newMesh = new SavedMeshes(idCount, ObjectType.Cube, pos, rot, scale);
-            newMesh.Id = idCount;
-            newMesh.ObjectType = ObjectType.Cube;
             idCount++;
-            savedMeshes.Add(newMesh);
+            savedMeshes.Add(GetSavedMesh(generatedCubes[i]));
 
         }
-        temp = JsonUtil.SerializeJson(savedMeshes);
+        jsonString = JsonUtil.SerializeJson(savedMeshes);
     }
 
-
-    private GameObject GetSelectGameObjectToSpawn(ObjectType objectType)
+    private SavedMeshes GetSavedMesh(GameObject itemToSaveConfig)
     {
-        GameObject go = null;
-        switch (objectType)
-        {
-            case ObjectType.Cube:
-                go = itemSToSpawn[0];
-                break;
-            case ObjectType.Text:
-                go = itemSToSpawn[1];
-                break;
-            case ObjectType.Image:
-                go = itemSToSpawn[2];
-                break;
+        SerilizedVector pos = new SerilizedVector(itemToSaveConfig.transform.localPosition.x, itemToSaveConfig.transform.localPosition.y, itemToSaveConfig.transform.localPosition.z);
+        SerilizedVector rot = new SerilizedVector(itemToSaveConfig.transform.localEulerAngles.x, itemToSaveConfig.transform.localEulerAngles.y, itemToSaveConfig.transform.localEulerAngles.z);
+        SerilizedVector scale = new SerilizedVector(itemToSaveConfig.transform.localScale.x, itemToSaveConfig.transform.localScale.y, itemToSaveConfig.transform.localScale.z);
+        IFocusable focusable = itemToSaveConfig.GetComponent<IFocusable>();
+        if (focusable == null)
+            throw new Exception("Current Object Does not Implement Interface");
 
-        }
-        return go;
+        SerilizedVector itemColor = new SerilizedVector(focusable.GetCurrentRGBFocusable().x, focusable.GetCurrentRGBFocusable().y, focusable.GetCurrentRGBFocusable().z);
+        SavedMeshes newMesh = new SavedMeshes(idCount, ObjectType.Cube, pos, rot, scale, itemColor, focusable.GetfocusableTextureName());
+        return newMesh;
+    }
+
+    public void SetItemToSpawn(ObjectType objectType)
+    {
+        itemToSpawn = objectType;
+    }
+    private GameObject GetItemToSpawn(ObjectType objectType)
+    {
+        return Items[objectType].gameObject;
     }
 
 }

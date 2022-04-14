@@ -7,9 +7,12 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour,IFocusable
 {
     private LocationProvider locationProvider;
+    [SerializeField]
+    private ObjectType objectType;
     private AbstractMap abstractMap;
     private double currentDistance;
     public LocationProvider LocationProvider { get => locationProvider; set => locationProvider = value; }
+    public ObjectType ObjectType { get => objectType; set => objectType = value; }
 
     //public double GetCurrentDistance { get => currentDistance; set => currentDistance = value; }
 
@@ -17,10 +20,14 @@ public abstract class Item : MonoBehaviour,IFocusable
     {
         locationProvider = LocationProvider.Instance;
         abstractMap = FindObjectOfType<AbstractMap>();
+
       
     }
-
-      public virtual double GetCurrentDistance()
+    private void Reset()
+    {
+        Init();
+    }
+    public virtual double GetCurrentDistance()
     {
         Vector2d Pos = abstractMap.WorldToGeoPosition(transform.position);
         double[] target = new double[2];
@@ -31,6 +38,15 @@ public abstract class Item : MonoBehaviour,IFocusable
         return locationProvider.Distance(target);
     }
 
+    public abstract void Init();
+
     public abstract Transform GetCurrentFocusedTransform();
-    public abstract Item GetCurrentFocusableReference();
+
+    public abstract GameObject GetCurrentFocusableObject();
+
+    public abstract Vector3 GetCurrentRGBFocusable();
+
+    public abstract string GetfocusableTextureName();
+
+  
 }

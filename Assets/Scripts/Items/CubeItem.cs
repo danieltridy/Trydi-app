@@ -8,15 +8,19 @@ public class CubeItem : Item,IColorFocusable,IMaterialFocusable
     private string textureParametter = "Albedo";
 
     private Renderer cubeRenderer ;
+    
     public override Transform GetCurrentFocusedTransform()
     {
         return transform;
     }
-
+    private void Awake()
+    {
+        cubeRenderer = GetComponent<Renderer>();
+    }
     public override void Start()
     {
         base.Start();
-        cubeRenderer = GetComponent<Renderer>();
+       
     }
 
     public override double GetCurrentDistance()
@@ -35,10 +39,31 @@ public class CubeItem : Item,IColorFocusable,IMaterialFocusable
     {
         //cambiamos la textura
         cubeRenderer.material.mainTexture=newTexture;
+        print(newTexture.name);
     }
 
-    public override Item GetCurrentFocusableReference()
+    public override GameObject GetCurrentFocusableObject()
     {
-        return this;
+        return gameObject;
+    }
+
+    public override Vector3 GetCurrentRGBFocusable()
+    {
+        Color currentColor = cubeRenderer.material.GetColor(colorParametter);
+       return new Vector3(currentColor.r,currentColor.g,currentColor.b);
+    }
+
+    public override string GetfocusableTextureName()
+    {
+        Texture currentTexture = cubeRenderer.material.mainTexture;
+        if (currentTexture)
+            return currentTexture.name;
+        else
+            return "";
+    }
+
+    public override void Init()
+    {
+        ObjectType = ObjectType.Cube;
     }
 }

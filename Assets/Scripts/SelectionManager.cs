@@ -12,7 +12,6 @@ public class SelectionManager : MonoBehaviour
     private Camera cam;
     [SerializeField]
     private LayerMask interactLayer;
-    private ITransformInteract transformInteract;
     private Ray ray;
     private RaycastHit hit;
     private IFocusable currentFocusable;
@@ -23,12 +22,7 @@ public class SelectionManager : MonoBehaviour
             Instance = this;
     }
 
-    private void Start()
-    {
-        transformInteract = GetComponent<ITransformInteract>();
-
-    }
-    // Update is called once per frame
+   
     void Update()
     {
 
@@ -42,13 +36,5 @@ public class SelectionManager : MonoBehaviour
                 print("CurrentFocusable Set");
             }
         }
-
-        if (currentFocusable == null)
-            return;
-           // throw new Exception("currentFocusable Is Null");
-
-        transformInteract.OnScale(currentFocusable);
-        transformInteract.OnMove(currentFocusable, cam);
-        transformInteract.OnRotate(currentFocusable, cam);
     }
 }
