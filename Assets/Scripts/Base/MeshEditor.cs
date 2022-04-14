@@ -27,13 +27,20 @@ public class MeshEditor : MonoBehaviour
     private int idCount;
     private string jsonString;
 
-    // Start is called before the first frame update
-    void Start()
+    public string JsonString { get => jsonString; set => jsonString = value; }
+
+    
+    private void Start()
     {
+
         savedMeshes.Add(GetSavedMesh(initCube));
         generatedCubes.Add(initCube);
         Init();
     }
+
+      
+
+
 
     // Update is called once per frame
     void Update()
@@ -85,7 +92,7 @@ public class MeshEditor : MonoBehaviour
         }
     }
     [EasyButtons.Button]
-    private void CreateMeshFromJson()
+    public void CreateMeshFromJson()
     {
         savedMeshes.Clear();
         generatedCubes.Clear();
@@ -116,8 +123,11 @@ public class MeshEditor : MonoBehaviour
     }
 
 
+  
+ 
+
     [EasyButtons.Button]
-    private void SaveJson()
+    public void SaveJson()
     {
         idCount = 1;
         savedMeshes.Clear();
