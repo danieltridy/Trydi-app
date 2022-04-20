@@ -4,26 +4,20 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class MeshEditor : MonoBehaviour
+public class MeshEditorMap : MonoBehaviour
 {
     [SerializeField]
     private GameObject initCube;
     [SerializeField]
-    private GameObject faceSelector;
-    [SerializeField]
     private List<Item> itemsToSpawn;
     [SerializeField]
     private List<GameObject> generatedCubes = new List<GameObject>();
-    [SerializeField]
-    private Camera editorCam;
     [SerializeField]
     private LayerMask layerMask;
     [SerializeField]
     private List<SavedMeshes> savedMeshes = new List<SavedMeshes>();
     private Dictionary<ObjectType, Item> Items = new Dictionary<ObjectType, Item>();
     private ObjectType itemToSpawn;
-    private Ray ray;
-    private RaycastHit hit;
     private int idCount;
     private string jsonString;
 
@@ -31,18 +25,9 @@ public class MeshEditor : MonoBehaviour
 
     public void Start() {
         Init();
-        transform.GetComponent<MeshEditor>().enabled = false;
+        Invoke("CreateMeshFromJson", 1f);
     }
 
-
-    public void ResetMesh()
-    {
-        generatedCubes.Clear();
-        savedMeshes.Clear();
-        foreach (Transform child in transform) {
-            Destroy(child.gameObject);
-        }
-    }
     public void StartMesh()
     {
         initCube = transform.GetChild(0).gameObject;
@@ -53,10 +38,7 @@ public class MeshEditor : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
-        CreateMeshFromEditor();
-    }
+    
     private void Init()
     {
         //Fill Dictionary
@@ -66,44 +48,11 @@ public class MeshEditor : MonoBehaviour
         itemToSpawn = ObjectType.Cube;
     }
 
-    public void CreateMeshFromEditor()
-    {
-
-        //TODO: Refactorizar esto
-        ray = editorCam.ScreenPointToRay(Input.mousePosition);
-        faceSelector.SetActive(false);
-        faceSelector.transform.parent = null;
-        GameObject current = null;
-        //
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
-        {
-            if (!current)
-            {
-                current = hit.transform.gameObject;
-                faceSelector.transform.parent = hit.transform;
-                faceSelector.transform.localPosition = Vector3.zero;
-                faceSelector.transform.localRotation = Quaternion.identity;
-                faceSelector.transform.localScale = Vector3.one;
-            }
-            faceSelector.SetActive(true);
-        }
-        //Spawn item
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (current)
-            {
-                Vector3 direction = current.transform.position - current.transform.parent.position;
-                Vector3 newPos = hit.transform.position + direction;
-                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, hit.transform.rotation);
-                go.transform.localScale = hit.transform.parent.localScale;
-                go.transform.SetParent(transform);
-                generatedCubes.Add(go);
-            }
-        }
-    }
+   
     [EasyButtons.Button]
     public void CreateMeshFromJson()
     {
+        transform.GetComponent<MeshEditorMap>().enabled = false;
         savedMeshes.Clear();
         generatedCubes.Clear();
         savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(jsonString);
@@ -133,22 +82,6 @@ public class MeshEditor : MonoBehaviour
     }
 
 
-  
- 
-
-    [EasyButtons.Button]
-    public void SaveJson()
-    {
-        idCount = 1;
-        savedMeshes.Clear();
-        for (int i = 0; i < generatedCubes.Count; i++)
-        {
-            idCount++;
-            savedMeshes.Add(GetSavedMesh(generatedCubes[i]));
-
-        }
-        jsonString = JsonUtil.SerializeJson(savedMeshes);
-    }
 
     private SavedMeshes GetSavedMesh(GameObject itemToSaveConfig)
     {

@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3235496800291101010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6582649076963357876}
+  - component: {fileID: 4504445733622813254}
+  - component: {fileID: 8937359151994785340}
+  - component: {fileID: 5365296917150248165}
+  - component: {fileID: -8917312243560093070}
+  m_Layer: 6
+  m_Name: Item 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6582649076963357876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4504445733622813254
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8937359151994785340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a085691f023e07b46aeac17fa38048d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tridy:
+    id: 0
+    name: 
+    name_user: 
+    description: 
+    estructura: 
+    latitude: 0
+    longitude: 0
+    likes: 0
+    looks: 0
+    user_id: 0
+    distance: 
+    like: 0
+  likes:
+    success: 0
+--- !u!114 &5365296917150248165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea4d7c8671db9247987aa6e6ee0c30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
+  colorParametter: _Color
+  textureParametter: Albedo
+--- !u!114 &-8917312243560093070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa2e3983d88aa44a9d93864625cb38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initCube: {fileID: 971868293214551004, guid: 846a7253843af504bafaffce2cb62700, type: 3}
+  itemsToSpawn:
+  - {fileID: 352592843602971548, guid: 846a7253843af504bafaffce2cb62700, type: 3}
+  generatedCubes: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  savedMeshes: []

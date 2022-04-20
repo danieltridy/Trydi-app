@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 971868293214551000}
   - component: {fileID: 971868293214551001}
   - component: {fileID: 971868293214551006}
-  - component: {fileID: -6664015662164422820}
-  m_Layer: 0
+  - component: {fileID: 352592843602971548}
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb941164de1ccf5439f5aeb26a4679d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-6664015662164422820
+--- !u!114 &352592843602971548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,9 +124,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 971868293214551004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0783e84e6ed94d4ca66168dcfd3f5d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ea4d7c8671db9247987aa6e6ee0c30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectType: 0
+  colorParametter: _Color
+  textureParametter: Albedo
 --- !u!1 &997233277489338706
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 524700767243921562}
   - component: {fileID: 7389787480870887621}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BackFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1621487942250577939}
   - component: {fileID: 2838265429245600078}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1387521983286829878}
   - component: {fileID: 7936798933732708020}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2841913710032741573}
   - component: {fileID: 4666630956005633527}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FronFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5467115757215460916}
   - component: {fileID: 7944540963024699131}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2740377050502278245}
   - component: {fileID: 4075968483959528534}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TopFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}

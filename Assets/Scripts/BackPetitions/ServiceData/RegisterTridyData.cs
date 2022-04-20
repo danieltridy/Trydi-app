@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class RegisterTridyData : newServiceData
 {
-    private string name, description;
+    private string name, description, estructura;
     private double latitude, longitude;
     private int user_id, likes;
     private string name_user = " " ;
-    public RegisterTridyData(string name, double latitude, double longitude,int user_id, int likes, string description)
+    public RegisterTridyData(string name, double latitude, double longitude,int user_id, int likes, string description, string estructura)
     {
         this.name = name;
         this.latitude = latitude;
@@ -15,7 +15,7 @@ public class RegisterTridyData : newServiceData
         this.user_id = user_id;
         this.likes = likes;
         this.description = description;
-
+        this.estructura = estructura;
 
     }
 
@@ -30,6 +30,8 @@ public class RegisterTridyData : newServiceData
             body.Add("user_id", user_id);
             body.Add("likes", likes);
             body.Add("description", description);
+            body.Add("estructura", estructura);
+
 
             return body;
         }

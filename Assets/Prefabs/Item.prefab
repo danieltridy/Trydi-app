@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6582649076963357876}
   - component: {fileID: 4504445733622813254}
-  - component: {fileID: 3733558658511252804}
   - component: {fileID: 8937359151994785340}
+  - component: {fileID: 5365296917150248165}
+  - component: {fileID: -8917312243560093070}
   m_Layer: 6
   m_Name: Item
   m_TagString: Untagged
@@ -47,18 +48,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3733558658511252804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3235496800291101010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0783e84e6ed94d4ca66168dcfd3f5d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8937359151994785340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,13 +63,53 @@ MonoBehaviour:
   tridy:
     id: 0
     name: 
+    name_user: 
     description: 
     estructura: 
     latitude: 0
     longitude: 0
     likes: 0
+    looks: 0
     user_id: 0
     distance: 
+    like: 0
+  likes:
+    success: 0
+--- !u!114 &5365296917150248165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea4d7c8671db9247987aa6e6ee0c30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
+  colorParametter: _Color
+  textureParametter: Albedo
+--- !u!114 &-8917312243560093070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235496800291101010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa2e3983d88aa44a9d93864625cb38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initCube: {fileID: 0}
+  itemsToSpawn:
+  - {fileID: 447196431, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
+  generatedCubes: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  savedMeshes: []
 --- !u!1 &4445806692375315149
 GameObject:
   m_ObjectHideFlags: 0

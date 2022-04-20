@@ -9,7 +9,7 @@ public class CreateARObject : MonoBehaviour
     [SerializeField]
     private MeshEditor meshEditor;
 
-    private string estru;
+    public string estru;
 
     private void Start()
     {
@@ -21,9 +21,9 @@ public class CreateARObject : MonoBehaviour
         this.estru = estru;
     }
     public void CreateTridyEstru() {
-
         meshEditor.JsonString = estru;
         meshEditor.CreateMeshFromJson();
     }
-    
+
+   
 }

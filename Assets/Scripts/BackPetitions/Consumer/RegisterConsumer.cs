@@ -20,7 +20,17 @@ public class RegisterConsumer : MonoBehaviour
 
     public void StartRegister()
     {
-        StartCoroutine(RegisterPetition());
+
+        if (Email.text == "" || pass.text == "" || Nick.text == "")
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
+            NewNotification.Instance.ShowNotication(notification);
+        }
+        else
+        {
+            StartCoroutine(RegisterPetition());
+        }
+
     }
 
     IEnumerator RegisterPetition()

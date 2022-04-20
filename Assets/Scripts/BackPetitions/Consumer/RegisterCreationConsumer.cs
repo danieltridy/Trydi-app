@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class RegisterCreationConsumer : MonoBehaviour
 {
 
-    private string name, description;
+    private string name, description, estructura;
     private double latitude, longitude;
     private int user_id, likes;
     [SerializeField]
@@ -21,7 +21,8 @@ public class RegisterCreationConsumer : MonoBehaviour
     private UnityEvent registerTridy;
     [SerializeField]
     private ElementIdentifier Show;
-
+    [SerializeField]
+    private MeshEditor meshEditor;
 
     public void TridyStart()
     {
@@ -31,14 +32,16 @@ public class RegisterCreationConsumer : MonoBehaviour
         user_id = UserData.Instance.PlayerData.data.id;
         likes = 0;
         description = description1.text;
-        StartCoroutine(TridyPeti());
+       meshEditor.SaveJson();
+        estructura = meshEditor.JsonString;
+       StartCoroutine(TridyPeti());
 
     }
     IEnumerator TridyPeti()
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new RegisterTridyData(name, latitude, longitude, user_id, likes, description);
+        var service = new RegisterTridyData(name, latitude, longitude, user_id, likes, description, estructura);
         yield return service.SendAsync(response);
 
     }

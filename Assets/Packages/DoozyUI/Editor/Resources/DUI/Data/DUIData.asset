@@ -24,7 +24,9 @@ MonoBehaviour:
       - InformationMessage
       - Login
       - LoginAccounts
+      - MeshEditor
       - NameTridy
+      - NewNotification
       - Notification
       - OrientationDetected
       - PanelColor

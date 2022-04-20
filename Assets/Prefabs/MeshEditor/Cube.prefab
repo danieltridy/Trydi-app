@@ -276,6 +276,8 @@ GameObject:
   - component: {fileID: 7423216198600999078}
   - component: {fileID: 4109674348211143827}
   - component: {fileID: 447196431}
+  - component: {fileID: -7841941769952216818}
+  - component: {fileID: -7938587447489837185}
   m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
@@ -364,5 +366,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea4d7c8671db9247987aa6e6ee0c30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectType: 0
   colorParametter: _Color
   textureParametter: Albedo
+--- !u!114 &-7841941769952216818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442730086628435415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb941164de1ccf5439f5aeb26a4679d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7938587447489837185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442730086628435415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a085691f023e07b46aeac17fa38048d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tridy:
+    id: 0
+    name: 
+    name_user: 
+    description: 
+    estructura: 
+    latitude: 0
+    longitude: 0
+    likes: 0
+    looks: 0
+    user_id: 0
+    distance: 
+    like: 0
+  likes:
+    success: 0

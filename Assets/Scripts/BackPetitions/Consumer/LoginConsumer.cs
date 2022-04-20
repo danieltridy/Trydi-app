@@ -22,9 +22,17 @@ public class LoginConsumer : MonoBehaviour
     [EasyButtons.Button]
     public void StartLogin()
     {
-        mail = Email.text;
-        pass1 = pass.text;
-        StartCoroutine(LoginPetition());
+        if (Email.text == "" || pass.text == "")
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
+            NewNotification.Instance.ShowNotication(notification);
+        }
+        else {
+            mail = Email.text;
+            pass1 = pass.text;
+            StartCoroutine(LoginPetition());
+        }
+        
     }
 
     private void Start()

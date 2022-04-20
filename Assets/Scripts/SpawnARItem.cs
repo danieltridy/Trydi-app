@@ -16,6 +16,8 @@ public class SpawnARItem : MonoBehaviour
     private float heightOffset;
     [SerializeField]
     private UnityEvent hide;
+    [SerializeField]
+    private Transform init;
 
     private GameObject currentItem;
     public void CreateItem()
@@ -23,6 +25,8 @@ public class SpawnARItem : MonoBehaviour
         Vector3 cameraPoint = cam.transform.position + cam.transform.forward * frontDistance;
         cameraPoint.y = cameraPoint.y + heightOffset;
         currentItem = Instantiate(prefab, cameraPoint, Quaternion.identity);
+        currentItem.transform.parent = init;
+        init.gameObject.SetActive(true);
         hide.Invoke();
     }
 

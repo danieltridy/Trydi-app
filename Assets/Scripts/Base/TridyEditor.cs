@@ -32,6 +32,7 @@ public abstract class TridyEditor : MonoBehaviour
     
     public GameObject CurrentGameObject { get => currentGameObject; set => currentGameObject = value; }
     public IFocusable Focusable { get => focusable; set => focusable = value; }
+    public Color ColorDebug { get => colorDebug; set => colorDebug = value; }
 
     public virtual Vector3 GetInputWorldPos()
     {

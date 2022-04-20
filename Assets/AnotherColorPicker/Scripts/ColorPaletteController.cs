@@ -27,6 +27,9 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     [SerializeField] [Range(0, 1)] float maximumSaturation = 1;
     [SerializeField] [Range(0, 1)] float minimumValue = 0.25f;
     [SerializeField] [Range(0, 1)] float maximumValue = 1;
+
+    [SerializeField]
+    private EditorInput editorInput;
     
     //dragging variables
     bool dragging = false;
@@ -240,6 +243,8 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
         dragging = false;
+        editorInput.Oncolor(SelectedColor);
+
     }
     public void Update()
     {

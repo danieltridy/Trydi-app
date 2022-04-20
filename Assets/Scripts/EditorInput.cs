@@ -36,9 +36,11 @@ public class EditorInput : TridyEditor, ITransformInteract
         OnMove(Focusable);
         OnRotate(Focusable);
         OnScale(Focusable);
+    }
 
-
-
+    public void Oncolor(Color color ) {
+        ColorDebug = color;
+        OnColorDebug();
     }
 
     public void OnMove(IFocusable focusable)

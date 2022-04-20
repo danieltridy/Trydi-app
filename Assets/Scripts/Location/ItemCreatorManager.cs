@@ -81,16 +81,15 @@ public class ItemCreatorManager : MonoBehaviour
             newItem.Tridy.user_id = data.data[i].user_id;
             newItem.Tridy.name_user = data.data[i].name_user;
             newItem.Tridy.looks = data.data[i].looks;
-
-
             items.Add(newItem);
             newItem.transform.parent = abstractMap.transform;
+            newItem.GetComponent<MeshEditorMap>().JsonString = data.data[i].estructura;
+            //newItem.GetComponent<MeshEditorMap>().CreateMeshFromJson();
+
         }
         OnSpawnItems.Invoke();
-        
     }
 
-  
     private TridyDataOnly SpawnItem(TridyDataOnly Prefab, Vector2d pos)
     {
         TridyDataOnly hostpot;
