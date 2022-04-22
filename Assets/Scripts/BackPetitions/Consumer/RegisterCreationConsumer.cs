@@ -20,8 +20,6 @@ public class RegisterCreationConsumer : MonoBehaviour
     [SerializeField]
     private UnityEvent registerTridy;
     [SerializeField]
-    private ElementIdentifier Show;
-    [SerializeField]
     private MeshEditor meshEditor;
 
     public void TridyStart()
@@ -54,8 +52,7 @@ public class RegisterCreationConsumer : MonoBehaviour
             if (TridyData.Instance.TridysData.success)
             {
                 registerTridy.Invoke();
-                InterfaceManager.Instance.HideScreen(Show);
-                Invoke("ResetItems", 2f);
+                ResetItems();
             }
 
         }

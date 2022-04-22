@@ -64,24 +64,32 @@ public class LoginConsumer : MonoBehaviour
             if (UserData.Instance.PlayerData.message == "Login exitoso")
             {
                 LoginCompleted();
-                PlayerPrefs.SetString("mail",mail);
-                PlayerPrefs.SetString("pass",pass1);
+                PlayerPrefs.SetString("mail", mail);
+                PlayerPrefs.SetString("pass", pass1);
 
             }
+
+
+            //else
+            //{
+            //    ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Contraseña Incorrecta");
+            //    InAppNotification.Instance.ShowNotication(notification1);
+            //}
             else
             {
-                ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Contraseña Incorrecta");
-                InAppNotification.Instance.ShowNotication(notification1);
+                    ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{UserData.Instance.PlayerData.message}");
+                    NewNotification.Instance.ShowNotication(notification);
             }
-            }
+        }
+         
         catch (Exception E)
         {
 
             TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
             VerifyNull();
             if (!TridyErrors.Instance.Errors.success) {
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
-                InAppNotification.Instance.ShowNotication(notification);
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
+                NewNotification.Instance.ShowNotication(notification);
             }
 
             else {

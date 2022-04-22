@@ -111,7 +111,7 @@ public class MeshEditor : MonoBehaviour
         {
             GameObject go = Instantiate(GetItemToSpawn(mesh.ObjectType));
             go.transform.SetParent(transform);
-            go.transform.localPosition = new Vector3(mesh.Position.X, mesh.Position.Y, mesh.Position.Z-4);
+            go.transform.localPosition = new Vector3(mesh.Position.X, mesh.Position.Y, mesh.Position.Z);
             go.transform.localEulerAngles = new Vector3(mesh.Rotation.X, mesh.Rotation.Y, mesh.Rotation.Z);
             go.transform.localScale = new Vector3(mesh.Scale.X, mesh.Scale.Y, mesh.Scale.Z);
             if (mesh.TextureName != "")

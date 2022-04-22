@@ -9,6 +9,8 @@ public class EditorInput : TridyEditor, ITransformInteract
     private Vector3 lastPos;
     private Vector3 offset;
     float mZCoord;
+    [SerializeField]
+    private MeshEditor meshEditor;
 
 
     public override void Start()
@@ -96,6 +98,57 @@ public class EditorInput : TridyEditor, ITransformInteract
         return Camera.ScreenToWorldPoint(mousePoint);
     }
 
+
+    public void ScaleEnable() {
+        if (EnableScale)
+        {
+            meshEditor.enabled = true;
+            EnableScale = false;
+        }
+        else {
+            EnableScale = true;
+            meshEditor.enabled = false;
+            EnableRotation = false;
+            EnableMovement = false;
+        }
+    }
+
+    public void RotateEnable()
+    {
+        if (EnableRotation)
+        {
+            meshEditor.enabled = true;
+            EnableMovement = false;
+        }
+        else
+        {
+            EnableRotation = true;
+            meshEditor.enabled = false;
+            EnableScale = false;
+            EnableMovement = false;
+        }
+    }
+    public void MovedEnable()
+    {
+        if (EnableMovement)
+        {
+            meshEditor.enabled = true;
+            EnableMovement = false;
+        }
+        else
+        {
+            EnableMovement = true;
+            meshEditor.enabled = false;
+            EnableScale = false;
+            EnableRotation = false;
+        }
+    }
+
+    public void ResetItem() {
+        EnableMovement = false;
+        EnableMovement = false;
+        EnableScale = false;
+    }
     public override void Init()
     {
         MinScaleValue = 1;
