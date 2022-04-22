@@ -8,7 +8,10 @@ public class TouchInput : TridyEditor, ITransformInteract
     private Vector3 offset;
     float mZCoord;
     private Touch touch;
-
+    [SerializeField]
+    private MeshEditor meshEditor;
+    [SerializeField]
+    private EditorInput editor;
     private void Reset()
     {
         Init();
@@ -55,7 +58,14 @@ public class TouchInput : TridyEditor, ITransformInteract
                 focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.up * -touch.deltaPosition.x * RotationSpeed, Space.World);
                 focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.right * touch.deltaPosition.y * RotationSpeed, Space.World);
             }
+
         }
+    }
+
+    public void Oncolor(Color color)
+    {
+        ColorDebug = color;
+        OnColorDebug();
     }
 
     public void OnScale(IFocusable focusable)
@@ -108,5 +118,59 @@ public class TouchInput : TridyEditor, ITransformInteract
         OnMove(Focusable);
         OnRotate(Focusable);
         OnScale(Focusable);
+    }
+
+    public void ScaleEnable()
+    {
+        if (EnableScale)
+        {
+            meshEditor.enabled = true;
+            EnableScale = false;
+        }
+        else
+        {
+            EnableScale = true;
+            meshEditor.enabled = false;
+            editor.EnableRotation = false;
+            EnableMovement = false;
+        }
+    }
+
+    public void RotateEnable()
+    {
+        if (EnableRotation)
+        {
+            meshEditor.enabled = true;
+            EnableRotation = false;
+        }
+        else
+        {
+            EnableRotation = true;
+            meshEditor.enabled = false;
+            EnableScale = false;
+            EnableMovement = false;
+        }
+    }
+    public void MovedEnable()
+    {
+        if (EnableMovement)
+        {
+            meshEditor.enabled = true;
+            EnableMovement = false;
+        }
+        else
+        {
+            EnableMovement = true;
+            meshEditor.enabled = false;
+            EnableScale = false;
+            editor.EnableRotation = false;
+        }
+    }
+
+    public void ResetItem()
+    {
+        EnableMovement = false;
+        EnableRotation = false;
+        EnableScale = false;
     }
 }

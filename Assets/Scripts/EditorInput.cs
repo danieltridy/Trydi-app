@@ -11,7 +11,8 @@ public class EditorInput : TridyEditor, ITransformInteract
     float mZCoord;
     [SerializeField]
     private MeshEditor meshEditor;
-
+    [SerializeField]
+    private TouchInput touch;
 
     public override void Start()
     {
@@ -124,8 +125,8 @@ public class EditorInput : TridyEditor, ITransformInteract
         {
             EnableRotation = true;
             meshEditor.enabled = false;
-            EnableScale = false;
-            EnableMovement = false;
+            touch.EnableScale = false;
+            touch.EnableMovement = false;
         }
     }
     public void MovedEnable()
@@ -146,7 +147,7 @@ public class EditorInput : TridyEditor, ITransformInteract
 
     public void ResetItem() {
         EnableMovement = false;
-        EnableMovement = false;
+        EnableRotation = false;
         EnableScale = false;
     }
     public override void Init()

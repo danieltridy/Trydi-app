@@ -24,7 +24,7 @@ public class SpawnARItem : MonoBehaviour
     {
         Vector3 cameraPoint = cam.transform.position + cam.transform.forward * frontDistance;
         cameraPoint.y = cameraPoint.y + heightOffset;
-        currentItem = Instantiate(prefab, cameraPoint, Quaternion.identity);
+        currentItem = Instantiate(prefab, cameraPoint,new Quaternion(Quaternion.identity.x, Quaternion.identity.y +45, Quaternion.identity.z, Quaternion.identity.w));
         currentItem.transform.parent = init;
         init.gameObject.SetActive(true);
         hide.Invoke();
