@@ -21,6 +21,7 @@ MonoBehaviour:
       - ARPanel
       - Background
       - ButtonsMenu
+      - ChooseArandNoAr
       - InformationMessage
       - Login
       - LoginAccounts

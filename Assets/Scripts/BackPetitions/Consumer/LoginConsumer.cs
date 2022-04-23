@@ -42,6 +42,7 @@ public class LoginConsumer : MonoBehaviour
             mail = PlayerPrefs.GetString("mail");
             pass1 = PlayerPrefs.GetString("pass");
             StartCoroutine(LoginPetition());
+       
         }
 
     }

@@ -104,6 +104,7 @@ public class MeshEditor : MonoBehaviour
     [EasyButtons.Button]
     public void CreateMeshFromJson()
     {
+        ResetMesh();
         savedMeshes.Clear();
         generatedCubes.Clear();
         savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(jsonString);

@@ -63,8 +63,8 @@ public class RegisterConsumer : MonoBehaviour
             VerifyNull();
             if (!TridyErrors.Instance.Errors.success)
             {
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]} \n {TridyErrors.Instance.Errors.data.email[0]} \n {TridyErrors.Instance.Errors.data.password[0]}");
-                InAppNotification.Instance.ShowNotication(notification);
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]}{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
+                NewNotification.Instance.ShowNotication(notification);
             }
             else {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
