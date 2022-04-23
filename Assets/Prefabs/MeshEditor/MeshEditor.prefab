@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7081848774999568034}
   - component: {fileID: 7081848774999568035}
-  m_Layer: 0
+  - component: {fileID: 7081848776272339409}
+  m_Layer: 9
   m_Name: MeshEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,14 +47,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initCube: {fileID: 364268632889845116}
   faceSelector: {fileID: 0}
-  itemSToSpawn:
-  - {fileID: 7442730086628435415, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
+  itemsToSpawn:
+  - {fileID: 447196431, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
   generatedCubes: []
   editorCam: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
   savedMeshes: []
+--- !u!114 &7081848776272339409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7081848774999568036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb85b3abb7f02e4881c9d024386b9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
 --- !u!1001 &7081848776405467307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83,23 +97,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0061507
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9456574
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.32516482
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -107,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -37.951
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6320921840910010299, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -117,7 +131,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7841941769952216818, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
 --- !u!1 &364268632889845116 stripped
 GameObject:

@@ -2,20 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchInput : TridyEditor, ITransformInteract
+public class TransformParent : TridyEditor, ITransformInteract
 {
 
+    [SerializeField]
+    private GameObject meshEditor;
+    private Touch touch;
     private Vector3 offset;
     float mZCoord;
-    private Touch touch;
-    [SerializeField]
-    private MeshEditor meshEditor;
-    [SerializeField]
-    private EditorInput editor;
+    public override void Start()
+    {
+        Focusable = meshEditor.GetComponent<IFocusable>();
+    }
     private void Reset()
     {
         Init();
     }
+
+
+    public override void Update()
+    {
+
+        if (!Camera || Focusable == null)
+            return;
+
+
+        OnMove(Focusable);
+        OnRotate(Focusable);
+        OnScale(Focusable);
+    }
+
     public override void Init()
     {
         MinScaleValue = 1;
@@ -32,7 +48,6 @@ public class TouchInput : TridyEditor, ITransformInteract
         if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);
-
             if (touch.phase == TouchPhase.Began)
             {
                 mZCoord = Camera.WorldToScreenPoint(focusable.GetCurrentFocusedTransform().position).z;
@@ -54,8 +69,10 @@ public class TouchInput : TridyEditor, ITransformInteract
         if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);
+          
             if (touch.phase == TouchPhase.Moved)
             {
+              
                 focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.up * -touch.deltaPosition.x * RotationSpeed, Space.World);
                 focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.right * touch.deltaPosition.y * RotationSpeed, Space.World);
             }
@@ -63,18 +80,12 @@ public class TouchInput : TridyEditor, ITransformInteract
         }
     }
 
-    public void Oncolor(Color color)
-    {
-        ColorDebug = color;
-        OnColorDebug();
-    }
-
     public void OnScale(IFocusable focusable)
     {
         if (!EnableScale)
             return;
 
-        if(Input.touchCount==2)
+        if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
@@ -89,89 +100,16 @@ public class TouchInput : TridyEditor, ITransformInteract
             ScaleValue = focusable.GetCurrentFocusedTransform().localScale.x;
             ScaleValue = Mathf.Clamp(ScaleValue + difference * PinchSpeed, MinScaleValue, MaxScaleValue);
             focusable.GetCurrentFocusedTransform().localScale = Vector3.one * ScaleValue;
-
         }
     }
+
+
+
+
     public override Vector3 GetInputWorldPos()
     {
         Vector3 mousePoint = touch.position;
         mousePoint.z = mZCoord;
         return Camera.ScreenToWorldPoint(mousePoint);
-    }
-
-    public override void Start()
-    {
-        SelectionManager.Instance.OnFocusableSet += OnFocusableSet;
-    }
-
-    private void OnFocusableSet(IFocusable obj)
-    {
-        Focusable = obj;
-        CurrentGameObject = Focusable.GetCurrentFocusableObject();
-    }
-
-    public override void Update()
-    {
-        if (!Camera || Focusable == null)
-            return;
-
-
-        OnMove(Focusable);
-        OnRotate(Focusable);
-        OnScale(Focusable);
-    }
-
-    public void ScaleEnable()
-    {
-        if (EnableScale)
-        {
-            meshEditor.enabled = true;
-            EnableScale = false;
-        }
-        else
-        {
-            EnableScale = true;
-            meshEditor.enabled = false;
-            editor.EnableRotation = false;
-            EnableMovement = false;
-        }
-    }
-
-    public void RotateEnable()
-    {
-        if (EnableRotation)
-        {
-            meshEditor.enabled = true;
-            EnableRotation = false;
-        }
-        else
-        {
-            EnableRotation = true;
-            meshEditor.enabled = false;
-            EnableScale = false;
-            EnableMovement = false;
-        }
-    }
-    public void MovedEnable()
-    {
-        if (EnableMovement)
-        {
-            meshEditor.enabled = true;
-            EnableMovement = false;
-        }
-        else
-        {
-            EnableMovement = true;
-            meshEditor.enabled = false;
-            EnableScale = false;
-            editor.EnableRotation = false;
-        }
-    }
-
-    public void ResetItem()
-    {
-        EnableMovement = false;
-        EnableRotation = false;
-        EnableScale = false;
     }
 }
