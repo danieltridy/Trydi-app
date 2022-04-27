@@ -66,4 +66,19 @@ public class CubeItem : Item,IColorFocusable,IMaterialFocusable
     {
         ObjectType = ObjectType.Cube;
     }
+
+    public override ObjectType GetFocusableType()
+    {
+       return ObjectType;
+    }
+
+    public override string GetFocusableTextValue()
+    {
+        return "";
+    }
+
+    public override string GetFocusableFontName()
+    {
+        return "";
+    }
 }

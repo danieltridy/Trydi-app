@@ -10,7 +10,7 @@ public class EditorInput : TridyEditor, ITransformInteract
     private Vector3 offset;
     float mZCoord;
     [SerializeField]
-    private MeshEditor meshEditor;
+    private ItemsCreator meshEditor;
     [SerializeField]
     private TouchInput touch;
 
@@ -21,10 +21,10 @@ public class EditorInput : TridyEditor, ITransformInteract
 
     private void OnFocusableSet(IFocusable obj)
     {
-        Focusable=obj;
+        Focusable = obj;
         CurrentGameObject = Focusable.GetCurrentFocusableObject();
     }
-    
+
     private void Reset()
     {
         Init();

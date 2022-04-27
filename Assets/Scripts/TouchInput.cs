@@ -9,7 +9,7 @@ public class TouchInput : TridyEditor, ITransformInteract
     float mZCoord;
     private Touch touch;
     [SerializeField]
-    private MeshEditor meshEditor;
+    private ItemsCreator meshEditor;
     [SerializeField]
     private EditorInput editor;
     private void Reset()

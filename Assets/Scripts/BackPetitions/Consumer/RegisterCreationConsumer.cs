@@ -20,7 +20,7 @@ public class RegisterCreationConsumer : MonoBehaviour
     [SerializeField]
     private UnityEvent registerTridy;
     [SerializeField]
-    private MeshEditor meshEditor;
+    private ItemsCreator meshEditor;
 
     public void TridyStart()
     {

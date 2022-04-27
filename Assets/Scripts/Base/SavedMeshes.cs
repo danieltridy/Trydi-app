@@ -12,8 +12,10 @@ public class SavedMeshes
     public SerilizedVector Scale;
     public SerilizedVector Color;
     public string TextureName;
+    public string TextValue;
+    public string FontName;
 
-    public SavedMeshes(int id, ObjectType objectType, SerilizedVector pos, SerilizedVector rot, SerilizedVector scale,SerilizedVector color,string textureName)
+    public SavedMeshes(int id, ObjectType objectType, SerilizedVector pos, SerilizedVector rot, SerilizedVector scale,SerilizedVector color,string textureName,string textValue,string fontName)
     {
         Id = id;
         ObjectType = objectType;
@@ -22,5 +24,7 @@ public class SavedMeshes
         Scale = scale;
         Color = color;
         TextureName = textureName;
+        TextValue = textValue;
+        FontName = fontName;
     }
 }

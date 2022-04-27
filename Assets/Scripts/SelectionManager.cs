@@ -33,7 +33,7 @@ public class SelectionManager : MonoBehaviour
             {
                 currentFocusable = hit.transform.parent.GetComponent<IFocusable>();
                 OnFocusableSet?.Invoke(currentFocusable);
-                print("CurrentFocusable Set");
+                print("CurrentFocusable Set: "+currentFocusable.GetCurrentFocusedTransform().name);
             }
         }
     }

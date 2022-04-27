@@ -7,7 +7,7 @@ public class CreateARObject : MonoBehaviour
     public static CreateARObject Instance;
   
     [SerializeField]
-    private MeshEditor meshEditor;
+    private ItemsCreator meshEditor;
 
     public string estru;
 

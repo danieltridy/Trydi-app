@@ -48,5 +48,10 @@ public abstract class Item : MonoBehaviour,IFocusable
 
     public abstract string GetfocusableTextureName();
 
-  
+    public abstract ObjectType GetFocusableType();
+
+    public abstract string GetFocusableTextValue();
+
+    public abstract string GetFocusableFontName();
+    
 }

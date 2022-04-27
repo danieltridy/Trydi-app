@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class TridyEditor : MonoBehaviour
@@ -26,7 +27,12 @@ public abstract class TridyEditor : MonoBehaviour
     private Color colorDebug;
     [SerializeField]
     private Texture textureDebug;
-  
+    [SerializeField]
+    private string debugValue;
+    [SerializeField]
+    private List<TMP_FontAsset> fonts;
+
+
     private  IFocusable focusable;
     private GameObject currentGameObject;
     
@@ -50,15 +56,28 @@ public abstract class TridyEditor : MonoBehaviour
             return;
 
         currentGameObject.GetComponent<IColorFocusable>().OnColorChanged(color);
-
     }
     public void UpdateFocusableMaterial(Texture texture)
     {
         if (!ImplementMaterialInterface())
-            return;
+            return; 
+
         currentGameObject.GetComponent<IMaterialFocusable>().OnTextureChanged(texture);
     }
 
+    public void UpdateTextValue(string Text)
+    {
+        if (!ImplementTextInterface())
+            return;
+        currentGameObject.GetComponent<ITextSettings>().SetTextValue(Text);
+    }
+
+    public void UpdateTextFont(TMP_FontAsset font)
+    {
+        if (!ImplementTextInterface())
+            return;
+        currentGameObject.GetComponent<ITextSettings>().SetFontText(font);
+    }
     public bool ImpelementColorInterface()
     {
         if (currentGameObject.GetComponent<IColorFocusable>() != null)
@@ -74,6 +93,13 @@ public abstract class TridyEditor : MonoBehaviour
         return false;
     }
 
+    public bool ImplementTextInterface()
+    {
+        if (currentGameObject.GetComponent<ITextSettings>() != null)
+            return true;
+
+        return false;
+    }
 
     #endregion
 
@@ -88,6 +114,17 @@ public abstract class TridyEditor : MonoBehaviour
     public void OnTextureDebug()
     {
         UpdateFocusableMaterial(textureDebug);
+    }
+    [EasyButtons.Button]
+    public void OnTextChanged()
+    {
+        UpdateTextValue(debugValue);
+    }
+    [EasyButtons.Button]
+    public void OnTextFontChanged()
+    {
+        TMP_FontAsset font = fonts[Random.Range(0, fonts.Count)];
+        UpdateTextFont(font);
     }
     #endregion
 }

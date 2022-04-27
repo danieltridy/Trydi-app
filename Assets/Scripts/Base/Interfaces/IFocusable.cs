@@ -13,4 +13,10 @@ public interface IFocusable
 
     public string GetfocusableTextureName();
 
+    public string GetFocusableTextValue();
+
+    public string GetFocusableFontName();
+
+    public ObjectType GetFocusableType();
+
 }

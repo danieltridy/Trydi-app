@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 
 public class MeshEditorMap : MonoBehaviour
@@ -76,6 +77,17 @@ public class MeshEditorMap : MonoBehaviour
                 throw new Exception("IColorFocusable  Not Found");
             Color newcolor = new Color(mesh.Color.X, mesh.Color.Y, mesh.Color.Z);
             colorFocusable.OnColorChanged(newcolor);
+
+            if(mesh.FontName!="")
+            {
+                ITextSettings textSettings = go.GetComponent<ITextSettings>();
+                if (colorFocusable == null)
+                    throw new Exception("ITextSettings  Not Found");
+
+                textSettings.SetTextValue(mesh.TextValue);
+                textSettings.SetFontText(Resources.Load<TMP_FontAsset>("Fonts/" + mesh.FontName));
+
+            }
         }
 
 
@@ -92,8 +104,10 @@ public class MeshEditorMap : MonoBehaviour
         if (focusable == null)
             throw new Exception("Current Object Does not Implement Interface");
 
+        
         SerilizedVector itemColor = new SerilizedVector(focusable.GetCurrentRGBFocusable().x, focusable.GetCurrentRGBFocusable().y, focusable.GetCurrentRGBFocusable().z);
-        SavedMeshes newMesh = new SavedMeshes(idCount, ObjectType.Cube, pos, rot, scale, itemColor, focusable.GetfocusableTextureName());
+        SavedMeshes newMesh = new SavedMeshes(idCount, focusable.GetFocusableType(), pos, rot, scale, itemColor, 
+            focusable.GetfocusableTextureName(),focusable.GetFocusableTextValue(),focusable.GetFocusableFontName());
         return newMesh;
     }
 

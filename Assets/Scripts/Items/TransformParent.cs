@@ -2,68 +2,83 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformParent : TridyEditor, ITransformInteract
+public class TransformParent : MonoBehaviour
 {
-
+   
     [SerializeField]
-    private GameObject meshEditor;
+    private bool enableMovevent;
+    [SerializeField]
+    private bool enableScale;
+    [SerializeField]
+    private bool enableRotation;
+
+    [Header("Pinch Scale Settings")]
+    [SerializeField]
+    private float minScaleValue;
+    [SerializeField]
+    private float maxScaleValue;
+    [SerializeField]
+    private float pinchSpeed;
+    [HideInInspector]
+    [SerializeField]
+    private float scaleValue;
+    [Header("Rotation Settings")]
+    [SerializeField]
+    private float rotationSpeed;
+    [Header("Movement Settings")]
+    [SerializeField]
+    private float movementTolerance;
+
+    private GameObject target;
     private Touch touch;
     private Vector3 offset;
     float mZCoord;
-    public override void Start()
+    private Camera camera;
+    private  void Start()
     {
-        Focusable = meshEditor.GetComponent<IFocusable>();
+        target = gameObject;
+        camera = Camera.main;
     }
     private void Reset()
     {
-        Init();
+       
     }
 
 
-    public override void Update()
+    private void Update()
     {
 
-        if (!Camera || Focusable == null)
-            return;
+       
 
-
-        OnMove(Focusable);
-        OnRotate(Focusable);
-        OnScale(Focusable);
+        OnMove();
+        OnRotate();
+        OnScale();
     }
 
-    public override void Init()
-    {
-        MinScaleValue = 1;
-        MaxScaleValue = 10;
-        PinchSpeed = 0.001f;
-        RotationSpeed = 3;
-        MovementTolerance = 3;
-    }
 
-    public void OnMove(IFocusable focusable)
+    private void OnMove()
     {
-        if (!EnableMovement)
+        if (!enableMovevent)
             return;
         if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                mZCoord = Camera.WorldToScreenPoint(focusable.GetCurrentFocusedTransform().position).z;
-                offset = focusable.GetCurrentFocusedTransform().position - GetInputWorldPos();
+                mZCoord = camera.WorldToScreenPoint(target.transform.position).z;
+                offset = target.transform.position - GetInputWorldPos();
             }
             else if (touch.phase == TouchPhase.Moved)
             {
-                if (touch.deltaPosition.magnitude > MovementTolerance)
-                    focusable.GetCurrentFocusedTransform().position = GetInputWorldPos() + offset;
+                if (touch.deltaPosition.magnitude > movementTolerance)
+                    target.transform.position = GetInputWorldPos() + offset;
             }
         }
     }
 
-    public void OnRotate(IFocusable focusable)
+    private void OnRotate()
     {
-        if (!EnableRotation)
+        if (!enableRotation)
             return;
 
         if (Input.touchCount == 1)
@@ -72,17 +87,17 @@ public class TransformParent : TridyEditor, ITransformInteract
           
             if (touch.phase == TouchPhase.Moved)
             {
-              
-                focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.up * -touch.deltaPosition.x * RotationSpeed, Space.World);
-                focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.right * touch.deltaPosition.y * RotationSpeed, Space.World);
+
+                target.transform.Rotate(camera.transform.up * -touch.deltaPosition.x * rotationSpeed, Space.World);
+                target.transform.Rotate(camera.transform.right * touch.deltaPosition.y * rotationSpeed, Space.World);
             }
 
         }
     }
 
-    public void OnScale(IFocusable focusable)
+    private void OnScale()
     {
-        if (!EnableScale)
+        if (!enableScale)
             return;
 
         if (Input.touchCount == 2)
@@ -97,19 +112,19 @@ public class TransformParent : TridyEditor, ITransformInteract
             float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
             float difference = currentMagnitude - prevMagnitude;
 
-            ScaleValue = focusable.GetCurrentFocusedTransform().localScale.x;
-            ScaleValue = Mathf.Clamp(ScaleValue + difference * PinchSpeed, MinScaleValue, MaxScaleValue);
-            focusable.GetCurrentFocusedTransform().localScale = Vector3.one * ScaleValue;
+            scaleValue = target.transform.localScale.x;
+            scaleValue = Mathf.Clamp(scaleValue + difference * pinchSpeed, minScaleValue, maxScaleValue);
+            target.transform.localScale = Vector3.one * scaleValue;
         }
     }
 
 
 
 
-    public override Vector3 GetInputWorldPos()
+    public  Vector3 GetInputWorldPos()
     {
         Vector3 mousePoint = touch.position;
         mousePoint.z = mZCoord;
-        return Camera.ScreenToWorldPoint(mousePoint);
+        return camera.ScreenToWorldPoint(mousePoint);
     }
 }

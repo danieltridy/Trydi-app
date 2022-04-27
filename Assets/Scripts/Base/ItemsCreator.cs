@@ -2,42 +2,66 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 
-public class MeshEditor : MonoBehaviour
+public class ItemsCreator : MonoBehaviour
 {
+    public static ItemsCreator Instance = null;
+    [Header("General Settings")]
     [SerializeField]
     private GameObject initCube;
     [SerializeField]
     private GameObject faceSelector;
     [SerializeField]
+    private ObjectType itemToSpawn;
+    [SerializeField]
     private List<Item> itemsToSpawn;
     [SerializeField]
-    private List<GameObject> generatedCubes = new List<GameObject>();
+    private List<GameObject> generatedItems = new List<GameObject>();
     [SerializeField]
     private Camera editorCam;
     [SerializeField]
     private LayerMask layerMask;
+    [Header("JSON List")]
     [SerializeField]
     private List<SavedMeshes> savedMeshes = new List<SavedMeshes>();
+    [Header("Subdivision Settings")]
+    [SerializeField]
+    private int subdivision=2;
+
     private Dictionary<ObjectType, Item> Items = new Dictionary<ObjectType, Item>();
-    private ObjectType itemToSpawn;
+  
+    private SelectionManager selectionManager;
     private Ray ray;
     private RaycastHit hit;
     private int idCount;
     private string jsonString;
+    private IFocusable focusableSelected;
 
     public string JsonString { get => jsonString; set => jsonString = value; }
-
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
     public void Start() {
         Init();
-        transform.GetComponent<MeshEditor>().enabled = false;
+        transform.GetComponent<ItemsCreator>().enabled = false;
+        selectionManager = SelectionManager.Instance;
+        savedMeshes.Add(GetSavedMesh(initCube));
+        generatedItems.Add(initCube);
+        selectionManager.OnFocusableSet += SelectionManager_OnFocusableSet;
     }
 
+    private void SelectionManager_OnFocusableSet(IFocusable obj)
+    {
+        focusableSelected = obj;
+    }
 
     public void ResetMesh()
     {
-        generatedCubes.Clear();
+        generatedItems.Clear();
         savedMeshes.Clear();
         foreach (Transform child in transform) {
             Destroy(child.gameObject);
@@ -47,7 +71,7 @@ public class MeshEditor : MonoBehaviour
     {
         initCube = transform.GetChild(0).gameObject;
         savedMeshes.Add(GetSavedMesh(initCube));
-        generatedCubes.Add(initCube);
+        generatedItems.Add(initCube);
     }
 
 
@@ -71,22 +95,33 @@ public class MeshEditor : MonoBehaviour
 
         //TODO: Refactorizar esto
         ray = editorCam.ScreenPointToRay(Input.mousePosition);
-        faceSelector.SetActive(false);
-        faceSelector.transform.parent = null;
         GameObject current = null;
-        //
         if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
         {
             if (!current)
-            {
                 current = hit.transform.gameObject;
-                faceSelector.transform.parent = hit.transform;
-                faceSelector.transform.localPosition = Vector3.zero;
-                faceSelector.transform.localRotation = Quaternion.identity;
-                faceSelector.transform.localScale = Vector3.one;
-            }
-            faceSelector.SetActive(true);
         }
+
+           
+        #region faceSelectorTodo
+        //faceSelector.SetActive(false);
+        //faceSelector.transform.parent = null;
+
+        ////
+        //if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
+        //{
+        //    if (!current)
+        //    {
+        //        current = hit.transform.gameObject;
+        //        faceSelector.transform.parent = hit.transform;
+        //        faceSelector.transform.localPosition = Vector3.zero;
+        //        faceSelector.transform.localRotation = Quaternion.identity;
+        //        faceSelector.transform.localScale = Vector3.one;
+        //    }
+        //    faceSelector.SetActive(true);
+        //}
+        #endregion
+
         //Spawn item
         if (Input.GetMouseButtonUp(0))
         {
@@ -97,7 +132,7 @@ public class MeshEditor : MonoBehaviour
                 var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, hit.transform.rotation);
                 go.transform.localScale = hit.transform.parent.localScale;
                 go.transform.SetParent(transform);
-                generatedCubes.Add(go);
+                generatedItems.Add(go);
             }
         }
     }
@@ -106,7 +141,7 @@ public class MeshEditor : MonoBehaviour
     {
         ResetMesh();
         savedMeshes.Clear();
-        generatedCubes.Clear();
+        generatedItems.Clear();
         savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(jsonString);
         foreach (SavedMeshes mesh in savedMeshes)
         {
@@ -128,11 +163,73 @@ public class MeshEditor : MonoBehaviour
                 throw new Exception("IColorFocusable  Not Found");
             Color newcolor = new Color(mesh.Color.X, mesh.Color.Y, mesh.Color.Z);
             colorFocusable.OnColorChanged(newcolor);
+
+            if (mesh.FontName != "")
+            {
+                ITextSettings textSettings = go.GetComponent<ITextSettings>();
+                if (colorFocusable == null)
+                    throw new Exception("ITextSettings  Not Found");
+
+                textSettings.SetTextValue(mesh.TextValue);
+                textSettings.SetFontText(Resources.Load<TMP_FontAsset>("Fonts/" + mesh.FontName));
+
+            }
         }
 
 
     }
+    [EasyButtons.Button]
+    public void SubdivideMesh()
+    {
+        if (focusableSelected == null)
+            throw new Exception("Focusable is Null");
 
+      
+
+        if (focusableSelected.GetFocusableType() == ObjectType.Cube)
+        {
+            List<GameObject> cubes = new List<GameObject>();
+            GameObject tempParent = new GameObject("TempParent");
+            GameObject target = focusableSelected.GetCurrentFocusableObject();
+            tempParent.transform.position = focusableSelected.GetCurrentFocusedTransform().position;
+
+            for (int x = 0; x < subdivision; x++)
+            {
+                for (int y = 0; y < subdivision; y++)
+                {
+                    for (int z = 0; z < subdivision; z++)
+                    {
+
+                        GameObject cube = Instantiate(GetItemToSpawn(focusableSelected.GetFocusableType()));
+                        cubes.Add(cube);
+                        generatedItems.Add(cube);
+                        Renderer rd = cube.GetComponent<Renderer>();
+                        rd.material = target.GetComponent<Renderer>().material;
+
+                        cube.transform.localScale = (target.transform.localScale) / subdivision ;                      
+                        Vector3 firstCube = target.transform.position - target.transform.localScale / 2 + cube.transform.localScale / 2;
+                        cube.transform.position = firstCube + Vector3.Scale(new Vector3(x,y,z), cube.transform.localScale);
+                        cube.transform.parent = tempParent.transform;
+                        cube.transform.localRotation = Quaternion.Inverse(tempParent.transform.rotation);
+
+
+                    }
+                }
+            }
+            tempParent.transform.rotation = focusableSelected.GetCurrentFocusedTransform().rotation;
+            foreach (GameObject cube in cubes)
+            {
+                cube.transform.parent = null;
+                cube.transform.parent = transform;
+            }
+
+            cubes.Clear();
+            generatedItems.Remove(focusableSelected.GetCurrentFocusableObject());
+            Destroy(tempParent);
+            Destroy(focusableSelected.GetCurrentFocusableObject());
+
+        }
+    }
 
   
  
@@ -142,10 +239,10 @@ public class MeshEditor : MonoBehaviour
     {
         idCount = 1;
         savedMeshes.Clear();
-        for (int i = 0; i < generatedCubes.Count; i++)
+        for (int i = 0; i < generatedItems.Count; i++)
         {
             idCount++;
-            savedMeshes.Add(GetSavedMesh(generatedCubes[i]));
+            savedMeshes.Add(GetSavedMesh(generatedItems[i]));
 
         }
         jsonString = JsonUtil.SerializeJson(savedMeshes);
@@ -161,7 +258,7 @@ public class MeshEditor : MonoBehaviour
             throw new Exception("Current Object Does not Implement Interface");
 
         SerilizedVector itemColor = new SerilizedVector(focusable.GetCurrentRGBFocusable().x, focusable.GetCurrentRGBFocusable().y, focusable.GetCurrentRGBFocusable().z);
-        SavedMeshes newMesh = new SavedMeshes(idCount, ObjectType.Cube, pos, rot, scale, itemColor, focusable.GetfocusableTextureName());
+        SavedMeshes newMesh = new SavedMeshes(idCount, focusable.GetFocusableType(), pos, rot, scale, itemColor, focusable.GetfocusableTextureName(),focusable.GetFocusableTextValue(),focusable.GetFocusableFontName());
         return newMesh;
     }
 
