@@ -18,10 +18,10 @@ public class ItemCreatorManager : MonoBehaviour
 
     [Header("Item Data")]
     [SerializeField]
-    private bool SpawnItemWhenMapLoaded = false; 
-    public List<Location> LocationController= new List<Location>();
+    private bool SpawnItemWhenMapLoaded = false;
+    public List<Location> LocationController = new List<Location>();
     [SerializeField]
-    private List<TridyDataOnly> items; 
+    private List<TridyDataOnly> items;
     [SerializeField]
     private TridyDataOnly itemPrefab;
     [SerializeField]
@@ -29,15 +29,13 @@ public class ItemCreatorManager : MonoBehaviour
     [SerializeField]
     private AbstractMap abstractMap;
     public UnityEvent OnSpawnItems;
-  
+
     public TridyDataOnly ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
 
     public void GetTridys(TridysData data) {
-
         LocationController.Clear();
         Location latitude = new Location();
-
-        for (int i=0; i<data.data.Count;i++) {
+        for (int i = 0; i < data.data.Count; i++) {
             latitude.LatitudeLongitude.x = data.data[i].latitude;
             latitude.LatitudeLongitude.y = data.data[i].longitude;
             LocationController.Add(latitude);
@@ -59,20 +57,28 @@ public class ItemCreatorManager : MonoBehaviour
     {
         if (SpawnItemWhenMapLoaded)
             //CreateItems();
-        print("Map Init");
+            print("Map Init");
     }
 
     [EasyButtons.Button]
     public void CreateItems(TridysData data) // Create All Sites
     {
-        foreach (var s in items) {
-            DestroyImmediate(s.gameObject);
-                }
-        items.Clear();
+        if (items.Count > 0)
+        {
+            foreach (var s in items)
+            {
+                DestroyImmediate(s.gameObject);
+            }
+            items.Clear();
+        }
+         
+        
+
         for (int i = 0; i < LocationController.Count; i++)
         {
             Vector2d pos = new Vector2d((float)LocationController[i].LatitudeLongitude[0], (float)LocationController[i].LatitudeLongitude[1]);
             TridyDataOnly newItem = SpawnItem(itemPrefab, pos);
+
             newItem.Tridy.id = data.data[i].id;
             newItem.Tridy.name = data.data[i].name;
             newItem.Tridy.likes = data.data[i].likes;
@@ -84,10 +90,12 @@ public class ItemCreatorManager : MonoBehaviour
             items.Add(newItem);
             newItem.transform.parent = abstractMap.transform;
             newItem.GetComponent<MeshEditorMap>().JsonString = data.data[i].estructura;
+
             //newItem.GetComponent<MeshEditorMap>().CreateMeshFromJson();
 
         }
         OnSpawnItems.Invoke();
+       
     }
 
     private TridyDataOnly SpawnItem(TridyDataOnly Prefab, Vector2d pos)

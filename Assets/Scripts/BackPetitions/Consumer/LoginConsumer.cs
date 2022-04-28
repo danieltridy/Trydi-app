@@ -67,7 +67,7 @@ public class LoginConsumer : MonoBehaviour
                 LoginCompleted();
                 PlayerPrefs.SetString("mail", mail);
                 PlayerPrefs.SetString("pass", pass1);
-
+                ItemsCreator.Instance.Init();
             }
 
 

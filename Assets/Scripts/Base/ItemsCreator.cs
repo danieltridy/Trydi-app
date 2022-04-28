@@ -28,31 +28,29 @@ public class ItemsCreator : MonoBehaviour
     private List<SavedMeshes> savedMeshes = new List<SavedMeshes>();
     [Header("Subdivision Settings")]
     [SerializeField]
-    private int subdivision=2;
+    private int subdivision = 2;
 
     private Dictionary<ObjectType, Item> Items = new Dictionary<ObjectType, Item>();
-  
+
     private SelectionManager selectionManager;
     private Ray ray;
     private RaycastHit hit;
     private int idCount;
     private string jsonString;
     private IFocusable focusableSelected;
-
+    public bool start;
     public string JsonString { get => jsonString; set => jsonString = value; }
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
     }
-    public void Start() {
-        Init();
-        transform.GetComponent<ItemsCreator>().enabled = false;
-        selectionManager = SelectionManager.Instance;
-        savedMeshes.Add(GetSavedMesh(initCube));
-        generatedItems.Add(initCube);
-        selectionManager.OnFocusableSet += SelectionManager_OnFocusableSet;
+    public void OffStart()
+    {
+        start = false;
     }
+
+
 
     private void SelectionManager_OnFocusableSet(IFocusable obj)
     {
@@ -63,15 +61,26 @@ public class ItemsCreator : MonoBehaviour
     {
         generatedItems.Clear();
         savedMeshes.Clear();
-        foreach (Transform child in transform) {
+        foreach (Transform child in transform)
+        {
             Destroy(child.gameObject);
         }
     }
+
+
     public void StartMesh()
     {
-        initCube = transform.GetChild(0).gameObject;
-        savedMeshes.Add(GetSavedMesh(initCube));
-        generatedItems.Add(initCube);
+        if (!start)
+        {
+            initCube = transform.GetChild(0).gameObject;
+            transform.GetComponent<ItemsCreator>().enabled = false;
+            selectionManager = SelectionManager.Instance;
+            savedMeshes.Add(GetSavedMesh(initCube));
+            generatedItems.Add(initCube);
+            generatedItems.Add(transform.GetChild(1).gameObject);
+            selectionManager.OnFocusableSet += SelectionManager_OnFocusableSet;
+            start = true;
+        }
     }
 
 
@@ -81,7 +90,7 @@ public class ItemsCreator : MonoBehaviour
     {
         CreateMeshFromEditor();
     }
-    private void Init()
+    public void Init()
     {
         //Fill Dictionary
         foreach (Item go in itemsToSpawn)
@@ -102,7 +111,7 @@ public class ItemsCreator : MonoBehaviour
                 current = hit.transform.gameObject;
         }
 
-           
+
         #region faceSelectorTodo
         //faceSelector.SetActive(false);
         //faceSelector.transform.parent = null;
@@ -175,8 +184,6 @@ public class ItemsCreator : MonoBehaviour
 
             }
         }
-
-
     }
     [EasyButtons.Button]
     public void SubdivideMesh()
@@ -184,7 +191,7 @@ public class ItemsCreator : MonoBehaviour
         if (focusableSelected == null)
             throw new Exception("Focusable is Null");
 
-      
+
 
         if (focusableSelected.GetFocusableType() == ObjectType.Cube)
         {
@@ -206,9 +213,9 @@ public class ItemsCreator : MonoBehaviour
                         Renderer rd = cube.GetComponent<Renderer>();
                         rd.material = target.GetComponent<Renderer>().material;
 
-                        cube.transform.localScale = (target.transform.localScale) / subdivision ;                      
+                        cube.transform.localScale = (target.transform.localScale) / subdivision;
                         Vector3 firstCube = target.transform.position - target.transform.localScale / 2 + cube.transform.localScale / 2;
-                        cube.transform.position = firstCube + Vector3.Scale(new Vector3(x,y,z), cube.transform.localScale);
+                        cube.transform.position = firstCube + Vector3.Scale(new Vector3(x, y, z), cube.transform.localScale);
                         cube.transform.parent = tempParent.transform;
                         cube.transform.localRotation = Quaternion.Inverse(tempParent.transform.rotation);
 
@@ -231,8 +238,8 @@ public class ItemsCreator : MonoBehaviour
         }
     }
 
-  
- 
+
+
 
     [EasyButtons.Button]
     public void SaveJson()
@@ -258,7 +265,7 @@ public class ItemsCreator : MonoBehaviour
             throw new Exception("Current Object Does not Implement Interface");
 
         SerilizedVector itemColor = new SerilizedVector(focusable.GetCurrentRGBFocusable().x, focusable.GetCurrentRGBFocusable().y, focusable.GetCurrentRGBFocusable().z);
-        SavedMeshes newMesh = new SavedMeshes(idCount, focusable.GetFocusableType(), pos, rot, scale, itemColor, focusable.GetfocusableTextureName(),focusable.GetFocusableTextValue(),focusable.GetFocusableFontName());
+        SavedMeshes newMesh = new SavedMeshes(idCount, focusable.GetFocusableType(), pos, rot, scale, itemColor, focusable.GetfocusableTextureName(), focusable.GetFocusableTextValue(), focusable.GetFocusableFontName());
         return newMesh;
     }
 

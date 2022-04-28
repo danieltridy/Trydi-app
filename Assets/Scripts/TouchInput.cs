@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TouchInput : TridyEditor, ITransformInteract
@@ -11,7 +12,7 @@ public class TouchInput : TridyEditor, ITransformInteract
     [SerializeField]
     private ItemsCreator meshEditor;
     [SerializeField]
-    private EditorInput editor;
+    private TMP_Text text;
     private void Reset()
     {
         Init();
@@ -46,6 +47,10 @@ public class TouchInput : TridyEditor, ITransformInteract
         }
     }
 
+    public void OnTextEnable() {
+        OnTextChanged(text.text);
+    }
+
     public void OnRotate(IFocusable focusable)
     {
         if (!EnableRotation)
@@ -63,6 +68,11 @@ public class TouchInput : TridyEditor, ITransformInteract
         }
     }
 
+    public void OnTexture(Texture texture)
+    {
+        TextureDebug = texture;
+        OnTextureDebug();
+    }
     public void Oncolor(Color color)
     {
         ColorDebug = color;
@@ -132,7 +142,7 @@ public class TouchInput : TridyEditor, ITransformInteract
         {
             EnableScale = true;
             meshEditor.enabled = false;
-            editor.EnableRotation = false;
+            EnableRotation = false;
             EnableMovement = false;
         }
     }
@@ -164,7 +174,7 @@ public class TouchInput : TridyEditor, ITransformInteract
             EnableMovement = true;
             meshEditor.enabled = false;
             EnableScale = false;
-            editor.EnableRotation = false;
+            EnableRotation = false;
         }
     }
 

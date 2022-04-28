@@ -39,7 +39,8 @@ public abstract class TridyEditor : MonoBehaviour
     public GameObject CurrentGameObject { get => currentGameObject; set => currentGameObject = value; }
     public IFocusable Focusable { get => focusable; set => focusable = value; }
     public Color ColorDebug { get => colorDebug; set => colorDebug = value; }
-
+    public Texture TextureDebug { get => textureDebug; set => textureDebug = value; }
+    private int i=0;
     public virtual Vector3 GetInputWorldPos()
     {
         return Vector3.zero;
@@ -116,15 +117,24 @@ public abstract class TridyEditor : MonoBehaviour
         UpdateFocusableMaterial(textureDebug);
     }
     [EasyButtons.Button]
-    public void OnTextChanged()
+    public void OnTextChanged(string text)
     {
-        UpdateTextValue(debugValue);
+        UpdateTextValue(text);
     }
     [EasyButtons.Button]
     public void OnTextFontChanged()
     {
-        TMP_FontAsset font = fonts[Random.Range(0, fonts.Count)];
+
+        TMP_FontAsset font = fonts[i];
         UpdateTextFont(font);
+
+        if (i == (fonts.Count - 1))
+        {
+            i = 0;
+        }
+        else {
+            i++;
+        }
     }
     #endregion
 }

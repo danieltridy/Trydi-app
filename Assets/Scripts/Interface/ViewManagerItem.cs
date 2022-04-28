@@ -22,7 +22,7 @@ public class ViewManagerItem : MonoBehaviour
     private GameObject heartlike;
     public int id;
     private float like;
-    private Tridy item;
+    public Tridy item;
     private bool herat;
     public void ViewSpecificItem(Tridy item)
     {
@@ -34,7 +34,8 @@ public class ViewManagerItem : MonoBehaviour
         item.looks++;
         looks.text = item.looks.ToString();
         id = item.id;
-        if (!herat) { 
+        if (!herat) {
+            if (UserData.Instance.PlayerData.likes != null) { 
         foreach (var s in UserData.Instance.PlayerData.likes) {
             if (this.id == s.tridy_id) {
                 heart.SetActive(false);
@@ -47,7 +48,8 @@ public class ViewManagerItem : MonoBehaviour
                 }
                 herat = true;
             }
-    }
+            }
+        }
         else
         {
             if (item.like) {

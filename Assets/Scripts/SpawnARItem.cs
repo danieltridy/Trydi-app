@@ -18,6 +18,8 @@ public class SpawnARItem : MonoBehaviour
     private UnityEvent hide;
     [SerializeField]
     private Transform init;
+    [SerializeField]
+    private TextItem text;
 
     private GameObject currentItem;
     public void CreateItem()
@@ -26,6 +28,8 @@ public class SpawnARItem : MonoBehaviour
         cameraPoint.y = cameraPoint.y + heightOffset;
         currentItem = Instantiate(prefab, cameraPoint,new Quaternion(Quaternion.identity.x, Quaternion.identity.y +45, Quaternion.identity.z, Quaternion.identity.w));
         currentItem.transform.parent = init;
+        TextItem newText = Instantiate(text);
+        newText.transform.parent = init;
         init.gameObject.SetActive(true);
         hide.Invoke();
     }

@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDragHandler, IInitializePotentialDragHandler
+public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IInitializePotentialDragHandler
 {
     public static ColorPaletteController Instance { get; private set; }
 
@@ -13,7 +13,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     [SerializeField] int totalNumberofColors = 24;
     [SerializeField] int wheelsCount = 2;
     [SerializeField]
-    [Range(0,360)]
+    [Range(0, 360)]
     [Tooltip("clockwise angle of the begnning point starting from positive x-axis")]
     float startingAngle = 0;
     [SerializeField] [InspectorName("Control Sat & Val")] bool controlSV = false;
@@ -23,13 +23,13 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
 
     [Header("Limits")]
     [SerializeField] [Range(0.5f, 0.001f)] float minimumSatValStep = 0.01f;
-    [SerializeField] [Range(0,1)] float minimumSaturation = 0.25f;
+    [SerializeField] [Range(0, 1)] float minimumSaturation = 0.25f;
     [SerializeField] [Range(0, 1)] float maximumSaturation = 1;
     [SerializeField] [Range(0, 1)] float minimumValue = 0.25f;
     [SerializeField] [Range(0, 1)] float maximumValue = 1;
 
     [SerializeField]
-    private EditorInput editorInput;
+    private TouchInput  editorInput;
     
     //dragging variables
     bool dragging = false;

@@ -78,7 +78,7 @@ public class MeshEditorMap : MonoBehaviour
             Color newcolor = new Color(mesh.Color.X, mesh.Color.Y, mesh.Color.Z);
             colorFocusable.OnColorChanged(newcolor);
 
-            if(mesh.FontName!="")
+            if (mesh.FontName != "")
             {
                 ITextSettings textSettings = go.GetComponent<ITextSettings>();
                 if (colorFocusable == null)

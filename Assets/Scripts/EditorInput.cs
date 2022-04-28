@@ -46,6 +46,13 @@ public class EditorInput : TridyEditor, ITransformInteract
         OnColorDebug();
     }
 
+
+    public void OnTexture(Texture texture)
+    {
+        TextureDebug = texture;
+        OnTextureDebug();
+    }
+
     public void OnMove(IFocusable focusable)
     {
         if (!EnableMovement)

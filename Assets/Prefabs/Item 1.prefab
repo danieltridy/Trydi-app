@@ -104,6 +104,7 @@ MonoBehaviour:
   initCube: {fileID: 971868293214551004, guid: 846a7253843af504bafaffce2cb62700, type: 3}
   itemsToSpawn:
   - {fileID: 352592843602971548, guid: 846a7253843af504bafaffce2cb62700, type: 3}
+  - {fileID: 5014422290017566122, guid: fdc7c925e88e127439afdb06a9c89d91, type: 3}
   generatedCubes: []
   layerMask:
     serializedVersion: 2

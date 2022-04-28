@@ -35,6 +35,9 @@ MonoBehaviour:
       - Principal
       - Register
       - SaveTridy
+      - Text
+      - Texture
+      - UpdateTridy
       isExpanded:
         m_Target: 1
         speed: 2

@@ -7,31 +7,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class RegisterCreationConsumer : MonoBehaviour
+public class UpdateCreationConsumer : MonoBehaviour
 {
 
-    private string name, description, estructura;
-    private double latitude, longitude;
-    private int user_id, likes;
+  
+    [SerializeField]
+    private ViewManagerItem viewManager;
+    [SerializeField]
+    private string estructura,name, description;
+    [SerializeField]
+    private ItemsCreator meshEditor;
     [SerializeField]
     private TMP_InputField name1, description1;
     [SerializeField]
-    private TridyConsumer tridyConsumer;
-    [SerializeField]
-    private UnityEvent registerTridy;
-    [SerializeField]
-    private ItemsCreator meshEditor;
-
-    public UnityEvent RegisterTridy { get => registerTridy; set => registerTridy = value; }
-
+    private RegisterCreationConsumer register;
     public void TridyStart()
     {
         meshEditor.SaveJson();
         name = name1.text;
-        latitude = LocationProvider.Instance.GetCurrentLocation().x;
-        longitude = LocationProvider.Instance.GetCurrentLocation().y;
-        user_id = UserData.Instance.PlayerData.data.id;
-        likes = 0;
         description = description1.text;
         estructura = meshEditor.JsonString;
         StartCoroutine(TridyPeti());
@@ -40,7 +33,7 @@ public class RegisterCreationConsumer : MonoBehaviour
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new RegisterTridyData(name, latitude, longitude, user_id, likes, description, estructura);
+        var service = new UpdateTridyData(viewManager.item.id, name, description, estructura);
         yield return service.SendAsync(response);
 
     }
@@ -52,7 +45,7 @@ public class RegisterCreationConsumer : MonoBehaviour
             TridyDataRegisters.Instance.TridysData = JsonConvert.DeserializeObject<TridyDataRegister>(response);
             if (TridyDataRegisters.Instance.TridysData.success)
             {
-                registerTridy.Invoke();
+                register.RegisterTridy.Invoke();
             }
 
         }

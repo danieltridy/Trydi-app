@@ -54,6 +54,7 @@ public class RegisterConsumer : MonoBehaviour
                 RegisterCompleted();
                 PlayerPrefs.SetString("mail", Email.text);
                 PlayerPrefs.SetString("pass", pass.text);
+                ItemsCreator.Instance.Init();
             }
 
         }
