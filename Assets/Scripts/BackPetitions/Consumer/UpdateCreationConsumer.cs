@@ -14,18 +14,24 @@ public class UpdateCreationConsumer : MonoBehaviour
     [SerializeField]
     private ViewManagerItem viewManager;
     [SerializeField]
-    private string estructura,name, description;
+    private string estructura;
     [SerializeField]
     private ItemsCreator meshEditor;
     [SerializeField]
-    private TMP_InputField name1, description1;
-    [SerializeField]
     private RegisterCreationConsumer register;
+    [SerializeField]
+    private TMP_Text name, description, autor;
+    [SerializeField]
+    private TMP_Text name1, description1, autor1;
+
+    public void UpdateTexts() {
+        name.text = name1.text;
+        description.text = description1.text;
+        autor.text = autor1.text;
+    }
     public void TridyStart()
     {
         meshEditor.SaveJson();
-        name = name1.text;
-        description = description1.text;
         estructura = meshEditor.JsonString;
         StartCoroutine(TridyPeti());
     }
@@ -33,7 +39,7 @@ public class UpdateCreationConsumer : MonoBehaviour
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new UpdateTridyData(viewManager.item.id, name, description, estructura);
+        var service = new UpdateTridyData(viewManager.item.id, estructura);
         yield return service.SendAsync(response);
 
     }

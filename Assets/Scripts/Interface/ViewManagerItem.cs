@@ -62,8 +62,18 @@ public class ViewManagerItem : MonoBehaviour
             }
         }
         this.item = item;
+    }
 
-
+    public void ViewSpecificItemM(MTridys item)
+    {
+        name.text = item.name;
+        autor.text = $"Autor : {item.name_user}";
+        like = item.likes;
+        likes.text = item.likes.ToString();
+        description.text = item.description;
+        looks.text = item.looks.ToString();
+        id = item.id;
+        heart.SetActive(false);
     }
 
     public void Like() {

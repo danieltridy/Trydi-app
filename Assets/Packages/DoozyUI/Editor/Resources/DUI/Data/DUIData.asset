@@ -26,6 +26,7 @@ MonoBehaviour:
       - Login
       - LoginAccounts
       - MeshEditor
+      - MyTridys
       - NameTridy
       - NewNotification
       - Notification

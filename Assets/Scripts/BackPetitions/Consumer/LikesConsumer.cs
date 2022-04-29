@@ -26,7 +26,11 @@ public class LikesConsumer : MonoBehaviour
         tridy_id = tridy.id;
         StartCoroutine(TridyPeti1());
     }
-
+    public void LooksMe(MTridys tridy)
+    {
+        tridy_id = tridy.id;
+        StartCoroutine(TridyPeti1());
+    }
     IEnumerator TridyPeti1()
     {
 

@@ -50,7 +50,14 @@ public class ItemsCreator : MonoBehaviour
         start = false;
     }
 
+    public void ItemToSpawnCube() {
+        itemToSpawn = ObjectType.Cube;
+    }
 
+    public void ItemToSpawnText()
+    {
+        itemToSpawn = ObjectType.Text;
+    }
 
     private void SelectionManager_OnFocusableSet(IFocusable obj)
     {
@@ -67,7 +74,16 @@ public class ItemsCreator : MonoBehaviour
         }
     }
 
+    [EasyButtons.Button]
+    public void Init()
+    {
+        //Fill Dictionary
+        foreach (Item go in itemsToSpawn)
+            Items.Add(go.ObjectType, go);
 
+        itemToSpawn = ObjectType.Cube;
+    }
+    [EasyButtons.Button]
     public void StartMesh()
     {
         if (!start)
@@ -77,7 +93,6 @@ public class ItemsCreator : MonoBehaviour
             selectionManager = SelectionManager.Instance;
             savedMeshes.Add(GetSavedMesh(initCube));
             generatedItems.Add(initCube);
-            generatedItems.Add(transform.GetChild(1).gameObject);
             selectionManager.OnFocusableSet += SelectionManager_OnFocusableSet;
             start = true;
         }
@@ -90,14 +105,7 @@ public class ItemsCreator : MonoBehaviour
     {
         CreateMeshFromEditor();
     }
-    public void Init()
-    {
-        //Fill Dictionary
-        foreach (Item go in itemsToSpawn)
-            Items.Add(go.ObjectType, go);
 
-        itemToSpawn = ObjectType.Cube;
-    }
 
     public void CreateMeshFromEditor()
     {
@@ -159,6 +167,7 @@ public class ItemsCreator : MonoBehaviour
             go.transform.localPosition = new Vector3(mesh.Position.X, mesh.Position.Y, mesh.Position.Z);
             go.transform.localEulerAngles = new Vector3(mesh.Rotation.X, mesh.Rotation.Y, mesh.Rotation.Z);
             go.transform.localScale = new Vector3(mesh.Scale.X, mesh.Scale.Y, mesh.Scale.Z);
+            generatedItems.Add(go);
             if (mesh.TextureName != "")
             {
                 IMaterialFocusable materialFocusable = go.GetComponent<IMaterialFocusable>();

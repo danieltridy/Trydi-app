@@ -1,18 +1,14 @@
+﻿
 using SnowKore.Services;
 using System.Collections.Generic;
 
-public class UpdateTridyData : newServiceData
+public class MeTridyServiceData : newServiceData
 {
-    private string estructura;
-    private double latitude, longitude;
-    private int  tridy_id;
-    private string name_user = " " ;
-    public UpdateTridyData(int tridy_id, string estructura)
-    {
-      
-        this.tridy_id = tridy_id;
-        this.estructura = estructura;
+    private int id_user;
 
+    public MeTridyServiceData(int id_user)
+    {
+        this.id_user = id_user;
     }
 
     protected override Dictionary<string, object> Body
@@ -20,13 +16,12 @@ public class UpdateTridyData : newServiceData
         get
         {
             Dictionary<string, object> body = new Dictionary<string, object>();
-            body.Add("tridy_id", tridy_id);
-            body.Add("estructura", estructura);
+            body.Add("id_user", id_user);
             return body;
         }
     }
 
-    protected override string ServiceURL => "api/updateTridy";
+    protected override string ServiceURL => "api/MeCreations";
 
     protected override Dictionary<string, object> Params => new Dictionary<string, object>();
     protected override Dictionary<string, string> Headers
