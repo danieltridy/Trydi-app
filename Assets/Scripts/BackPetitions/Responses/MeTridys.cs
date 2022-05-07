@@ -27,7 +27,9 @@ public class MTridys
     public DateTime created_at;
     public DateTime updated_at;
     public string distance;
+    public bool local;
+
 }
 
-  
+
 

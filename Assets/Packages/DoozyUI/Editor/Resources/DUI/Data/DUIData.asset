@@ -22,6 +22,7 @@ MonoBehaviour:
       - Background
       - ButtonsMenu
       - ChooseArandNoAr
+      - Divisions
       - InformationMessage
       - Login
       - LoginAccounts

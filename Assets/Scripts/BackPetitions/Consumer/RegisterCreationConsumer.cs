@@ -21,11 +21,18 @@ public class RegisterCreationConsumer : MonoBehaviour
     private UnityEvent registerTridy;
     [SerializeField]
     private ItemsCreator meshEditor;
+    [SerializeField]
+    private SaveLocal saveLocal;
+    [SerializeField]
+    private InformationItemLocal itemLocal;
 
     public UnityEvent RegisterTridy { get => registerTridy; set => registerTridy = value; }
 
     public void TridyStart()
     {
+        if (itemLocal.confirmation) {
+            itemLocal.ConfirmationTridy();
+        }
         meshEditor.SaveJson();
         name = name1.text;
         latitude = LocationProvider.Instance.GetCurrentLocation().x;
@@ -35,7 +42,28 @@ public class RegisterCreationConsumer : MonoBehaviour
         description = description1.text;
         estructura = meshEditor.JsonString;
         StartCoroutine(TridyPeti());
+        
     }
+
+    public void SaveLocalTridy()
+    {
+        if (name1.text == "" || description1.text == "")
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
+            InAppNotification.Instance.ShowNotication(notification);
+        }
+        else {
+            meshEditor.SaveJson();
+            name = name1.text;
+            description = description1.text;
+            estructura = meshEditor.JsonString;
+            saveLocal.SaveLocalItem(name, description, estructura);
+            registerTridy.Invoke();
+        }
+   
+
+    }
+
     IEnumerator TridyPeti()
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
