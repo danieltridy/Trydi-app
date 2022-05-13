@@ -47,6 +47,13 @@ public class RegisterCreationConsumer : MonoBehaviour
 
     public void SaveLocalTridy()
     {
+
+        if (itemLocal.confirmation)
+        {
+            itemLocal.ConfirmationTridy();
+        }
+
+ 
         if (name1.text == "" || description1.text == "")
         {
             ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");

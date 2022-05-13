@@ -29,7 +29,8 @@ public class ItemCreatorManager : MonoBehaviour
     [SerializeField]
     private AbstractMap abstractMap;
     public UnityEvent OnSpawnItems;
-
+    [SerializeField]
+    private Transform itemsSpaw;
     public TridyDataOnly ItemPrefab { get => itemPrefab; set => itemPrefab = value; }
 
     public void GetTridys(TridysData data) {

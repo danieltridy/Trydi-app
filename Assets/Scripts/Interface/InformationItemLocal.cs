@@ -12,6 +12,7 @@ public class InformationItemLocal : MonoBehaviour
 
     public void AddInformation(int i, int u ) {
         name1.text = PlayerPrefs.GetString($"name{i}");
+        Debug.Log(name1.text);
         description1.text = PlayerPrefs.GetString($"Description{i}");
         this.i = i;
         this.u = u;

@@ -9,7 +9,7 @@ public class SelectionManager : MonoBehaviour
     public static SelectionManager Instance;
     public event Action<IFocusable> OnFocusableSet;
     [SerializeField]
-    private Camera cam;
+    public Camera cam;
     [SerializeField]
     private LayerMask interactLayer;
     private Ray ray;

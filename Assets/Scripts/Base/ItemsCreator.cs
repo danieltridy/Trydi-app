@@ -40,6 +40,9 @@ public class ItemsCreator : MonoBehaviour
     private IFocusable focusableSelected;
     public bool start;
     public string JsonString { get => jsonString; set => jsonString = value; }
+    public Camera EditorCam { get => editorCam; set => editorCam = value; }
+    public List<GameObject> GeneratedItems { get => generatedItems; set => generatedItems = value; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -53,7 +56,6 @@ public class ItemsCreator : MonoBehaviour
     public void ItemToSpawnCube() {
         itemToSpawn = ObjectType.Cube;
     }
-
     public void ItemToSpawnText()
     {
         itemToSpawn = ObjectType.Text;

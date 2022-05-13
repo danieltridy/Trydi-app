@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.EventSystems;
 
 public class CameraInteractionManager : MonoBehaviour
 {
@@ -35,27 +35,31 @@ public class CameraInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if (!ButtonColor.Instance.color) { 
-            if (Input.GetMouseButtonDown(0))
+        if (!ButtonColor.Instance.color)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                //print("Click");
-                OnInterpolationStart.Invoke();
-                StopAllCoroutines();
-                LastPosition = (Input.mousePosition);
-                // First touch
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                //release
-                if (!isCameraZoom)
-                    StartCoroutine(WaitForUpdatePos());
-            }
-            else if (Input.GetMouseButton(0))
-            {
-                // drag
-                CurrentPosition = (Input.mousePosition);
-                MoveCamera();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    //print("Click");
+                    OnInterpolationStart.Invoke();
+                    StopAllCoroutines();
+                    LastPosition = (Input.mousePosition);
+                    // First touch
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    //release
+                    if (!isCameraZoom)
+                        StartCoroutine(WaitForUpdatePos());
+                }
+                else if (Input.GetMouseButton(0))
+                {
+                    // drag
+                    CurrentPosition = (Input.mousePosition);
+                    MoveCamera();
 
+                }
             }
         }
     }
