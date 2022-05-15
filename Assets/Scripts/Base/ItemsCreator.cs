@@ -152,6 +152,7 @@ public class ItemsCreator : MonoBehaviour
                 go.transform.localScale = hit.transform.parent.localScale;
                 go.transform.SetParent(transform);
                 generatedItems.Add(go);
+
             }
         }
     }

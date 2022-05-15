@@ -19,6 +19,8 @@ public class LoginConsumer : MonoBehaviour
     private string mail, pass1;
     [SerializeField]
     private TridyConsumer tridyConsumer;
+    [SerializeField]
+    private GameObject noTocuh;
     [EasyButtons.Button]
     public void StartLogin()
     {
@@ -39,6 +41,7 @@ public class LoginConsumer : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("mail"))
         {
+            noTocuh.SetActive(true);
             mail = PlayerPrefs.GetString("mail");
             pass1 = PlayerPrefs.GetString("pass");
             StartCoroutine(LoginPetition());
@@ -68,6 +71,7 @@ public class LoginConsumer : MonoBehaviour
                 PlayerPrefs.SetString("mail", mail);
                 PlayerPrefs.SetString("pass", pass1);
                 ItemsCreator.Instance.Init();
+                noTocuh.SetActive(false);
             }
 
 

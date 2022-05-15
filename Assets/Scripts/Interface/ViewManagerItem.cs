@@ -73,7 +73,6 @@ public class ViewManagerItem : MonoBehaviour
         description.text = item.description;
         looks.text = item.looks.ToString();
         id = item.id;
-        heart.SetActive(false);
     }
 
     public void Like() {

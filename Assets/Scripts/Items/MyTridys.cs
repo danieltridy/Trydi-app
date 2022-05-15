@@ -14,6 +14,15 @@ public class MyTridys : MonoBehaviour
     {
         if (MeTridyData.Instance.TridysData.data.Count > 0)
         {
+            if (i == MeTridyData.Instance.TridysData.data.Count)
+            {
+                i = 0;
+            }
+            else if (i < 0)
+            {
+                i = MeTridyData.Instance.TridysData.data.Count - 1;
+            }
+
             var s = MeTridyData.Instance.TridysData.data[i];
             if (s.local)
             {
@@ -26,15 +35,9 @@ public class MyTridys : MonoBehaviour
             CreateARObject.Instance.AddInformation(s.estructura);
             SceneViewManagers.Instance.ViewManagerItemM.ViewSpecificItemM(s);
             i = i + n;
-            if (i == MeTridyData.Instance.TridysData.data.Count)
-            {
-                i = 0;
-            }
-            else if (i < 0)
-            {
-                i = MeTridyData.Instance.TridysData.data.Count - 1;
-            }
         }
+
+        
     }
 
     public void RegisterTridyLocal()

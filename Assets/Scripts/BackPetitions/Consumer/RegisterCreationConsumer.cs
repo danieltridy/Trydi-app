@@ -88,6 +88,7 @@ public class RegisterCreationConsumer : MonoBehaviour
             if (TridyDataRegisters.Instance.TridysData.success)
             {
                 registerTridy.Invoke();
+
             }
 
         }
@@ -108,8 +109,11 @@ public class RegisterCreationConsumer : MonoBehaviour
             }
 
         }
+    }
 
-
+    public void ResetText() {
+        name1.text = "";
+        description1.text = "";
     }
 
 
