@@ -44,6 +44,8 @@ public class TouchInput : TridyEditor, ITransformInteract
                 if (touch.deltaPosition.magnitude > MovementTolerance)
                     focusable.GetCurrentFocusedTransform().position = GetInputWorldPos() + offset;
             }
+            else if (touch.phase == TouchPhase.Ended)
+                Focusable = null;
         }
     }
 

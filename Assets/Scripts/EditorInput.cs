@@ -71,6 +71,8 @@ public class EditorInput : TridyEditor, ITransformInteract
                 focusable.GetCurrentFocusedTransform().position = GetInputWorldPos() + offset;
             lastPos = Input.mousePosition;
         }
+        else if (Input.GetMouseButtonUp(0))
+            Focusable = null;
     }
 
 
