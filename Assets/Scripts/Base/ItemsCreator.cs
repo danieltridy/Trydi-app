@@ -149,6 +149,7 @@ public class ItemsCreator : MonoBehaviour
                 Vector3 direction = current.transform.position - current.transform.parent.position;
                 Vector3 newPos = hit.transform.position + direction;
                 var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, hit.transform.rotation);
+                SelectionManager.Instance.CurrentFocusable = go.GetComponent<IFocusable>();
                 go.transform.localScale = hit.transform.parent.localScale;
                 go.transform.SetParent(transform);
                 generatedItems.Add(go);

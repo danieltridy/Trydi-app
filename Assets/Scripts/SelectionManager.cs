@@ -16,6 +16,8 @@ public class SelectionManager : MonoBehaviour
     private RaycastHit hit;
     private IFocusable currentFocusable;
 
+    public IFocusable CurrentFocusable { get => currentFocusable; set => currentFocusable = value; }
+
     private void Awake()
     {
         if (Instance == null)
