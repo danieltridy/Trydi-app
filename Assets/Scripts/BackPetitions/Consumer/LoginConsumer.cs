@@ -84,6 +84,8 @@ public class LoginConsumer : MonoBehaviour
             {
                     ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{UserData.Instance.PlayerData.message}");
                     NewNotification.Instance.ShowNotication(notification);
+                    noTocuh.SetActive(false);
+
             }
         }
          
@@ -95,13 +97,17 @@ public class LoginConsumer : MonoBehaviour
             if (!TridyErrors.Instance.Errors.success) {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
                 NewNotification.Instance.ShowNotication(notification);
+                noTocuh.SetActive(false);
+
             }
 
             else {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
                 InAppNotification.Instance.ShowNotication(notification);
+                noTocuh.SetActive(false);
+
             }
-            
+
         }
     }
 

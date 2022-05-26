@@ -39,4 +39,9 @@ public class SelectionManager : MonoBehaviour
             }
         }
     }
+    public void SetFocusable(IFocusable focusable)
+    {
+        currentFocusable = focusable;
+        OnFocusableSet?.Invoke(currentFocusable);
+    }
 }

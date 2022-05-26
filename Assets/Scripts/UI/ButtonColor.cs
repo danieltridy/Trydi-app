@@ -18,13 +18,10 @@ public class ButtonColor : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void ToolColor() {
-        if (!color)
-        {
-            color = true;
-        }
-        else {
-            color = false;
-        }
+    public void ToolColor(bool color) {
+        
+           this.color = color;
+        
+        
     }
 }
