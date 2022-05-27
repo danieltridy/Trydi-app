@@ -19,6 +19,7 @@ public abstract class Item : MonoBehaviour,IFocusable
     public virtual void Start()
     {
         locationProvider = LocationProvider.Instance;
+        SelectionManager.Instance.SetFocusable(this);
         abstractMap = FindObjectOfType<AbstractMap>();
 
       
