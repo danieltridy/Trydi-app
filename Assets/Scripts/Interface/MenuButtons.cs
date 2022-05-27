@@ -22,11 +22,9 @@ public class MenuButtons : MonoBehaviour
     private GameObject textureb;
     public void ButtonsControl()
     {
-
         if (text.alpha == 1)
         {
             textb.SetActive(true);
-
         }
         else if (meshEditor.alpha == 1)
         {

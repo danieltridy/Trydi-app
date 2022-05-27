@@ -47,8 +47,6 @@ public abstract class TridyEditor : MonoBehaviour
     }
 
     #region Methods
-    public abstract void Start();
-    public abstract void Update();
     public abstract void Init();
 
     public void UpdateFocusableColor(Color color)

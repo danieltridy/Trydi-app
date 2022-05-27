@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EditorInput : TridyEditor, ITransformInteract
 {
-
+    private Vector3 currentPos;
     private Vector3 deltaPos;
     private Vector3 lastPos;
     private Vector3 offset;
@@ -14,15 +14,18 @@ public class EditorInput : TridyEditor, ITransformInteract
     [SerializeField]
     private TouchInput touch;
 
-    public override void Start()
+    
+    private void Start()
     {
         SelectionManager.Instance.OnFocusableSet += OnFocusableSet;
+       CurrentGameObject =null;
     }
 
     private void OnFocusableSet(IFocusable obj)
     {
         Focusable = obj;
         CurrentGameObject = Focusable.GetCurrentFocusableObject();
+        mZCoord = Camera.WorldToScreenPoint(CurrentGameObject.transform.position).z;
     }
 
     private void Reset()
@@ -30,18 +33,19 @@ public class EditorInput : TridyEditor, ITransformInteract
         Init();
     }
 
-    public override void Update()
+    private void Update()
     {
-        if (!Camera || Focusable == null)
+        if (!Camera || CurrentGameObject == null)
             return;
 
 
-        OnMove(Focusable);
-        OnRotate(Focusable);
-        OnScale(Focusable);
+        OnMove();
+        OnRotate();
+        OnScale();
     }
 
-    public void Oncolor(Color color ) {
+    public void Oncolor(Color color)
+    {
         ColorDebug = color;
         OnColorDebug();
     }
@@ -53,30 +57,32 @@ public class EditorInput : TridyEditor, ITransformInteract
         OnTextureDebug();
     }
 
-    public void OnMove(IFocusable focusable)
+    public void OnMove()
     {
         if (!EnableMovement)
             return;
 
         if (Input.GetMouseButtonDown(0))
-        {
-            mZCoord = Camera.WorldToScreenPoint(focusable.GetCurrentFocusedTransform().position).z;
-            offset = focusable.GetCurrentFocusedTransform().position - GetInputWorldPos();
-        }
+            lastPos = Input.mousePosition;
         else
         if (Input.GetMouseButton(0))
         {
-            deltaPos = Input.mousePosition - lastPos;
+
+            currentPos = Input.mousePosition;
+            deltaPos = currentPos - lastPos;
+
+
             if (deltaPos.magnitude > MovementTolerance)
-                focusable.GetCurrentFocusedTransform().position = GetInputWorldPos() + offset;
-            lastPos = Input.mousePosition;
+                CurrentGameObject.transform.position = GetInputWorldPos() ;
+
+            lastPos = currentPos;
         }
         else if (Input.GetMouseButtonUp(0))
-            Focusable = null;
+            CurrentGameObject = null;
     }
 
 
-    public void OnRotate(IFocusable focusable )
+    public void OnRotate()
     {
         if (!EnableRotation)
             return;
@@ -84,21 +90,20 @@ public class EditorInput : TridyEditor, ITransformInteract
         if (Input.GetMouseButton(0))
         {
             deltaPos = Input.mousePosition - lastPos;
-            focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.up * -deltaPos.x * RotationSpeed, Space.World);
-            focusable.GetCurrentFocusedTransform().Rotate(Camera.transform.right * deltaPos.y * RotationSpeed, Space.World);
+            CurrentGameObject.transform.Rotate(Camera.transform.up * -deltaPos.x * RotationSpeed, Space.World);
+            CurrentGameObject.transform.Rotate(Camera.transform.right * deltaPos.y * RotationSpeed, Space.World);
             lastPos = Input.mousePosition;
         }
     }
 
-    public void OnScale(IFocusable focusable)
+    public void OnScale()
     {
         if (!EnableScale)
             return;
 
-        ScaleValue = focusable.GetCurrentFocusedTransform().localScale.x;
+        ScaleValue = CurrentGameObject.transform.localScale.x;
         ScaleValue = Mathf.Clamp(ScaleValue + Input.GetAxis("Mouse ScrollWheel") * PinchSpeed, MinScaleValue, MaxScaleValue);
-        print("ScaleValue: " + ScaleValue);
-        focusable.GetCurrentFocusedTransform().localScale = Vector3.one * ScaleValue;
+        CurrentGameObject.transform.localScale = Vector3.one * ScaleValue;
     }
 
     public override Vector3 GetInputWorldPos()
@@ -109,13 +114,15 @@ public class EditorInput : TridyEditor, ITransformInteract
     }
 
 
-    public void ScaleEnable() {
+    public void ScaleEnable()
+    {
         if (EnableScale)
         {
             meshEditor.enabled = true;
             EnableScale = false;
         }
-        else {
+        else
+        {
             EnableScale = true;
             meshEditor.enabled = false;
             EnableRotation = false;
@@ -154,7 +161,8 @@ public class EditorInput : TridyEditor, ITransformInteract
         }
     }
 
-    public void ResetItem() {
+    public void ResetItem()
+    {
         EnableMovement = false;
         EnableRotation = false;
         EnableScale = false;
@@ -167,5 +175,5 @@ public class EditorInput : TridyEditor, ITransformInteract
         RotationSpeed = 3;
         MovementTolerance = 3;
     }
-
 }
+   
