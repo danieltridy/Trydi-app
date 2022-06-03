@@ -47,6 +47,8 @@ public class ItemsCreator : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+        Init();
+
     }
     public void OffStart()
     {
@@ -107,8 +109,8 @@ public class ItemsCreator : MonoBehaviour
     {
         CreateMeshFromEditor();
     }
-
-
+    
+    Vector3 operation;
     public void CreateMeshFromEditor()
     {
 
@@ -119,6 +121,8 @@ public class ItemsCreator : MonoBehaviour
         {
             if (!current)
                 current = hit.transform.gameObject;
+            operation = hit.transform.TransformDirection(hit.normal);
+            print("Normal: " + operation);
         }
 
 
@@ -146,17 +150,31 @@ public class ItemsCreator : MonoBehaviour
         {
             if (current)
             {
-                Vector3 direction = current.transform.position - current.transform.parent.position;
-                Vector3 newPos = hit.transform.position + direction;
-                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, hit.transform.rotation);
+                Vector3 normal = Vector3.Scale(hit.normal, current.transform.parent.localScale);
+
+                Vector3 newPos = hit.normal + current.transform.parent.position;
+
+                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, current.transform.parent.rotation);
                 SelectionManager.Instance.CurrentFocusable = go.GetComponent<IFocusable>();
-                go.transform.localScale = hit.transform.parent.localScale;
+
+                //go.transform.position = go.transform.position + current.transform.parent.lossyScale;
+                //go.transform.localScale = current.transform.parent.localScale;
+                go.transform.localScale = current.transform.parent.localScale;
                 go.transform.SetParent(transform);
                 generatedItems.Add(go);
 
             }
         }
     }
+
+    //private Vector3 GetNormalDirection(Vector3 normal)
+    //{
+    //    Vector3 result;
+    //    if (normal.x >)
+
+    //}
+
+
     [EasyButtons.Button]
     public void CreateMeshFromJson()
     {
@@ -289,6 +307,18 @@ public class ItemsCreator : MonoBehaviour
     private GameObject GetItemToSpawn(ObjectType objectType)
     {
         return Items[objectType].gameObject;
+    }
+
+    private void OnDrawGizmos()
+    {
+        //if (!current)
+        //    return;
+
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawLine(current.transform.position, hit.normal);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawLine(current.transform.position, operation*3f);
+
     }
 
 }
