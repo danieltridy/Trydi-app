@@ -31,7 +31,6 @@ public class GPSUpdate : MonoBehaviour
         {
             OnDistanceUpdated.Invoke();
             firstGPSData = false;
-            print("NewUpdate");
         }
 
     }
