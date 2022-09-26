@@ -9,6 +9,7 @@ public abstract class TridyEditor : MonoBehaviour
     public Camera Camera;
     public bool EnableMovement;
     public bool EnableScale;
+    public bool EnableScaleFace;
     public bool EnableRotation;
 
     [Header("Pinch Scale Settings")]
