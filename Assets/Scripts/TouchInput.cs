@@ -50,6 +50,7 @@ public class TouchInput : TridyEditor, ITransformInteract
         OnMove();
         OnRotate();
         OnScale();
+        OnScaleFace();
     }
     public override void Init()
     {
@@ -209,6 +210,22 @@ public class TouchInput : TridyEditor, ITransformInteract
             meshEditor.enabled = false;
             EnableRotation = false;
             EnableMovement = false;
+        }
+    }
+    public void ScaleFaceEnable()
+    {
+        if (EnableScaleFace)
+        {
+            meshEditor.enabled = true;
+            EnableScaleFace = false;
+        }
+        else
+        {
+            EnableScaleFace = true;
+            meshEditor.enabled = false;
+            EnableRotation = false;
+            EnableMovement = false;
+            EnableScale = false;
         }
     }
 

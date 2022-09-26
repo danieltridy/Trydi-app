@@ -989,7 +989,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1706708534}
         m_TargetAssemblyTypeName: TouchInput, Assembly-CSharp
-        m_MethodName: ScaleEnable
+        m_MethodName: ScaleFaceEnable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3212,6 +3212,7 @@ MonoBehaviour:
   Camera: {fileID: 843153088}
   EnableMovement: 0
   EnableScale: 0
+  EnableScaleFace: 0
   EnableRotation: 0
   MinScaleValue: 1
   MaxScaleValue: 10
@@ -3529,6 +3530,7 @@ MonoBehaviour:
   Camera: {fileID: 843153088}
   EnableMovement: 0
   EnableScale: 0
+  EnableScaleFace: 0
   EnableRotation: 0
   MinScaleValue: 1
   MaxScaleValue: 10
@@ -3750,7 +3752,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Rotar
+  m_Text: FACE
 --- !u!222 &2115039461
 CanvasRenderer:
   m_ObjectHideFlags: 0
