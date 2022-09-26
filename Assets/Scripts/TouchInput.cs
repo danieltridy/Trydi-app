@@ -7,7 +7,7 @@ public class TouchInput : TridyEditor, ITransformInteract
 {
 
     private Vector3 offset;
-    private Vector3 lastPos;
+    private Vector3 lastPosMouse = new Vector3();
     float mZCoord;
     private Touch touch;
     [SerializeField]
@@ -17,9 +17,13 @@ public class TouchInput : TridyEditor, ITransformInteract
     private Vector3 currentPos;
     private Vector3 deltaPos;
 
+    Vector3 operation;
+    [SerializeField]
+    private LayerMask layerMask;
+    private RaycastHit hit;
 
 
-     private void Start()
+    private void Start()
     {
         SelectionManager.Instance.OnFocusableSet += OnFocusableSet;
         CurrentGameObject = null;
@@ -62,20 +66,20 @@ public class TouchInput : TridyEditor, ITransformInteract
             return;
 
         if (Input.GetMouseButtonDown(0))
-            lastPos = Input.mousePosition;
-           
+            lastPosMouse = Input.mousePosition;
+
         else
         if (Input.GetMouseButton(0))
         {
 
             currentPos = Input.mousePosition;
-            deltaPos = currentPos - lastPos;
+            deltaPos = currentPos - lastPosMouse;
 
 
             if (deltaPos.magnitude > MovementTolerance)
                 CurrentGameObject.transform.position = GetInputWorldPos();
 
-            lastPos = currentPos;
+            lastPosMouse = currentPos;
         }
         else if (Input.GetMouseButtonUp(0))
             CurrentGameObject = null;
@@ -113,7 +117,6 @@ public class TouchInput : TridyEditor, ITransformInteract
         ColorDebug = color;
         OnColorDebug();
     }
-
     public void OnScale()
     {
         if (!EnableScale)
@@ -136,6 +139,52 @@ public class TouchInput : TridyEditor, ITransformInteract
             CurrentGameObject.transform.localScale = Vector3.one * ScaleValue;
 
         }
+
+
+    }
+    public void OnScaleFace ()
+    {
+        if (!EnableScaleFace)
+            return;
+        
+        Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+        GameObject current = null;
+        if (Input.GetMouseButtonDown(0))
+        {
+            lastPosMouse = Input.mousePosition;
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
+            {
+                if (!current)
+                    current = hit.transform.gameObject;
+
+                print(current.name);
+                if (current.GetComponent<LocalDireccionFromFace>())
+                {
+                    SelectionManager.Instance.enabled = false;
+                    operation = current.GetComponent<LocalDireccionFromFace>().GetDirection();
+                }
+            }
+        }
+
+
+        else
+       if (Input.GetMouseButton(0))
+        {
+
+            currentPos = Input.mousePosition;
+            deltaPos = currentPos - lastPosMouse;
+
+            var v = (Vector3.Scale(operation, deltaPos)) * Mathf.Clamp(deltaPos.magnitude, 0.00001f, 0.002f);
+            v.z = operation.z != 0 ? 0.1f : 0f;
+            v.z = v.z * Mathf.Clamp(deltaPos.magnitude, 0.01f, 0.2f);
+            v.z = currentPos.x > lastPosMouse.x ? v.z : v.z * -1;
+            CurrentGameObject.transform.localScale += v;
+            //CurrentGameObject.transform.position = GetInputWorldPos();
+
+            lastPosMouse = currentPos;
+        }
+        else if (Input.GetMouseButtonUp(0))
+            SelectionManager.Instance.enabled = true;
     }
     public override Vector3 GetInputWorldPos()
     {
