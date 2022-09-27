@@ -121,11 +121,8 @@ public class ItemsCreator : MonoBehaviour
         {
             if (!current)
                 current = hit.transform.gameObject;
-            if (current.GetComponent<LocalDireccionFromFace>())
-            {
-                operation = current.GetComponent<LocalDireccionFromFace>().GetDirection();
-            }
-            
+            operation = hit.transform.TransformDirection(hit.normal);
+            print("Normal: " + operation);
         }
 
 
@@ -153,13 +150,16 @@ public class ItemsCreator : MonoBehaviour
         {
             if (current)
             {
-                Vector3 normal = operation;
-                var go = Instantiate(GetItemToSpawn(itemToSpawn), Vector3.zero,Quaternion.identity);
-                go.transform.parent = current.transform.parent;
-                go.transform.localRotation = Quaternion.identity;
-                go.transform.localPosition = normal;
+                Vector3 normal = Vector3.Scale(hit.normal, current.transform.parent.localScale);
+
+                Vector3 newPos = hit.normal + current.transform.parent.position;
+
+                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, current.transform.parent.rotation);
                 SelectionManager.Instance.CurrentFocusable = go.GetComponent<IFocusable>();
-                go.transform.localScale = Vector3.one;
+
+                //go.transform.position = go.transform.position + current.transform.parent.lossyScale;
+                //go.transform.localScale = current.transform.parent.localScale;
+                go.transform.localScale = current.transform.parent.localScale;
                 go.transform.SetParent(transform);
                 generatedItems.Add(go);
 
@@ -249,7 +249,7 @@ public class ItemsCreator : MonoBehaviour
                         cube.transform.position = firstCube + Vector3.Scale(new Vector3(x, y, z), cube.transform.localScale);
                         cube.transform.parent = tempParent.transform;
                         cube.transform.localRotation = Quaternion.Inverse(tempParent.transform.rotation);
-                        
+
 
                     }
                 }

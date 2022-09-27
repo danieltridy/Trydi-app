@@ -46,7 +46,6 @@ public class TouchInput : TridyEditor, ITransformInteract
         if (!Camera || CurrentGameObject == null)
             return;
 
-
         OnMove();
         OnRotate();
         OnScale();
@@ -143,11 +142,11 @@ public class TouchInput : TridyEditor, ITransformInteract
 
 
     }
-    public void OnScaleFace ()
+    public void OnScaleFace()
     {
         if (!EnableScaleFace)
             return;
-        
+
         Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
         GameObject current = null;
         if (Input.GetMouseButtonDown(0))
@@ -194,39 +193,21 @@ public class TouchInput : TridyEditor, ITransformInteract
         return Camera.ScreenToWorldPoint(mousePoint);
     }
 
-
-
-
     public void ScaleEnable()
     {
-        if (EnableScale)
-        {
-            meshEditor.enabled = true;
-            EnableScale = false;
-        }
-        else
-        {
-            EnableScale = true;
-            meshEditor.enabled = false;
-            EnableRotation = false;
-            EnableMovement = false;
-        }
+        EnableScale = true;
+        meshEditor.enabled = false;
+        EnableRotation = false;
+        EnableMovement = false;
+        EnableScaleFace = false;
     }
     public void ScaleFaceEnable()
     {
-        if (EnableScaleFace)
-        {
-            meshEditor.enabled = true;
-            EnableScaleFace = false;
-        }
-        else
-        {
-            EnableScaleFace = true;
-            meshEditor.enabled = false;
-            EnableRotation = false;
-            EnableMovement = false;
-            EnableScale = false;
-        }
+        EnableScaleFace = true;
+        meshEditor.enabled = false;
+        EnableRotation = false;
+        EnableMovement = false;
+        EnableScale = false;
     }
 
     public void RotateEnable()
@@ -242,6 +223,8 @@ public class TouchInput : TridyEditor, ITransformInteract
             meshEditor.enabled = false;
             EnableScale = false;
             EnableMovement = false;
+            EnableScaleFace = false;
+
         }
     }
     public void MovedEnable()
@@ -257,6 +240,8 @@ public class TouchInput : TridyEditor, ITransformInteract
             meshEditor.enabled = false;
             EnableScale = false;
             EnableRotation = false;
+            EnableScaleFace = false;
+
         }
     }
 
@@ -265,5 +250,6 @@ public class TouchInput : TridyEditor, ITransformInteract
         EnableMovement = false;
         EnableRotation = false;
         EnableScale = false;
+        EnableScaleFace = false;
     }
 }
