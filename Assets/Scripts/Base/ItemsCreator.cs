@@ -18,6 +18,8 @@ public class ItemsCreator : MonoBehaviour
     [SerializeField]
     private List<Item> itemsToSpawn;
     [SerializeField]
+    private GameObject parentContent;
+    [SerializeField]
     private List<GameObject> generatedItems = new List<GameObject>();
     [SerializeField]
     private Camera editorCam;
@@ -47,7 +49,7 @@ public class ItemsCreator : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        Init();
+       // Init();
 
     }
     public void OffStart()
@@ -55,7 +57,8 @@ public class ItemsCreator : MonoBehaviour
         start = false;
     }
 
-    public void ItemToSpawnCube() {
+    public void ItemToSpawnCube()
+    {
         itemToSpawn = ObjectType.Cube;
     }
     public void ItemToSpawnText()
@@ -72,7 +75,7 @@ public class ItemsCreator : MonoBehaviour
     {
         generatedItems.Clear();
         savedMeshes.Clear();
-        foreach (Transform child in transform)
+        foreach (Transform child in parentContent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -83,7 +86,9 @@ public class ItemsCreator : MonoBehaviour
     {
         //Fill Dictionary
         foreach (Item go in itemsToSpawn)
+        {
             Items.Add(go.ObjectType, go);
+        }
 
         itemToSpawn = ObjectType.Cube;
     }
@@ -92,7 +97,7 @@ public class ItemsCreator : MonoBehaviour
     {
         if (!start)
         {
-            initCube = transform.GetChild(0).gameObject;
+            initCube = parentContent.transform.GetChild(0).gameObject;
             transform.GetComponent<ItemsCreator>().enabled = false;
             selectionManager = SelectionManager.Instance;
             savedMeshes.Add(GetSavedMesh(initCube));
@@ -109,7 +114,7 @@ public class ItemsCreator : MonoBehaviour
     {
         CreateMeshFromEditor();
     }
-    
+
     Vector3 operation;
     public void CreateMeshFromEditor()
     {
@@ -160,7 +165,7 @@ public class ItemsCreator : MonoBehaviour
                 //go.transform.position = go.transform.position + current.transform.parent.lossyScale;
                 //go.transform.localScale = current.transform.parent.localScale;
                 go.transform.localScale = current.transform.parent.localScale;
-                go.transform.SetParent(transform);
+                go.transform.SetParent(parentContent.transform);
                 generatedItems.Add(go);
 
             }
@@ -182,36 +187,37 @@ public class ItemsCreator : MonoBehaviour
         savedMeshes.Clear();
         generatedItems.Clear();
         savedMeshes = JsonConvert.DeserializeObject<List<SavedMeshes>>(jsonString);
-        foreach (SavedMeshes mesh in savedMeshes)
+        parentContent.transform.localScale = new Vector3(savedMeshes[0].Scale.X, savedMeshes[0].Scale.Y, savedMeshes[0].Scale.Z);
+        for (int i = 1; i < savedMeshes.Count; i++)
         {
-            GameObject go = Instantiate(GetItemToSpawn(mesh.ObjectType));
-            go.transform.SetParent(transform);
-            go.transform.localPosition = new Vector3(mesh.Position.X, mesh.Position.Y, mesh.Position.Z);
-            go.transform.localEulerAngles = new Vector3(mesh.Rotation.X, mesh.Rotation.Y, mesh.Rotation.Z);
-            go.transform.localScale = new Vector3(mesh.Scale.X, mesh.Scale.Y, mesh.Scale.Z);
+            GameObject go = Instantiate(GetItemToSpawn(savedMeshes[i].ObjectType));
+            go.transform.SetParent(parentContent.transform);
+            go.transform.localPosition = new Vector3(savedMeshes[i].Position.X, savedMeshes[i].Position.Y, savedMeshes[i].Position.Z);
+            go.transform.localEulerAngles = new Vector3(savedMeshes[i].Rotation.X, savedMeshes[i].Rotation.Y, savedMeshes[i].Rotation.Z);
+            go.transform.localScale = new Vector3(savedMeshes[i].Scale.X, savedMeshes[i].Scale.Y, savedMeshes[i].Scale.Z);
             generatedItems.Add(go);
-            if (mesh.TextureName != "")
+            if (savedMeshes[i].TextureName != "")
             {
                 IMaterialFocusable materialFocusable = go.GetComponent<IMaterialFocusable>();
                 if (materialFocusable == null)
                     throw new Exception("IMaterial Focusable Not Found");
-                materialFocusable.OnTextureChanged(Resources.Load<Texture>("Textures/" + mesh.TextureName));
+                materialFocusable.OnTextureChanged(Resources.Load<Texture>("Textures/" + savedMeshes[i].TextureName));
             }
 
             IColorFocusable colorFocusable = go.GetComponent<IColorFocusable>();
             if (colorFocusable == null)
                 throw new Exception("IColorFocusable  Not Found");
-            Color newcolor = new Color(mesh.Color.X, mesh.Color.Y, mesh.Color.Z);
+            Color newcolor = new Color(savedMeshes[i].Color.X, savedMeshes[i].Color.Y, savedMeshes[i].Color.Z);
             colorFocusable.OnColorChanged(newcolor);
 
-            if (mesh.FontName != "")
+            if (savedMeshes[i].FontName != "")
             {
                 ITextSettings textSettings = go.GetComponent<ITextSettings>();
                 if (colorFocusable == null)
                     throw new Exception("ITextSettings  Not Found");
 
-                textSettings.SetTextValue(mesh.TextValue);
-                textSettings.SetFontText(Resources.Load<TMP_FontAsset>("Fonts/" + mesh.FontName));
+                textSettings.SetTextValue(savedMeshes[i].TextValue);
+                textSettings.SetFontText(Resources.Load<TMP_FontAsset>("Fonts/" + savedMeshes[i].FontName));
 
             }
         }
@@ -277,6 +283,9 @@ public class ItemsCreator : MonoBehaviour
     {
         idCount = 1;
         savedMeshes.Clear();
+        ///guardar el padre content
+        savedMeshes.Add(GetSavedMesh(parentContent));
+
         for (int i = 0; i < generatedItems.Count; i++)
         {
             idCount++;

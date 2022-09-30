@@ -1,5 +1,5 @@
 
 public enum ObjectType
 {
-    Cube=0,Text=1,Image=2
+    Cube=0,Text=1,Image=2,ParentContent=3
 }

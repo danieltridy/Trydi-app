@@ -193,7 +193,7 @@ public class TouchInput : TridyEditor, ITransformInteract
         return Camera.ScreenToWorldPoint(mousePoint);
     }
 
-    public void ScaleEnable()
+    public void ScaleEnableAll()
     {
         EnableScale = true;
         meshEditor.enabled = false;
@@ -201,13 +201,35 @@ public class TouchInput : TridyEditor, ITransformInteract
         EnableMovement = false;
         EnableScaleFace = false;
     }
+    public void ScaleEnable()
+    {
+        if (EnableScale)
+        {
+            EnableScale = false;
+        }
+        else
+        {
+            EnableScale = true;
+            meshEditor.enabled = false;
+            EnableRotation = false;
+            EnableMovement = false;
+            EnableScaleFace = false;
+        }
+    }
     public void ScaleFaceEnable()
     {
-        EnableScaleFace = true;
-        meshEditor.enabled = false;
-        EnableRotation = false;
-        EnableMovement = false;
-        EnableScale = false;
+        if (EnableScaleFace)
+        {
+            EnableScaleFace = false;
+        }
+        else
+        {
+            EnableScaleFace = true;
+            meshEditor.enabled = false;
+            EnableRotation = false;
+            EnableMovement = false;
+            EnableScale = false;
+        }
     }
 
     public void RotateEnable()

@@ -53,13 +53,15 @@ MonoBehaviour:
   itemsToSpawn:
   - {fileID: 447196431, guid: 059aad4a5488dea46a5a062282f89018, type: 3}
   - {fileID: 5014422290017566122, guid: fdc7c925e88e127439afdb06a9c89d91, type: 3}
-  generatedCubes: []
+  parentContent: {fileID: 7081848774999568036}
+  generatedItems: []
   editorCam: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
   savedMeshes: []
   subdivision: 2
+  start: 0
 --- !u!114 &6837455942545731430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,15 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0fb3a32d2d47046a945b28c2955ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableMovevent: 0
-  enableScale: 0
-  enableRotation: 0
-  minScaleValue: 1
-  maxScaleValue: 10
-  pinchSpeed: 0.001
-  scaleValue: 0
-  rotationSpeed: 3
-  movementTolerance: 3
+  objectType: 0
 --- !u!1 &9176025983349951397
 GameObject:
   m_ObjectHideFlags: 0

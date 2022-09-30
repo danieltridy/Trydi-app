@@ -38,8 +38,11 @@ public class CubeItem : Item,IColorFocusable,IMaterialFocusable
     public void OnTextureChanged(Texture newTexture)
     {
         //cambiamos la textura
-        cubeRenderer.material.mainTexture=newTexture;
-        print(newTexture.name);
+        if (newTexture != null) {
+            cubeRenderer.material.mainTexture = newTexture;
+            print(newTexture.name);
+        }
+    
     }
 
     public override GameObject GetCurrentFocusableObject()

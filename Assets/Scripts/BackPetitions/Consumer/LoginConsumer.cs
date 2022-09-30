@@ -29,12 +29,13 @@ public class LoginConsumer : MonoBehaviour
             ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Todos los campos son obligatorios");
             NewNotification.Instance.ShowNotication(notification);
         }
-        else {
+        else
+        {
             mail = Email.text;
             pass1 = pass.text;
             StartCoroutine(LoginPetition());
         }
-        
+
     }
 
     private void Start()
@@ -45,7 +46,7 @@ public class LoginConsumer : MonoBehaviour
             mail = PlayerPrefs.GetString("mail");
             pass1 = PlayerPrefs.GetString("pass");
             StartCoroutine(LoginPetition());
-       
+
         }
 
     }
@@ -53,7 +54,7 @@ public class LoginConsumer : MonoBehaviour
     {
         ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
         InAppNotification.Instance.ShowNotication(notification);
-        var service = new LoginServiceData(mail,pass1);
+        var service = new LoginServiceData(mail, pass1);
         yield return service.SendAsync(response);
 
     }
@@ -62,47 +63,41 @@ public class LoginConsumer : MonoBehaviour
     {
         InAppNotification.Instance.HideNotication();
 
-        try
+
+        UserData.Instance.PlayerData = JsonConvert.DeserializeObject<PlayerData>(response);
+        if (UserData.Instance.PlayerData.message == "Login exitoso")
         {
-            UserData.Instance.PlayerData = JsonConvert.DeserializeObject<PlayerData>(response);
-            if (UserData.Instance.PlayerData.message == "Login exitoso")
-            {
-                LoginCompleted();
-                PlayerPrefs.SetString("mail", mail);
-                PlayerPrefs.SetString("pass", pass1);
-                ItemsCreator.Instance.Init();
-                noTocuh.SetActive(false);
-            }
-
-
-            //else
-            //{
-            //    ClassnNotification notification1 = new ClassnNotification(EnumNotification.ButtonOk, "Contraseña Incorrecta");
-            //    InAppNotification.Instance.ShowNotication(notification1);
-            //}
-            else
-            {
-                    ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{UserData.Instance.PlayerData.message}");
-                    NewNotification.Instance.ShowNotication(notification);
-            }
+            LoginCompleted();
+            PlayerPrefs.SetString("mail", mail);
+            PlayerPrefs.SetString("pass", pass1);
+            ItemsCreator.Instance.Init();
+            noTocuh.SetActive(false);
         }
-         
-        catch (Exception E)
-        {
 
+        //else
+        //{
+        //        ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{UserData.Instance.PlayerData.message}");
+        //        NewNotification.Instance.ShowNotication(notification);
+        //}
+        else
+        {
             TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
             VerifyNull();
-            if (!TridyErrors.Instance.Errors.success) {
+            if (TridyErrors.Instance.Errors.success)
+            {
+
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
                 NewNotification.Instance.ShowNotication(notification);
             }
 
-            else {
+            else
+            {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
                 InAppNotification.Instance.ShowNotication(notification);
             }
-            
         }
+
+
     }
 
     public void LoginCompleted()
@@ -110,7 +105,7 @@ public class LoginConsumer : MonoBehaviour
         OnLoginCompleted.Invoke();
         ClassAlert alertMessage = new ClassAlert(EnumAlert.message, $"Hola un gusto verte de nuevo {UserData.Instance.PlayerData.data.name}");
         AlertMessage.Instance.ShowNotication(alertMessage);
-        Invoke("TridyWait",1f);
+        Invoke("TridyWait", 1f);
 
     }
 
@@ -127,7 +122,8 @@ public class LoginConsumer : MonoBehaviour
         }
     }
 
-    private void TridyWait() {
+    private void TridyWait()
+    {
         tridyConsumer.TridyStart();
     }
 }
