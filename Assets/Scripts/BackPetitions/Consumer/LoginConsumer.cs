@@ -83,10 +83,9 @@ public class LoginConsumer : MonoBehaviour
         {
             TridyErrors.Instance.Errors = JsonConvert.DeserializeObject<ErrorsData>(response);
             VerifyNull();
-            if (TridyErrors.Instance.Errors.success)
+            if (!TridyErrors.Instance.Errors.success)
             {
-
-                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
+                ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"Datos Incorrectos");
                 NewNotification.Instance.ShowNotication(notification);
             }
 
@@ -111,15 +110,6 @@ public class LoginConsumer : MonoBehaviour
 
     private void VerifyNull()
     {
-
-        if (TridyErrors.Instance.Errors.data.email.Count == 0)
-        {
-            TridyErrors.Instance.Errors.data.email.Add("");
-        }
-        if (TridyErrors.Instance.Errors.data.password.Count == 0)
-        {
-            TridyErrors.Instance.Errors.data.password.Add("");
-        }
     }
 
     private void TridyWait()

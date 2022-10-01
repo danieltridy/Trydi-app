@@ -49,7 +49,7 @@ public class ItemsCreator : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-       // Init();
+        Init();
 
     }
     public void OffStart()
@@ -86,9 +86,7 @@ public class ItemsCreator : MonoBehaviour
     {
         //Fill Dictionary
         foreach (Item go in itemsToSpawn)
-        {
             Items.Add(go.ObjectType, go);
-        }
 
         itemToSpawn = ObjectType.Cube;
     }
@@ -126,8 +124,11 @@ public class ItemsCreator : MonoBehaviour
         {
             if (!current)
                 current = hit.transform.gameObject;
-            operation = hit.transform.TransformDirection(hit.normal);
-            print("Normal: " + operation);
+            if (current.GetComponent<LocalDireccionFromFace>())
+            {
+                operation = current.GetComponent<LocalDireccionFromFace>().GetDirection();
+            }
+
         }
 
 
@@ -155,16 +156,13 @@ public class ItemsCreator : MonoBehaviour
         {
             if (current)
             {
-                Vector3 normal = Vector3.Scale(hit.normal, current.transform.parent.localScale);
-
-                Vector3 newPos = hit.normal + current.transform.parent.position;
-
-                var go = Instantiate(GetItemToSpawn(itemToSpawn), newPos, current.transform.parent.rotation);
+                Vector3 normal = operation;
+                var go = Instantiate(GetItemToSpawn(itemToSpawn), Vector3.zero, Quaternion.identity);
+                go.transform.parent = current.transform.parent;
+                go.transform.localRotation = Quaternion.identity;
+                go.transform.localPosition = normal;
                 SelectionManager.Instance.CurrentFocusable = go.GetComponent<IFocusable>();
-
-                //go.transform.position = go.transform.position + current.transform.parent.lossyScale;
-                //go.transform.localScale = current.transform.parent.localScale;
-                go.transform.localScale = current.transform.parent.localScale;
+                go.transform.localScale = Vector3.one;
                 go.transform.SetParent(parentContent.transform);
                 generatedItems.Add(go);
 
@@ -264,7 +262,7 @@ public class ItemsCreator : MonoBehaviour
             foreach (GameObject cube in cubes)
             {
                 cube.transform.parent = null;
-                cube.transform.parent = transform;
+                cube.transform.parent = parentContent.transform;
             }
 
             cubes.Clear();
@@ -283,7 +281,6 @@ public class ItemsCreator : MonoBehaviour
     {
         idCount = 1;
         savedMeshes.Clear();
-        ///guardar el padre content
         savedMeshes.Add(GetSavedMesh(parentContent));
 
         for (int i = 0; i < generatedItems.Count; i++)

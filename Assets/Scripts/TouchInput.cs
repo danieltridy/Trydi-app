@@ -21,7 +21,7 @@ public class TouchInput : TridyEditor, ITransformInteract
     [SerializeField]
     private LayerMask layerMask;
     private RaycastHit hit;
-
+    private bool scale;
 
     private void Start()
     {
@@ -195,6 +195,7 @@ public class TouchInput : TridyEditor, ITransformInteract
 
     public void ScaleEnableAll()
     {
+        scale = true;
         EnableScale = true;
         meshEditor.enabled = false;
         EnableRotation = false;
@@ -203,6 +204,11 @@ public class TouchInput : TridyEditor, ITransformInteract
     }
     public void ScaleEnable()
     {
+        if (scale)
+        {
+            EnableScale = false;
+            scale = false;
+        }
         if (EnableScale)
         {
             EnableScale = false;
