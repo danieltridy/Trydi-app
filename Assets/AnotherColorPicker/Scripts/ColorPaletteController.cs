@@ -29,8 +29,8 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     [SerializeField] [Range(0, 1)] float maximumValue = 1;
 
     [SerializeField]
-    private TouchInput  editorInput;
-    
+    private TouchInput editorInput;
+
     //dragging variables
     bool dragging = false;
     float satValAmount = 1;
@@ -42,14 +42,15 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     float sat = 1, val = 1;
     Color selectedColor;
     public Color color;
-    public Color SelectedColor {
+    public Color SelectedColor
+    {
         get
         {
             return selectedColor;
         }
         private set
         {
-            if(value!=selectedColor)
+            if (value != selectedColor)
             {
                 selectedColor = value;
             }
@@ -64,7 +65,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
         set
         {
             float newVal = Mathf.Clamp(value, minimumValue, maximumValue);
-            if(Mathf.Abs(val- newVal) > minimumSatValStep)
+            if (Mathf.Abs(val - newVal) > minimumSatValStep)
             {
                 val = newVal;
                 UpdateMaterial();
@@ -106,7 +107,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     void UpdateMaterialInitialValues()
     {
         colorWheelMat.SetFloat("_StartingAngle", startingAngle);
-        colorWheelMat.SetInt("_ColorsCount" , totalNumberofColors);
+        colorWheelMat.SetInt("_ColorsCount", totalNumberofColors);
         colorWheelMat.SetInt("_WheelsCount", wheelsCount);
 
     }
@@ -118,7 +119,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     void CalculatePresets()
     {
         //Assuming the canvas is ScreenSpace-Overlay
-        centerPoint=RectTransformUtility.WorldToScreenPoint(null, transform.position);
+        centerPoint = RectTransformUtility.WorldToScreenPoint(null, transform.position);
         RectTransform rect = GetComponent<RectTransform>();
         paletteRadius = rect.sizeDelta.x / 2;
         Vector3 pickerLocalPosition = picker.localPosition;
@@ -137,11 +138,11 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     /// </param>
     public void CalculateSaturationAndValue(float amount)
     {
-       
-        if(amount>1)
+
+        if (amount > 1)
         {
             val = 1;
-            sat = 2-amount ;
+            sat = 2 - amount;
         }
         else
         {
@@ -179,16 +180,16 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
     }
     public void UpdateColor()
     {
-        
+
         float shiftedH = (pickerHueOffset + startingAngle / 360.0f + Hue % wheelsCount) / wheelsCount;
         shiftedH = shiftedH % 1.0f;
-        float discretedH = ((int)(shiftedH * totalNumberofColors)) / (1.0f* (totalNumberofColors-1));
-        if (shiftedH > 1 - 1.0 / totalNumberofColors  && shiftedH <= 1)//for gray
+        float discretedH = ((int)(shiftedH * totalNumberofColors)) / (1.0f * (totalNumberofColors - 1));
+        if (shiftedH > 1 - 1.0 / totalNumberofColors && shiftedH <= 1)//for gray
             color = Color.HSVToRGB(0, 0, (val - sat + 0.75f) / 1.5f);
         else
             color = Color.HSVToRGB(discretedH, sat, val);
         if (previousDiscretedH != discretedH)
-        if(pickedColorImage) pickedColorImage.color = color;
+            if (pickedColorImage) pickedColorImage.color = color;
         SelectedColor = color;
         previousDiscretedH = discretedH;
     }
@@ -203,7 +204,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
         Vector2 dragVec = eventData.delta;
         Vector2 currentPos = eventData.position;
         Vector2 prevPos = currentPos - dragVec;
-        
+
         //calculate Saturation and Value change
         if (controlSV)
         {
@@ -216,12 +217,12 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
         }
 
         //calculate Hue change
-        float dtheta = Vector2.SignedAngle(currentPos - centerPoint,prevPos - centerPoint);
+        float dtheta = Vector2.SignedAngle(currentPos - centerPoint, prevPos - centerPoint);
         theta += dtheta;
 
         Hue += dtheta / 360;
         if (Hue < 0) Hue += wheelsCount;
-        
+
         UpdateHue();
 
     }
@@ -230,6 +231,9 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
         omega = 0;
+
+        editorInput.Oncolor(SelectedColor);
+
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -237,6 +241,7 @@ public class ColorPaletteController : MonoBehaviour, IBeginDragHandler, IDragHan
             return;
         dragging = true;
         omega = 0;
+
     }
     public void OnEndDrag(PointerEventData eventData)
     {

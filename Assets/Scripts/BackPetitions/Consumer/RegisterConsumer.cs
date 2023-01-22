@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +13,7 @@ public class RegisterConsumer : MonoBehaviour
 {
 
     [SerializeField]
-    private TMP_InputField Nick,Email, pass;
+    private TMP_InputField Nick, Email, pass;
 
     [SerializeField]
     private UnityEvent OnRegisterCompleted;
@@ -35,10 +37,34 @@ public class RegisterConsumer : MonoBehaviour
 
     IEnumerator RegisterPetition()
     {
-        ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
-        InAppNotification.Instance.ShowNotication(notification);
-        var service = new RegisterServiceData(Nick.text,Email.text, pass.text);
-        yield return service.SendAsync(response);
+
+        bool start = false;
+        try
+        {
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("https://www.google.com");
+            start = true;
+        }
+        catch
+        {
+
+        }
+
+        if (start)
+        {
+
+            ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
+            InAppNotification.Instance.ShowNotication(notification);
+            var service = new RegisterServiceData(Nick.text, Email.text, pass.text);
+            yield return service.SendAsync(response);
+        }
+        else
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, "No tienes conexion a internet");
+            InAppNotification.Instance.ShowNotication(notification);
+        }
+
+
     }
 
     private void response(string response)
@@ -67,11 +93,12 @@ public class RegisterConsumer : MonoBehaviour
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"{TridyErrors.Instance.Errors.data.name[0]}{TridyErrors.Instance.Errors.data.email[0]}{TridyErrors.Instance.Errors.data.password[0]}");
                 NewNotification.Instance.ShowNotication(notification);
             }
-            else {
+            else
+            {
                 ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, $"No se pudo conectar al servidor");
                 InAppNotification.Instance.ShowNotication(notification);
             }
-           
+
         }
     }
 
@@ -83,7 +110,8 @@ public class RegisterConsumer : MonoBehaviour
         Invoke("TridyWait", 1f);
     }
 
-    private void VerifyNull() {
+    private void VerifyNull()
+    {
 
         if (TridyErrors.Instance.Errors.data.name.Count == 0)
         {
@@ -93,7 +121,7 @@ public class RegisterConsumer : MonoBehaviour
         {
             TridyErrors.Instance.Errors.data.email.Add("");
         }
-        if (TridyErrors.Instance.Errors.data.password.Count==0 )
+        if (TridyErrors.Instance.Errors.data.password.Count == 0)
         {
             TridyErrors.Instance.Errors.data.password.Add("");
         }

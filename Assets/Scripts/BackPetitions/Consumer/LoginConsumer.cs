@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,7 +40,7 @@ public class LoginConsumer : MonoBehaviour
 
     }
 
-    private void Start()
+    public void Start()
     {
         if (PlayerPrefs.HasKey("mail"))
         {
@@ -52,10 +54,30 @@ public class LoginConsumer : MonoBehaviour
     }
     IEnumerator LoginPetition()
     {
-        ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
-        InAppNotification.Instance.ShowNotication(notification);
-        var service = new LoginServiceData(mail, pass1);
-        yield return service.SendAsync(response);
+        bool start = false;
+        try
+        {
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("https://www.google.com");
+            start = true;
+        }
+        catch { 
+        
+        }
+
+        if (start)
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.Load, null);
+            InAppNotification.Instance.ShowNotication(notification);
+            var service = new LoginServiceData(mail, pass1);
+            yield return service.SendAsync(response);
+        }
+        else
+        {
+            ClassnNotification notification = new ClassnNotification(EnumNotification.ButtonOk, "No tienes conexion a internet");
+            InAppNotification.Instance.ShowNotication(notification);
+            noTocuh.SetActive(false);
+        }
 
     }
 

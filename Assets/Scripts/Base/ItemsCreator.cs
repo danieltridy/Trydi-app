@@ -31,7 +31,6 @@ public class ItemsCreator : MonoBehaviour
     [Header("Subdivision Settings")]
     [SerializeField]
     private int subdivision = 2;
-
     private Dictionary<ObjectType, Item> Items = new Dictionary<ObjectType, Item>();
 
     private SelectionManager selectionManager;
@@ -45,6 +44,9 @@ public class ItemsCreator : MonoBehaviour
     public Camera EditorCam { get => editorCam; set => editorCam = value; }
     public List<GameObject> GeneratedItems { get => generatedItems; set => generatedItems = value; }
 
+
+    [SerializeField]
+    private TouchInput editorInput;
     private void Awake()
     {
         if (Instance == null)
@@ -165,6 +167,11 @@ public class ItemsCreator : MonoBehaviour
                 go.transform.localScale = Vector3.one;
                 go.transform.SetParent(parentContent.transform);
                 generatedItems.Add(go);
+                SelectionManager.Instance.SetFocusable(go.GetComponent<IFocusable>());
+                editorInput.Oncolor(current.GetComponentInParent<MeshRenderer>().material.color);
+                editorInput.OnTexture(current.GetComponentInParent<MeshRenderer>().material.GetTexture("_MainTex"));
+
+
 
             }
         }
