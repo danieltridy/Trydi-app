@@ -17,7 +17,7 @@ public class LoginConsumer : MonoBehaviour
     [SerializeField]
     private TMP_Text WelcomeTxt;
     [SerializeField]
-    private UnityEvent OnLoginCompleted;
+    private UnityEvent OnLoginCompleted, tutorial;
     private string mail, pass1;
     [SerializeField]
     private TridyConsumer tridyConsumer;
@@ -48,8 +48,10 @@ public class LoginConsumer : MonoBehaviour
             mail = PlayerPrefs.GetString("mail");
             pass1 = PlayerPrefs.GetString("pass");
             StartCoroutine(LoginPetition());
-
         }
+        else
+            tutorial.Invoke();
+
 
     }
     IEnumerator LoginPetition()
@@ -61,8 +63,9 @@ public class LoginConsumer : MonoBehaviour
             Stream stream = client.OpenRead("https://www.google.com");
             start = true;
         }
-        catch { 
-        
+        catch
+        {
+
         }
 
         if (start)

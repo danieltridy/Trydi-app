@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TouchInput : TridyEditor, ITransformInteract
 {
+    public static TouchInput Instance = null;
+
 
     private Vector3 offset;
     private Vector3 lastPosMouse = new Vector3();
@@ -22,9 +24,14 @@ public class TouchInput : TridyEditor, ITransformInteract
     private LayerMask layerMask;
     private RaycastHit hit;
     private bool scale;
-
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
     private void Start()
     {
+
         SelectionManager.Instance.OnFocusableSet += OnFocusableSet;
         CurrentGameObject = null;
     }

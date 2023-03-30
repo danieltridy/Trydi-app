@@ -39,6 +39,7 @@ MonoBehaviour:
       - SaveTridy
       - Text
       - Texture
+      - Tutorial
       - UpdateTridy
       isExpanded:
         m_Target: 1

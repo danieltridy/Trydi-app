@@ -17,7 +17,7 @@ namespace SnowKore.Services
         {
             get
             {
-                return "https://tridyapp.herokuapp.com/";
+                return "http://191.101.0.151/";
             }
         }
 

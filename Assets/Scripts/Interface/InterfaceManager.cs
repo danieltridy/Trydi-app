@@ -26,4 +26,10 @@ public class InterfaceManager : MonoBehaviour
     {
         UINavigation.HideUiElement(elementIdentifier.nameElement, elementIdentifier.category, false);
     }
+    public void HideScreensandShow(ElementIdentifier elementIdentifier)
+    {
+        UINavigation.ShowUiElementAndHideAllTheOthers(elementIdentifier.nameElement, elementIdentifier.category, false);
+    }
 }
+
+
